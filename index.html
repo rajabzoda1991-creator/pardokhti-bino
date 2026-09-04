@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="tg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Рӯдакӣ 10/1 — Хароҷот</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f5f6f8;margin:0;color:#111}
+header{background:#111;color:#fff;padding:22px 18px 18px;border-radius:0 0 22px 22px}
+h1{font-size:22px;margin:0 0 4px}.sub{opacity:.75}
+main{padding:16px;max-width:700px;margin:auto}.card{background:white;border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px #00000010}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{font-size:24px;font-weight:700}.label{font-size:13px;color:#777}
+button{border:0;border-radius:13px;padding:13px 15px;font-size:16px;background:#111;color:white}button.secondary{background:#eee;color:#111}
+input,select,textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #ddd;border-radius:12px;font-size:16px;margin:6px 0 10px}
+.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1}.expense{border-top:1px solid #eee;padding:12px 0}.amount{font-weight:700}.small{font-size:13px;color:#777}
+</style>
+</head>
+<body>
+<header><h1>🏢 Рӯдакӣ 10/1</h1><div class="sub">Идоракунии хароҷоти бино</div></header>
+<main>
+<div class="card"><div class="grid">
+<div><div class="label">Хароҷоти умумӣ</div><div class="stat" id="total">0 сомонӣ</div></div>
+<div><div class="label">Шумораи хароҷот</div><div class="stat" id="count">0</div></div>
+</div></div>
+
+<div class="card">
+<h3>➕ Хароҷоти нав</h3>
+<input id="name" placeholder="Номи хароҷот (масалан: Лифт)">
+<select id="cat"><option>Барқ</option><option>Об</option><option>Лифт</option><option>Фаррош</option><option>Горсвет</option><option>Таъмир</option><option>Маводи сохтмонӣ</option><option>Дигар</option></select>
+<input id="amount" type="number" inputmode="decimal" placeholder="Маблағ (сомонӣ)">
+<input id="date" type="date">
+<textarea id="note" placeholder="Шарҳ"></textarea>
+<div class="row"><button onclick="add()">Илова кардан</button><button class="secondary" onclick="makePDF()">📄 PDF</button></div>
+</div>
+
+<div class="card">
+<h3>📋 Таърихи хароҷот</h3>
+<div class="row"><select id="filter" onchange="render()"><option value="">Ҳама категорияҳо</option><option>Барқ</option><option>Об</option><option>Лифт</option><option>Фаррош</option><option>Горсвет</option><option>Таъмир</option><option>Маводи сохтмонӣ</option><option>Дигар</option></select><button class="secondary" onclick="clearAll()">Тоза кардан</button></div>
+<div id="list"></div>
+</div>
+</main>
+<script>
+let data=JSON.parse(localStorage.getItem("rudaki101_expenses")||"[]");
+document.getElementById("date").valueAsDate=new Date();
+function save(){localStorage.setItem("rudaki101_expenses",JSON.stringify(data))}
+function add(){
+ let name=document.getElementById("name").value.trim(), cat=document.getElementById("cat").value;
+ let amount=Number(document.getElementById("amount").value), date=document.getElementById("date").value, note=document.getElementById("note").value.trim();
+ if(!name||!amount||!date){alert("Ном, маблағ ва санаро пур кунед.");return}
+ data.unshift({name,cat,amount,date,note});save();render();
+ document.getElementById("name").value="";document.getElementById("amount").value="";document.getElementById("note").value="";
+}
+function render(){
+ let f=document.getElementById("filter").value, arr=f?data.filter(x=>x.cat===f):data;
+ document.getElementById("total").textContent=data.reduce((s,x)=>s+x.amount,0).toLocaleString()+" сомонӣ";
+ document.getElementById("count").textContent=data.length;
+ document.getElementById("list").innerHTML=arr.map((x,i)=>`<div class="expense"><b>${esc(x.name)}</b> — ${esc(x.cat)}<div class="amount">${x.amount.toLocaleString()} сомонӣ</div><div class="small">${x.date}${x.note?" · "+esc(x.note):""}</div></div>`).join("")||'<div class="small">Ҳоло хароҷот ворид нашудааст.</div>';
+}
+function esc(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function clearAll(){if(confirm("Ҳамаи маълумот нест шавад?")){data=[];save();render()}}
+function makePDF(){
+ let arr=data, total=data.reduce((s,x)=>s+x.amount,0);
+ let rows=arr.map(x=>`<tr><td>${x.date}</td><td>${esc(x.name)}</td><td>${esc(x.cat)}</td><td>${x.amount.toLocaleString()}</td><td>${esc(x.note||"")}</td></tr>`).join("");
+ let w=window.open("","_blank"); if(!w){alert("Safari кушодани равзанаи навро манъ кардааст.");return}
+ w.document.write(`<html><head><meta charset="utf-8"><title>Ҳисоботи Рӯдакӣ 10/1</title><style>body{font-family:Arial;padding:25px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #999;padding:7px}h1{text-align:center}</style></head><body><h1>Ҳисоботи хароҷоти бинои Рӯдакӣ 10/1</h1><p>Санаи ҳисобот: ${new Date().toLocaleDateString()}</p><table><tr><th>Сана</th><th>Хароҷот</th><th>Категория</th><th>Маблағ</th><th>Шарҳ</th></tr>${rows}</table><h3>Ҷамъ: ${total.toLocaleString()} сомонӣ</h3><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();
+}
+render();
+</script>
+</body></html>
