@@ -232,6 +232,14 @@ td{font-size:13px!important}
 /* PDF preview ҳамон стандарти хонданбобро истифода мебарад */
 .pdfPreviewPage{width:100%;height:auto;display:block}
 </style>
+
+<style id="pdf-standard-table">
+.pdfPreviewWrap{margin-top:14px!important}
+.pdfPreviewTitle{font-size:20px!important;font-weight:700!important}
+.pdfPreviewPages{padding:14px!important}
+.pdfPreviewPage{display:block!important;width:100%!important;max-width:900px!important;height:auto!important;margin:0 auto 14px!important;background:#fff!important;border:1px solid #d7dde5!important}
+.pdfAllNote{font-size:13px!important;line-height:1.45!important}
+</style>
 </head>
 <body>
 <header><div class="brand"><div class="logo" id="logoBadge" aria-label="Лого"><span class="logoF" id="logoLetter">F</span></div><div><b id="systemName">БИНОИ F</b><small id="systemSub">СИСТЕМАИ ПАРДОХТҲО • 2026–2027</small></div></div><div class="headClock" id="headClock">00:00</div><button class="mobileMenu" onclick="toggleHeaderMenu()" aria-label="Меню">☰</button>
@@ -528,7 +536,19 @@ function downloadPagePDF(id){
 function downloadPDF(){downloadProfessionalPDF();}
 
 function exportCSV(){let lines=[["Код","Ном","Ошёна","Квартира","Телефон","Маблағи умумӣ","Супори моҳона","Супоридашуда","Қарз","Ҳолат"].join(",")];data.forEach(a=>{let t=totals(a),s=t.debt===0&&a.total>0?"СУПОРИД":t.paid>0?"ҚИСМАН":"НАСУПОРИД";lines.push([a.code,a.name,a.floor,a.apt,a.phone,a.total,a.monthly,t.paid,t.debt,s].map(x=>`"${String(x??"").replaceAll('"','""')}"`).join(","))});let b=new Blob(["\ufeff"+lines.join("\n")],{type:"text/csv;charset=utf-8"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="BINOI_F_Pardokht_2026_27.csv";a.click();URL.revokeObjectURL(u)}
-function downloadBlob(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2500)}
+async function downloadBlob(blob,name){
+  try{
+    const file=new File([blob],name,{type:'application/pdf'});
+    if(navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){
+      await navigator.share({files:[file],title:name,text:'PDF-и БИНОИ F'});
+      return;
+    }
+  }catch(e){ if(e && e.name==='AbortError') return; }
+  const u=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=u;a.download=name;a.target='_blank';a.rel='noopener';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(u),10000);
+}
 function escHtml(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function xlsFile(title,headers,rows,name){let html=`<html><head><meta charset="utf-8">
 <style id="final-scroll-clock-fix">
