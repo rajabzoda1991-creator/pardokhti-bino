@@ -355,9 +355,10 @@ td{font-size:13px!important}
 <section id="home" class="page active">
 <div class="hero"><h1>Хуш омадед!</h1><div class="muted">Системаи пардохти квартираҳо — БИНО</div><div class="yearbar year-select-bar" id="accountingYearBar">
 <span class="year-select-label">Соли ҳисоб:</span>
-<button type="button" class="year-arrow year-prev-icon" id="yearPrevBtn" onclick="return __yearArrow(-1,event)" aria-label="Соли пешина" title="Соли пешина"><span>◀</span></button>
-<select class="year-select" id="yearSelect" onchange="window.selectAccountingYear(this.value)" aria-label="Соли ҳисоб"></select>
-<button type="button" class="year-arrow year-next-icon" id="yearNextBtn" onclick="return __yearArrow(1,event)" aria-label="Соли оянда" title="Соли оянда"><span>▶</span></button>
+<select class="year-part-select" id="yearStartSelect" aria-label="Соли оғоз"></select>
+<span class="year-dash">—</span>
+<select class="year-part-select" id="yearEndSelect" aria-label="Соли анҷом"></select>
+<select class="year-select" id="yearSelect" aria-label="Соли ҳисоб" tabindex="-1" aria-hidden="true"></select>
 <span class="yearrange" id="activeYearRange">2026–2027</span>
 </div></div><div class="exportbar no-print"><button class="btn pdfbtn" onclick="downloadPagePDF('home')">⬇️ СКАЧАТ PDF</button><button class="btn excelbtn" onclick="downloadPageExcel('home')">⬇️ СКАЧАТ EXCEL</button></div>
 <div class="cards">
@@ -729,7 +730,83 @@ table{width:100%;border-collapse:collapse;table-layout:fixed;background:#fff}col
 <div class="brand"><div class="brandLeft"><div class="logo">F</div><div><div class="brandTitle">БИНО</div><div class="brandSub">СИСТЕМАИ ПАРДОХТҲО • 2026–2027</div></div></div><div class="period">${safe(title)}<br><span style="color:#fff;opacity:.82">Ҷадвали расмии ҳисоботӣ</span></div></div>
 <div class="content"><div class="reportTitle">${safe(title)}</div><div class="meta">Санаи таҳия: ${safe(new Date().toLocaleDateString('tg-TJ'))} &nbsp; • &nbsp; Шумораи сабтҳо: <b>${totalRows}</b></div>
 <table><colgroup>${widths.map(w=>`<col style="width:${w}">`).join('')}</colgroup><thead><tr>${headers.map(h=>`<th>${safe(h)}</th>`).join('')}</tr></thead><tbody>${tableRows}</tbody></table></div>
-<div class="footer"><span>БИНО • Системаи пардохтҳо</span><span class="count">Ҳамагӣ: ${totalRows} сабт</span></div></div></body></html>`;
+<div class="footer"><span>БИНО • Системаи пардохтҳо</span><span class="count">Ҳамагӣ: ${totalRows} сабт</span></div></div>
+
+
+<style id="year-internal-unlimited-final">
+#accountingYearBar .year-part-select{font-variant-numeric:tabular-nums!important;}
+</style>
+<script id="year-internal-unlimited-final-js">
+(function(){
+  function getStart(v){var m=String(v||'').match(/\d{4,}/);return m?Number(m[0]):2026;}
+  function period(y){return y+'–'+(y+1);}
+  function active(){try{return (typeof __activeYear!=='undefined'&&__activeYear)||localStorage.getItem('binoif_active_year_v2')||'2026–2027';}catch(e){return '2026–2027';}}
+  var MIN=2021, INITIAL_MAX=2100;
+  function fill(sel, selected, min, max){
+    if(!sel)return;
+    var n=Number(selected); if(!isFinite(n)) n=2026;
+    var f=document.createDocumentFragment();
+    for(var y=min;y<=max;y++){
+      var o=document.createElement('option'); o.value=String(y); o.textContent=String(y); f.appendChild(o);
+    }
+    sel.innerHTML=''; sel.appendChild(f); sel.value=String(n);
+    if(sel.value!==String(n)){
+      var extra=document.createElement('option'); extra.value=String(n); extra.textContent=String(n); sel.appendChild(extra); sel.value=String(n);
+    }
+  }
+  function ensureAround(sel,n){
+    if(!sel||!isFinite(n))return;
+    var min=sel.options.length?Number(sel.options[0].value):MIN;
+    var max=sel.options.length?Number(sel.options[sel.options.length-1].value):INITIAL_MAX;
+    if(n>=max-1){
+      var end=Math.min(2100,max+1000);
+      for(var y=max+1;y<=end;y++){var o=document.createElement('option');o.value=String(y);o.textContent=String(y);sel.appendChild(o);}
+    }
+    if(n<=min+1 && min>1){
+      var start=Math.max(2021,min-1000);
+      for(var y=min-1;y>=start;y--){var o=document.createElement('option');o.value=String(y);o.textContent=String(y);sel.insertBefore(o,sel.firstChild);}
+    }
+  }
+  function sync(){
+    var a=document.getElementById('yearStartSelect'),b=document.getElementById('yearEndSelect'); if(!a||!b)return;
+    var y=getStart(active());
+    var av=a.value, bv=b.value;
+    if(!a.options.length || !av || Number(av)!==y) fill(a,y,MIN,Math.max(INITIAL_MAX,y+20));
+    else ensureAround(a,y);
+    if(!b.options.length || !bv || Number(bv)!==y+1) fill(b,y+1,MIN,Math.max(INITIAL_MAX,y+21));
+    else ensureAround(b,y+1);
+    a.value=String(y); b.value=String(y+1);
+  }
+  function applyStart(){
+    var a=document.getElementById('yearStartSelect'); if(!a)return;
+    var y=Number(a.value); if(!isFinite(y)||y<1)return;
+    ensureAround(a,y); ensureAround(document.getElementById('yearEndSelect'),y+1);
+    var v=period(y);
+    if(typeof switchAccountingYear==='function') switchAccountingYear(v);
+    else {try{localStorage.setItem('binoif_active_year_v2',v);localStorage.setItem('binoif_year_v1',v);location.reload();}catch(e){}}
+    setTimeout(sync,80);
+  }
+  function applyEnd(){
+    var b=document.getElementById('yearEndSelect'); if(!b)return;
+    var y=Number(b.value)-1; if(!isFinite(y)||y<1)return;
+    ensureAround(b,y+1); ensureAround(document.getElementById('yearStartSelect'),y);
+    var v=period(y);
+    if(typeof switchAccountingYear==='function') switchAccountingYear(v);
+    else {try{localStorage.setItem('binoif_active_year_v2',v);localStorage.setItem('binoif_year_v1',v);location.reload();}catch(e){}}
+    setTimeout(sync,80);
+  }
+  function bind(){
+    var a=document.getElementById('yearStartSelect'),b=document.getElementById('yearEndSelect'); if(!a||!b)return;
+    sync();
+    if(a.dataset.internalUnlimitedBound!=='1'){a.dataset.internalUnlimitedBound='1';a.addEventListener('change',applyStart);}
+    if(b.dataset.internalUnlimitedBound!=='1'){b.dataset.internalUnlimitedBound='1';b.addEventListener('change',applyEnd);}
+  }
+  window.__refreshTwoYearDisplay=sync;
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind); else bind();
+  setTimeout(bind,100);setTimeout(bind,500);setTimeout(bind,1200);
+})();
+<\/script>
+</body></html>`;
   downloadBlob(new Blob(['\ufeff',html],{type:'application/vnd.ms-excel;charset=utf-8'}),name+'.xls');
 }
 function apartmentRows(){return data.map((a,i)=>{let t=totals(a),st=t.debt===0&&a.total>0?'СУПОРИД':t.paid>0?'ҚИСМАН':'НАСУПОРИД';return [i+1,a.code,a.name||'',a.floor||'',a.apt||'',a.phone||'',a.total||0,a.monthly||0,t.paid,t.debt,st]})}
@@ -866,7 +943,7 @@ saveAll=function(){__saveActiveYear();localStorage.setItem('binoif_exp_v4',JSON.
 const __hy=document.getElementById('headerYearInput');
 if(__hy){
   __hy.readOnly=true; __hy.style.cursor='pointer'; __hy.title='Соли ҳисобро интихоб кунед';
-  __hy.onclick=()=>{const ans=prompt('Соли оғозро нависед (масалан 2031):',String(__yearStart(__activeYear))); const sy=Number(ans); if(Number.isInteger(sy)&&sy>=1900&&sy<=9998)switchAccountingYear(__makePeriod(sy));};
+  __hy.onclick=()=>{const ans=prompt('Соли оғозро нависед (масалан 2031):',String(__yearStart(__activeYear))); const sy=Number(ans); if(Number.isInteger(sy)&&sy>=2021&&sy<=2100)switchAccountingYear(__makePeriod(sy));};
 }
 monthIndexByNow=function(){
   const now=new Date(), sy=__yearStart(__activeYear);
@@ -1093,6 +1170,80 @@ nav .debtorNavIcon .debtorWideCount{
 .yearrange{margin-left:0!important;white-space:nowrap!important}
 @media(max-width:600px){.year-select-bar{gap:6px!important}.year-select-label{font-size:13px!important}.year-arrow{width:42px!important;height:42px!important;min-width:42px!important;font-size:28px!important}.year-select{height:42px!important;min-width:0!important;font-size:16px!important}}
 </style>
+
+<style id="year-internal-unlimited-final">
+#accountingYearBar .year-part-select{font-variant-numeric:tabular-nums!important;}
+</style>
+<script id="year-internal-unlimited-final-js">
+(function(){
+  function getStart(v){var m=String(v||'').match(/\d{4,}/);return m?Number(m[0]):2026;}
+  function period(y){return y+'–'+(y+1);}
+  function active(){try{return (typeof __activeYear!=='undefined'&&__activeYear)||localStorage.getItem('binoif_active_year_v2')||'2026–2027';}catch(e){return '2026–2027';}}
+  var MIN=2021, INITIAL_MAX=2100;
+  function fill(sel, selected, min, max){
+    if(!sel)return;
+    var n=Number(selected); if(!isFinite(n)) n=2026;
+    var f=document.createDocumentFragment();
+    for(var y=min;y<=max;y++){
+      var o=document.createElement('option'); o.value=String(y); o.textContent=String(y); f.appendChild(o);
+    }
+    sel.innerHTML=''; sel.appendChild(f); sel.value=String(n);
+    if(sel.value!==String(n)){
+      var extra=document.createElement('option'); extra.value=String(n); extra.textContent=String(n); sel.appendChild(extra); sel.value=String(n);
+    }
+  }
+  function ensureAround(sel,n){
+    if(!sel||!isFinite(n))return;
+    var min=sel.options.length?Number(sel.options[0].value):MIN;
+    var max=sel.options.length?Number(sel.options[sel.options.length-1].value):INITIAL_MAX;
+    if(n>=max-1){
+      var end=Math.min(2100,max+1000);
+      for(var y=max+1;y<=end;y++){var o=document.createElement('option');o.value=String(y);o.textContent=String(y);sel.appendChild(o);}
+    }
+    if(n<=min+1 && min>1){
+      var start=Math.max(2021,min-1000);
+      for(var y=min-1;y>=start;y--){var o=document.createElement('option');o.value=String(y);o.textContent=String(y);sel.insertBefore(o,sel.firstChild);}
+    }
+  }
+  function sync(){
+    var a=document.getElementById('yearStartSelect'),b=document.getElementById('yearEndSelect'); if(!a||!b)return;
+    var y=getStart(active());
+    var av=a.value, bv=b.value;
+    if(!a.options.length || !av || Number(av)!==y) fill(a,y,MIN,Math.max(INITIAL_MAX,y+20));
+    else ensureAround(a,y);
+    if(!b.options.length || !bv || Number(bv)!==y+1) fill(b,y+1,MIN,Math.max(INITIAL_MAX,y+21));
+    else ensureAround(b,y+1);
+    a.value=String(y); b.value=String(y+1);
+  }
+  function applyStart(){
+    var a=document.getElementById('yearStartSelect'); if(!a)return;
+    var y=Number(a.value); if(!isFinite(y)||y<1)return;
+    ensureAround(a,y); ensureAround(document.getElementById('yearEndSelect'),y+1);
+    var v=period(y);
+    if(typeof switchAccountingYear==='function') switchAccountingYear(v);
+    else {try{localStorage.setItem('binoif_active_year_v2',v);localStorage.setItem('binoif_year_v1',v);location.reload();}catch(e){}}
+    setTimeout(sync,80);
+  }
+  function applyEnd(){
+    var b=document.getElementById('yearEndSelect'); if(!b)return;
+    var y=Number(b.value)-1; if(!isFinite(y)||y<1)return;
+    ensureAround(b,y+1); ensureAround(document.getElementById('yearStartSelect'),y);
+    var v=period(y);
+    if(typeof switchAccountingYear==='function') switchAccountingYear(v);
+    else {try{localStorage.setItem('binoif_active_year_v2',v);localStorage.setItem('binoif_year_v1',v);location.reload();}catch(e){}}
+    setTimeout(sync,80);
+  }
+  function bind(){
+    var a=document.getElementById('yearStartSelect'),b=document.getElementById('yearEndSelect'); if(!a||!b)return;
+    sync();
+    if(a.dataset.internalUnlimitedBound!=='1'){a.dataset.internalUnlimitedBound='1';a.addEventListener('change',applyStart);}
+    if(b.dataset.internalUnlimitedBound!=='1'){b.dataset.internalUnlimitedBound='1';b.addEventListener('change',applyEnd);}
+  }
+  window.__refreshTwoYearDisplay=sync;
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind); else bind();
+  setTimeout(bind,100);setTimeout(bind,500);setTimeout(bind,1200);
+})();
+</script>
 </body></html<div id="monthlyDebtors" style="margin-top:14px"></div>
 >
 <style id="clock-menu-same-bg">
@@ -1317,5 +1468,391 @@ function __yearArrow(dir, ev){
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
   setTimeout(bind,300);setTimeout(bind,1000);
+})();
+</script>
+
+
+<script id="year-selector-hard-fix">
+(function(){
+  function period(y){ return String(y)+'–'+(Number(y)+1); }
+  function startOf(v){
+    var m=String(v||'').match(/(\d{4})/);
+    return m ? Number(m[1]) : 2026;
+  }
+  function buildOptions(sel, center){
+    if(!sel) return;
+    var cur=startOf(center);
+    var min=Math.max(1900,cur-20), max=Math.min(9998,cur+20);
+    var frag=document.createDocumentFragment();
+    for(var y=min;y<=max;y++){
+      var o=document.createElement('option');
+      o.value=period(y); o.textContent=period(y); frag.appendChild(o);
+    }
+    sel.innerHTML=''; sel.appendChild(frag);
+    sel.value=period(cur);
+  }
+  function current(){
+    try { return (typeof __activeYear!=='undefined' && __activeYear) || localStorage.getItem('binoif_active_year_v2') || '2026–2027'; }
+    catch(e){ return '2026–2027'; }
+  }
+  function refresh(){
+    var sel=document.getElementById('yearSelect'); if(!sel) return;
+    var cur=current(); buildOptions(sel,cur);
+    sel.value=cur;
+    document.querySelectorAll('.yearrange').forEach(function(e){e.textContent=cur;});
+  }
+  window.__hardYearRefresh=refresh;
+  function go(dir){
+    var cur=current(), y=startOf(cur)+dir;
+    if(y<1900 || y>9998) return;
+    var target=period(y);
+    if(typeof switchAccountingYear==='function') switchAccountingYear(target);
+    else {
+      try{ localStorage.setItem('binoif_active_year_v2',target); localStorage.setItem('binoif_year_v1',target); location.reload(); }
+      catch(e){}
+    }
+    setTimeout(refresh,30);
+  }
+  window.__hardYearGo=go;
+  function bind(){
+    refresh();
+    var p=document.getElementById('yearPrevBtn'), n=document.getElementById('yearNextBtn'), sel=document.getElementById('yearSelect');
+    if(p){ p.onclick=function(e){e.preventDefault();e.stopPropagation();go(-1);return false;}; }
+    if(n){ n.onclick=function(e){e.preventDefault();e.stopPropagation();go(1);return false;}; }
+    if(sel){ sel.onchange=function(){
+      var v=this.value;
+      if(typeof switchAccountingYear==='function') switchAccountingYear(v);
+      else { try{localStorage.setItem('binoif_active_year_v2',v);localStorage.setItem('binoif_year_v1',v);location.reload();}catch(e){} }
+      setTimeout(refresh,30);
+    }; }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind); else bind();
+  setTimeout(bind,100); setTimeout(bind,500); setTimeout(bind,1500);
+})();
+</script>
+<style id="year-ui-clean-final">
+/* Тугмаҳои тирча/иконкаҳои иловагӣ пурра хориҷ шуданд */
+#yearPrevBtn,#yearNextBtn,.year-arrow{display:none!important;visibility:hidden!important;width:0!important;min-width:0!important;height:0!important;padding:0!important;margin:0!important;border:0!important;overflow:hidden!important;}
+/* Ҷойи соли ҳисоб калон ва равшан */
+.year-select-bar{display:flex!important;align-items:center!important;gap:14px!important;flex-wrap:nowrap!important;width:100%!important;}
+.year-select-label{font-size:17px!important;font-weight:900!important;white-space:nowrap!important;}
+.year-select{display:block!important;flex:1 1 auto!important;width:100%!important;min-width:0!important;height:64px!important;padding:0 20px!important;border:2px solid #cfd8e3!important;border-radius:18px!important;background:#fff!important;color:#102a43!important;font-size:24px!important;font-weight:900!important;text-align:center!important;}
+@media(max-width:600px){
+  .year-select-bar{gap:10px!important;}
+  .year-select-label{font-size:15px!important;}
+  .year-select{height:62px!important;font-size:22px!important;border-radius:17px!important;padding:0 14px!important;}
+}
+</style>
+<style id="year-display-final-fix">
+/* Солҳои ҳисоб: ҳарду рақам пурра намоён бошанд дар iPhone */
+.year-select-bar{width:100%!important;display:flex!important;align-items:center!important;flex-wrap:nowrap!important;gap:7px!important;}
+.year-select-label{flex:0 0 auto!important;font-size:15px!important;white-space:nowrap!important;}
+.year-select{flex:1 1 auto!important;width:auto!important;min-width:0!important;height:62px!important;box-sizing:border-box!important;padding:0 30px 0 10px!important;font-size:18px!important;line-height:1!important;font-weight:900!important;text-align:center!important;white-space:nowrap!important;}
+@media(max-width:390px){
+ .year-select-bar{gap:5px!important;}
+ .year-select-label{font-size:14px!important;}
+ .year-select{font-size:17px!important;padding-left:7px!important;padding-right:26px!important;height:60px!important;}
+}
+</style>
+
+<style id="two-year-display-final">
+#accountingYearBar{display:flex!important;align-items:center!important;flex-wrap:nowrap!important;gap:8px!important;width:100%!important;box-sizing:border-box!important;}
+#accountingYearBar .year-select-label{flex:0 0 auto!important;white-space:nowrap!important;font-size:16px!important;font-weight:900!important;}
+#accountingYearBar .year-part-select{display:block!important;flex:1 1 0!important;width:0!important;min-width:0!important;height:62px!important;box-sizing:border-box!important;padding:0 32px 0 8px!important;border:2px solid #cfd8e3!important;border-radius:18px!important;background:#fff!important;color:#102a43!important;font-size:24px!important;font-weight:900!important;text-align:center!important;text-align-last:center!important;outline:none!important;cursor:pointer!important;}
+#accountingYearBar .year-dash{flex:0 0 auto!important;font-size:27px!important;font-weight:900!important;color:#64748b!important;line-height:1!important;}
+#accountingYearBar #yearSelect,#accountingYearBar .yearrange{display:none!important;}
+@media(max-width:600px){
+ #accountingYearBar{gap:5px!important;}
+ #accountingYearBar .year-select-label{font-size:15px!important;}
+ #accountingYearBar .year-part-select{height:62px!important;font-size:22px!important;padding:0 26px 0 4px!important;border-radius:17px!important;}
+ #accountingYearBar .year-dash{font-size:24px!important;}
+}
+@media(max-width:390px){
+ #accountingYearBar .year-select-label{font-size:14px!important;}
+ #accountingYearBar .year-part-select{height:58px!important;font-size:20px!important;padding-right:23px!important;}
+ #accountingYearBar .year-dash{font-size:22px!important;}
+}
+</style>
+<script id="two-year-display-final-js">
+(function(){
+  function sy(v){var m=String(v||'').match(/(\d{4})/);return m?Number(m[1]):2026;}
+  function period(y){return y+'–'+(y+1);}
+  function fill(sel,selected){
+    if(!sel)return;
+    var y0=sy(selected), frag=document.createDocumentFragment();
+    for(var y=1900;y<=2200;y++){var o=document.createElement('option');o.value=String(y);o.textContent=String(y);frag.appendChild(o);}
+    sel.innerHTML='';sel.appendChild(frag);sel.value=String(y0);
+  }
+  function sync(){
+    var active=(typeof __activeYear!=='undefined'&&__activeYear)||localStorage.getItem('binoif_active_year_v2')||'2026–2027';
+    var y=sy(active), a=document.getElementById('yearStartSelect'), b=document.getElementById('yearEndSelect');
+    if(!a||!b)return;
+    if(a.options.length!==301)fill(a,active);
+    if(b.options.length!==301)fill(b,active);
+    a.value=String(y);b.value=String(y+1);
+  }
+  function selectStart(){var a=document.getElementById('yearStartSelect');if(!a)return;var y=Number(a.value);if(y>=1900&&y<=9997)apply(period(y));}
+  function selectEnd(){var b=document.getElementById('yearEndSelect');if(!b)return;var y=Number(b.value)-1;if(y>=1900&&y<=9997)apply(period(y));}
+  function apply(v){
+    if(typeof switchAccountingYear==='function')switchAccountingYear(v);
+    else{localStorage.setItem('binoif_active_year_v2',v);localStorage.setItem('binoif_year_v1',v);location.reload();}
+    setTimeout(sync,80);
+  }
+  function bind(){
+    var a=document.getElementById('yearStartSelect'),b=document.getElementById('yearEndSelect');if(!a||!b)return;
+    sync();
+    if(!a.dataset.twoYearBound){a.dataset.twoYearBound='1';a.addEventListener('change',selectStart);}
+    if(!b.dataset.twoYearBound){b.dataset.twoYearBound='1';b.addEventListener('change',selectEnd);}
+  }
+  window.__refreshYearSelector=sync;
+  window.__refreshTwoYearDisplay=sync;
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+  setTimeout(bind,100);setTimeout(bind,500);setTimeout(bind,1200);
+})();
+</script>
+
+<style id="year-options-final-user-fix">
+#accountingYearBar{display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:nowrap!important;width:100%!important;overflow:visible!important}
+#accountingYearBar .year-select-label{flex:0 0 auto!important;white-space:nowrap!important;font-size:17px!important}
+#accountingYearBar .year-part-select{flex:0 0 135px!important;width:135px!important;min-width:135px!important;height:62px!important;padding:0 34px 0 8px!important;font-size:23px!important;font-weight:900!important;text-align:center!important;text-align-last:center!important;border:2px solid #cfd8e3!important;border-radius:18px!important;background:#fff!important;color:#102a43!important;box-sizing:border-box!important}
+#accountingYearBar .year-dash{flex:0 0 auto!important;font-size:26px!important;font-weight:900!important}
+@media(max-width:600px){
+ #accountingYearBar{gap:5px!important}
+ #accountingYearBar .year-select-label{font-size:14px!important}
+ #accountingYearBar .year-part-select{flex:1 1 0!important;width:0!important;min-width:0!important;height:60px!important;font-size:21px!important;padding:0 27px 0 3px!important}
+ #accountingYearBar .year-dash{font-size:23px!important}
+}
+</style>
+<script id="year-options-final-user-fix-js">
+(function(){
+ function getStart(v){var m=String(v||'').match(/\d{4}/);return m?Number(m[0]):2026;}
+ function period(y){return y+'–'+(y+1);}
+ function active(){try{return (typeof __activeYear!=='undefined'&&__activeYear)||localStorage.getItem('binoif_active_year_v2')||'2026–2027';}catch(e){return '2026–2027';}}
+ function fill(select,start){
+   if(!select)return;
+   var frag=document.createDocumentFragment();
+   for(var y=1900;y<=9999;y++){
+     var o=document.createElement('option');o.value=String(y);o.textContent=String(y);frag.appendChild(o);
+   }
+   select.innerHTML='';select.appendChild(frag);
+   var n=Number(start);if(n<2000||n>2100){var o=document.createElement('option');o.value=String(n);o.textContent=String(n);select.appendChild(o);}
+   select.value=String(n);
+ }
+ function sync(){
+   var a=document.getElementById('yearStartSelect'),b=document.getElementById('yearEndSelect');if(!a||!b)return;
+   var y=getStart(active());
+   fill(a,y);fill(b,y+1);
+ }
+ function applyStart(){var a=document.getElementById('yearStartSelect');if(!a)return;var y=Number(a.value);if(isFinite(y)){
+   var v=period(y);
+   if(typeof switchAccountingYear==='function')switchAccountingYear(v);else{localStorage.setItem('binoif_active_year_v2',v);location.reload();}
+   setTimeout(sync,100);
+ }}
+ function applyEnd(){var b=document.getElementById('yearEndSelect');if(!b)return;var y=Number(b.value)-1;if(isFinite(y)){
+   var v=period(y);
+   if(typeof switchAccountingYear==='function')switchAccountingYear(v);else{localStorage.setItem('binoif_active_year_v2',v);location.reload();}
+   setTimeout(sync,100);
+ }}
+ function bind(){
+   var a=document.getElementById('yearStartSelect'),b=document.getElementById('yearEndSelect');if(!a||!b)return;
+   sync();
+   if(a.dataset.finalYearBound!=='1'){a.dataset.finalYearBound='1';a.addEventListener('change',applyStart);}
+   if(b.dataset.finalYearBound!=='1'){b.dataset.finalYearBound='1';b.addEventListener('change',applyEnd);}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+ setTimeout(bind,100);setTimeout(bind,500);setTimeout(bind,1200);
+ window.__refreshTwoYearDisplay=sync;
+})();
+</script>
+
+<style id="year-unlimited-final-style">
+#accountingYearBar .year-part-select{font-variant-numeric:tabular-nums!important;}
+</style>
+<script id="year-unlimited-final-js">
+(function(){
+  function start(v){var m=String(v||'').match(/\d{4}/);return m?Number(m[0]):2026;}
+  function period(y){return y+'–'+(y+1);}
+  function active(){try{return (typeof __activeYear!=='undefined'&&__activeYear)||localStorage.getItem('binoif_active_year_v2')||'2026–2027';}catch(e){return '2026–2027';}}
+  function fill(sel, y, lo, hi){
+    if(!sel)return;
+    var f=document.createDocumentFragment();
+    for(var n=lo;n<=hi;n++){var o=document.createElement('option');o.value=String(n);o.textContent=String(n);f.appendChild(o);}
+    sel.innerHTML='';sel.appendChild(f);sel.value=String(y);
+  }
+  function sync(){
+    var a=document.getElementById('yearStartSelect'), b=document.getElementById('yearEndSelect'); if(!a||!b)return;
+    var y=start(active());
+    fill(a,y,1900,9999); fill(b,y+1,1900,9999);
+  }
+  function extend(sel, chosen){
+    var n=Number(chosen); if(!isFinite(n))return;
+    if(n>=9998){
+      for(var y=10000;y<=10999;y++){var o=document.createElement('option');o.value=String(y);o.textContent=String(y);sel.appendChild(o);}
+    }
+    if(n<=1901){
+      for(var y=1899;y>=1000;y--){var o=document.createElement('option');o.value=String(y);o.textContent=String(y);sel.insertBefore(o,sel.firstChild);}
+    }
+  }
+  function apply(y){
+    if(!isFinite(y))return;
+    var v=period(y);
+    if(typeof switchAccountingYear==='function')switchAccountingYear(v);
+    else{try{localStorage.setItem('binoif_active_year_v2',v);localStorage.setItem('binoif_year_v1',v);location.reload();}catch(e){}}
+    setTimeout(sync,80);
+  }
+  function bind(){
+    var a=document.getElementById('yearStartSelect'), b=document.getElementById('yearEndSelect');if(!a||!b)return;
+    sync();
+    if(a.dataset.unlimitedBound!=='1'){a.dataset.unlimitedBound='1';a.addEventListener('change',function(){extend(a,a.value);apply(Number(a.value));});}
+    if(b.dataset.unlimitedBound!=='1'){b.dataset.unlimitedBound='1';b.addEventListener('change',function(){extend(b,b.value);apply(Number(b.value)-1);});}
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+  setTimeout(bind,150);setTimeout(bind,700);setTimeout(bind,1600);
+})();
+</script>
+<style id="year-picker-real-fix">
+#accountingYearBar .year-part-select{display:block!important;flex:1 1 0!important;width:0!important;min-width:0!important;height:62px!important;padding:0 30px 0 8px!important;border:2px solid #cfd8e3!important;border-radius:18px!important;background:#fff!important;color:#102a43!important;font-size:24px!important;font-weight:900!important;text-align:center!important;text-align-last:center!important;box-sizing:border-box!important;cursor:pointer!important;}
+#accountingYearBar .year-dash{flex:0 0 auto!important;font-size:26px!important;font-weight:900!important;color:#64748b!important;}
+@media(max-width:600px){#accountingYearBar{gap:6px!important;flex-wrap:nowrap!important}#accountingYearBar .year-select-label{font-size:15px!important;flex:0 0 auto!important}#accountingYearBar .year-part-select{height:64px!important;font-size:22px!important;min-width:0!important;padding:0 25px 0 3px!important}#accountingYearBar .year-dash{font-size:24px!important}}
+</style>
+<script id="year-picker-real-fix-js">
+(function(){
+  function getActive(){
+    try{return (typeof __activeYear!=='undefined'&&__activeYear)||localStorage.getItem('binoif_active_year_v2')||'2026–2027';}
+    catch(e){return '2026–2027';}
+  }
+  function start(v){var m=String(v||'').match(/\d{4}/);return m?Number(m[0]):2026;}
+  function period(y){return String(y)+'–'+String(y+1);}
+  function makeYears(sel, value){
+    if(!sel)return;
+    var n=Number(value); if(!isFinite(n))n=2026;
+    var lo=1900, hi=2100;
+    if(n<lo)lo=n-50;
+    if(n>hi)hi=n+50;
+    var f=document.createDocumentFragment();
+    for(var y=lo;y<=hi;y++){var o=document.createElement('option');o.value=String(y);o.textContent=String(y);f.appendChild(o);}
+    sel.innerHTML='';sel.appendChild(f);sel.value=String(n);
+    if(sel.value!==String(n)){var o=document.createElement('option');o.value=String(n);o.textContent=String(n);sel.appendChild(o);sel.value=String(n);}
+  }
+  function refresh(){
+    var a=document.getElementById('yearStartSelect'),b=document.getElementById('yearEndSelect');
+    if(!a||!b)return;
+    var y=start(getActive());
+    makeYears(a,y);makeYears(b,y+1);
+  }
+  function bind(){
+    var a=document.getElementById('yearStartSelect'),b=document.getElementById('yearEndSelect');
+    if(!a||!b)return;
+    // Clone to remove all previously attached broken listeners.
+    if(a.dataset.realFix!=='1'){
+      var na=a.cloneNode(false);a.parentNode.replaceChild(na,a);a=na;a.dataset.realFix='1';
+      a.addEventListener('change',function(){
+        var y=Number(a.value);if(!isFinite(y))return;
+        var v=period(y);
+        if(typeof switchAccountingYear==='function')switchAccountingYear(v);
+        else{try{localStorage.setItem('binoif_active_year_v2',v);location.reload();}catch(e){}}
+        setTimeout(refresh,100);
+      });
+    }
+    if(b.dataset.realFix!=='1'){
+      var nb=b.cloneNode(false);b.parentNode.replaceChild(nb,b);b=nb;b.dataset.realFix='1';
+      b.addEventListener('change',function(){
+        var y=Number(b.value)-1;if(!isFinite(y))return;
+        var v=period(y);
+        if(typeof switchAccountingYear==='function')switchAccountingYear(v);
+        else{try{localStorage.setItem('binoif_active_year_v2',v);location.reload();}catch(e){}}
+        setTimeout(refresh,100);
+      });
+    }
+    var y=start(getActive());makeYears(a,y);makeYears(b,y+1);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind);else bind();
+  setTimeout(bind,50);setTimeout(bind,300);setTimeout(bind,900);setTimeout(bind,1800);
+  window.__refreshYearPicker=refresh;
+})();
+</script>
+
+<style id="bino-year-final-fix-style">
+#accountingYearBar{display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:nowrap!important;width:100%!important;overflow:visible!important}
+#accountingYearBar .year-select-label{flex:0 0 auto!important;white-space:nowrap!important;font-size:17px!important;font-weight:900!important}
+#accountingYearBar .year-part-select{display:block!important;flex:1 1 0!important;width:0!important;min-width:0!important;height:66px!important;padding:0 30px 0 8px!important;border:2px solid #cfd8e3!important;border-radius:18px!important;background:#fff!important;color:#102a43!important;font-size:25px!important;font-weight:900!important;text-align:center!important;text-align-last:center!important;box-sizing:border-box!important;cursor:pointer!important;outline:none!important}
+#accountingYearBar .year-dash{flex:0 0 auto!important;font-size:27px!important;font-weight:900!important;color:#64748b!important;line-height:1!important}
+@media(max-width:600px){
+ #accountingYearBar{gap:6px!important}
+ #accountingYearBar .year-select-label{font-size:15px!important}
+ #accountingYearBar .year-part-select{height:68px!important;font-size:23px!important;padding:0 28px 0 4px!important;border-radius:18px!important}
+ #accountingYearBar .year-dash{font-size:24px!important}
+}
+</style>
+<script id="bino-year-final-fix-js">
+(function(){
+  'use strict';
+  var MIN=1800, MAX=2600, SPAN=200;
+  function getActive(){
+    try{return (typeof __activeYear!=='undefined'&&__activeYear)||localStorage.getItem('binoif_active_year_v2')||'2026–2027';}
+    catch(e){return '2026–2027';}
+  }
+  function start(v){var m=String(v||'').match(/(\d{4})/);return m?Number(m[1]):2026;}
+  function period(y){return String(y)+'–'+String(y+1);}
+  function setActive(v){
+    if(typeof switchAccountingYear==='function') switchAccountingYear(v);
+    else {try{localStorage.setItem('binoif_active_year_v2',v);localStorage.setItem('binoif_year_v1',v);location.reload();}catch(e){}}
+  }
+  function fill(sel, value){
+    if(!sel)return;
+    var n=Number(value); if(!isFinite(n))n=2026;
+    var lo=Math.max(MIN,n-SPAN), hi=Math.min(MAX,n+SPAN);
+    if(hi-lo<100){lo=MIN;hi=MAX;}
+    var f=document.createDocumentFragment();
+    for(var y=lo;y<=hi;y++){
+      var o=document.createElement('option');
+      o.value=String(y); o.textContent=String(y); f.appendChild(o);
+    }
+    sel.innerHTML=''; sel.appendChild(f); sel.value=String(n);
+    if(sel.value!==String(n)){
+      var extra=document.createElement('option');extra.value=String(n);extra.textContent=String(n);sel.appendChild(extra);sel.value=String(n);
+    }
+  }
+  function sync(){
+    var a=document.getElementById('yearStartSelect'), b=document.getElementById('yearEndSelect');
+    if(!a||!b)return;
+    var y=start(getActive());
+    fill(a,y); fill(b,y+1);
+  }
+  function bind(){
+    var a=document.getElementById('yearStartSelect'), b=document.getElementById('yearEndSelect');
+    if(!a||!b)return;
+    if(a.dataset.binoFinalBound!=='1'){
+      a.dataset.binoFinalBound='1';
+      a.addEventListener('change',function(){
+        var y=Number(this.value); if(!isFinite(y))return;
+        setActive(period(y));
+        setTimeout(sync,120);
+      });
+    }
+    if(b.dataset.binoFinalBound!=='1'){
+      b.dataset.binoFinalBound='1';
+      b.addEventListener('change',function(){
+        var y=Number(this.value)-1; if(!isFinite(y))return;
+        setActive(period(y));
+        setTimeout(sync,120);
+      });
+    }
+    var y=start(getActive());
+    if(a.options.length<2 || Number(a.value)!==y) fill(a,y);
+    if(b.options.length<2 || Number(b.value)!==y+1) fill(b,y+1);
+  }
+  function boot(){
+    bind();
+    setTimeout(bind,100);setTimeout(bind,300);setTimeout(bind,700);setTimeout(bind,1400);
+    var bar=document.getElementById('accountingYearBar');
+    if(bar && !bar.dataset.binoObserver){
+      bar.dataset.binoObserver='1';
+      new MutationObserver(function(){setTimeout(bind,0);}).observe(bar,{childList:true,subtree:true});
+    }
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+  window.__refreshYearPicker=sync;
+  window.__refreshTwoYearDisplay=sync;
 })();
 </script>
