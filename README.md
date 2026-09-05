@@ -1,1 +1,0 @@
-# pardokhti-bino
