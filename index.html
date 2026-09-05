@@ -32,9 +32,42 @@ main{max-width:1250px;margin:auto;padding:14px}.page{display:none}.page.active{d
 /* Universal export buttons */
 .exportbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}.exportbar .btn{font-weight:800}.btn.pdfbtn{background:#8b1e2d;color:#fff}.btn.excelbtn{background:#1f7a4d;color:#fff}
 @media(max-width:600px){.exportbar .btn{flex:1 1 46%;min-width:145px}}
-</style></head>
+<style>
+/* FINAL MOBILE COMPOSITION — optimized for iPhone */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+header{padding:10px 12px;min-height:68px}
+.brand{gap:9px}.logo{width:50px;height:50px;border-radius:14px}.brand b{font-size:19px}.brand small{font-size:10px;letter-spacing:1px}
+nav{top:68px;padding:7px 8px;gap:7px;scrollbar-width:none;overflow-x:auto;-webkit-overflow-scrolling:touch}
+nav::-webkit-scrollbar{display:none}nav button{padding:9px 12px;border-radius:13px;font-size:13px;min-height:42px}
+main{width:100%;max-width:900px;padding:10px}
+.hero{padding:14px;border-radius:16px}.hero h1{font-size:20px}
+.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card{padding:11px;border-radius:14px}
+.toolbar{gap:7px}.toolbar select,.toolbar input{width:100%;min-width:0}
+.exportbar{display:grid;grid-template-columns:1fr 1fr;gap:8px}.exportbar .btn{min-width:0;width:100%;padding:11px 8px;font-size:12px}
+.pdfcard{width:100%;max-width:none;margin:0;padding:10px!important;border-radius:16px;background:#fff}
+.pdfhead{font-size:15px!important;line-height:1.25;padding:10px 7px!important;margin-bottom:9px;border-radius:0}
+.pdfsection{font-size:14px!important;padding:9px 6px!important;margin:9px 0 7px}
+.infot{width:100%;table-layout:fixed}
+.infot tr{display:grid;grid-template-columns:18% 32% 18% 32%;width:100%}
+.infot td{font-size:10.5px!important;line-height:1.25;padding:6px 4px!important;min-width:0;overflow:hidden;word-break:break-word;white-space:normal}
+.infot td:nth-child(1),.infot td:nth-child(3){width:auto;font-weight:800}.infot td:nth-child(2),.infot td:nth-child(4){width:auto}
+.pdftable{width:100%;table-layout:fixed}
+.pdftable th,.pdftable td{font-size:8.2px!important;padding:5px 2px!important;white-space:normal;word-break:break-word;line-height:1.15}
+.pdftable th:nth-child(1),.pdftable td:nth-child(1){width:17%}.pdftable th:nth-child(2),.pdftable td:nth-child(2){width:19%}.pdftable th:nth-child(3),.pdftable td:nth-child(3){width:19%}.pdftable th:nth-child(4),.pdftable td:nth-child(4){width:13%}.pdftable th:nth-child(5),.pdftable td:nth-child(5){width:19%}.pdftable th:nth-child(6),.pdftable td:nth-child(6){width:13%}
+.summary{width:100%;margin-top:8px}.summary td{font-size:10px!important;padding:5px 4px!important}.summary td:first-child{min-width:0;width:58%}
+.tablewrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{min-width:700px}
+footer,.footer{font-size:10px;padding:14px 8px}
+@media(max-width:480px){
+  main{padding:8px}.cards{grid-template-columns:1fr 1fr}.card{padding:9px}
+  .pdfcard{padding:7px!important}.pdfhead{font-size:13px!important}.pdfsection{font-size:13px!important}
+  .infot tr{grid-template-columns:21% 29% 21% 29%}.infot td{font-size:9.5px!important;padding:5px 3px!important}
+  .pdftable th,.pdftable td{font-size:7.4px!important;padding:4px 1.5px!important}
+  .summary td{font-size:9.5px!important}
+}
+</style><style>.mobileMenu{display:none;margin-left:auto;width:46px;height:46px;border:1px solid #ffffff2b;border-radius:13px;background:#ffffff10;color:#fff;font-size:25px}.brand{min-width:0}.brand>div:last-child{min-width:0}@media(max-width:600px){.mobileMenu{display:grid;place-items:center}.brand small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px;display:block}}</style></head>
 <body>
-<header><div class="brand"><div class="logo" aria-label="F"><span class="logoF">F</span></div><div><b>БИНОИ F</b><small>СИСТЕМАИ ПАРДОХТҲО • 2026–2027</small></div></div></header>
+<header><div class="brand"><div class="logo" aria-label="F"><span class="logoF">F</span></div><div><b>БИНОИ F</b><small>СИСТЕМАИ ПАРДОХТҲО • 2026–2027</small></div></div><button class="mobileMenu" onclick="document.querySelector('nav').scrollIntoView({behavior:'smooth'})" aria-label="Меню">☰</button></header>
 <nav>
 <button class="active" onclick="page('home',this)">🏠 Асосӣ</button>
 <button onclick="page('apartments',this)">🏢 Квартираҳо</button>
