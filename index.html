@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="tg"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b2342"><title>БИНОИ F — Системаи пардохт</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#eef2f7;color:#132238}
+:root{--navy:#0b2342;--blue:#1266d6;--gold:#c89b3c;--green:#0d9f61;--red:#df3f3f;--orange:#e99a22;--line:#dce4ee}
+header{background:linear-gradient(135deg,#071a33,#123d6c);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:20;box-shadow:0 3px 12px #0002}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:44px;height:44px;aspect-ratio:1/1;border-radius:15px;background:radial-gradient(circle at 35% 28%,#214d7e 0,#12345b 38%,#071a33 78%);border:1.5px solid #d7ad55;display:grid;place-items:center;box-shadow:0 5px 16px #0005,inset 0 1px 0 #ffffff22;position:relative;overflow:hidden}.logo:before{content:"";position:absolute;inset:5px;border:1px solid #d7ad5577;border-radius:11px}.logo:after{content:"";position:absolute;left:11px;right:11px;bottom:9px;height:2px;background:linear-gradient(90deg,transparent,#e8c66b,transparent);border-radius:2px}.logoF{position:relative;z-index:2;color:#f0ce70;font:800 38px Georgia,serif;line-height:1;text-shadow:0 2px 5px #0008;transform:translateY(-1px)}
+.brand b{font-size:20px}.brand small{display:block;opacity:.75;font-size:10px;letter-spacing:1px}
+nav{display:flex;gap:6px;overflow:auto;padding:9px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:76px;z-index:19}
+nav button{border:0;background:#f0f4f8;color:#26384d;border-radius:11px;padding:10px 12px;white-space:nowrap;font-weight:700}nav button.active{background:var(--navy);color:#fff}
+main{max-width:1250px;margin:auto;padding:14px}.page{display:none}.page.active{display:block}
+.hero{background:linear-gradient(135deg,#fff,#edf5ff);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:13px}
+.hero h1{margin:0 0 5px;color:var(--navy);font-size:25px}.muted{color:#718096;font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}.card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:14px;box-shadow:0 2px 8px #10243b0a}.label{font-size:12px;color:#718096}.big{font-size:23px;font-weight:800;margin-top:5px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}input,select{border:1px solid #cfd8e3;background:#fff;border-radius:10px;padding:10px 11px;font:inherit}.toolbar input{min-width:250px}.btn{border:0;border-radius:10px;padding:10px 14px;background:var(--navy);color:#fff;font-weight:800;cursor:pointer}.btn.blue{background:var(--blue)}.btn.gold{background:#b8892f}.btn.light{background:#e9eef5;color:var(--navy)}
+.tablewrap{overflow:auto;-webkit-overflow-scrolling:touch;background:#fff;border:1px solid #b8c5d6;border-radius:12px;box-shadow:0 3px 12px #0b23420d}table{border-collapse:separate;border-spacing:0;width:100%;min-width:1050px;background:#fff}th,td{padding:8px 9px;border-right:1px solid #c9d3df;border-bottom:1px solid #c9d3df;font-size:12px;white-space:nowrap;vertical-align:middle}th:first-child,td:first-child{border-left:1px solid #c9d3df}thead tr:first-child th{border-top:1px solid #c9d3df}th{background:linear-gradient(#315f8e,#244d79);color:#fff;text-align:center;font-weight:800;position:sticky;top:0;z-index:2;box-shadow:inset 0 -1px #173858}tbody tr:nth-child(even) td{background:#f6f9fc}tbody tr:nth-child(odd) td{background:#fff}tbody tr:hover td{background:#eaf3ff}td{text-align:left}td.num,td.money,td.center{text-align:center}.tablewrap table tfoot td{background:#eaf0f7;font-weight:800;border-top:2px solid #315f8e}.tablewrap::-webkit-scrollbar{height:7px}.tablewrap::-webkit-scrollbar-thumb{background:#9aabba;border-radius:8px}.tablewrap::-webkit-scrollbar-track{background:#edf2f7}
+.status{font-weight:800}.paid{color:var(--green)}.partial{color:var(--orange)}.unpaid{color:var(--red)}.neutral{color:#7b8794}
+.monthgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.monthbox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}.monthbox h3{font-size:14px;margin:0 0 8px;color:var(--navy)}.monthbox input{width:100%;margin:4px 0}
+.reporttitle{font-weight:900;color:var(--navy);font-size:18px;margin:2px 0 10px}
+.kpi{display:flex;gap:8px;flex-wrap:wrap}.kpi span{padding:8px 11px;border-radius:10px;background:#eef4fb;font-size:12px;font-weight:800}
+.modal{position:fixed;inset:0;background:#0008;display:none;align-items:flex-end;z-index:50}.modal.open{display:flex}.sheet{background:#fff;width:100%;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin:7px 0}.field label{display:block;font-size:12px;color:#6b7280;margin-bottom:4px}.field input{width:100%}.actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.footer{text-align:center;color:#718096;padding:20px;font-size:11px}
+@media(max-width:800px){.cards{grid-template-columns:repeat(2,1fr)}.monthgrid{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr}}
+.yearbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:10px}.yearlabel{font-size:12px;font-weight:800;color:#52657b}.yearchip{border:1px solid #cfd8e3;background:#fff;color:var(--navy);border-radius:9px;padding:6px 10px;font-weight:800;font-size:12px}.yearchip.active{background:var(--navy);color:#fff;border-color:var(--navy)}.yeardash{font-weight:800;color:#718096}.yearrange{margin-left:auto;background:#eaf3ff;color:var(--blue);border-radius:9px;padding:6px 9px;font-size:11px;font-weight:900}@media(max-width:480px){.cards{grid-template-columns:1fr 1fr}.toolbar input{min-width:0;width:100%}.monthgrid{grid-template-columns:1fr}.hero h1{font-size:21px}.tablewrap{border-radius:10px}.tablewrap table{min-width:760px}.tablewrap th,.tablewrap td{font-size:10px;padding:6px 6px}.pdfcard{width:100%;padding:8px!important}.pdfhead,.pdfsection{font-size:12px;padding:8px 4px}.infot td{font-size:9px;padding:4px}.infot td:nth-child(1),.infot td:nth-child(3){width:20%}.infot td:nth-child(2),.infot td:nth-child(4){width:30%}.pdftable th,.pdftable td{font-size:8px;padding:4px 2px}.summary td{font-size:9px}}
+@media print{header,nav,.no-print,.footer{display:none!important}body{background:#fff}main{padding:0;max-width:none}.page{display:none!important}#pdf.printing{display:block!important}.tablewrap{border:0;border-radius:0}table{min-width:0;font-size:9px}th,td{padding:5px;font-size:9px}.card{box-shadow:none;border:0}}
+
+.pdfcard{max-width:850px;margin:auto}.pdfhead,.pdfsection{background:linear-gradient(#315f8e,#244d79);color:white;text-align:center;font-weight:800;padding:8px;margin-bottom:8px;border:1px solid #173858}.infot{width:100%;min-width:0!important;table-layout:fixed;border-collapse:collapse;margin-bottom:12px;border:1px solid #b8c5d6}.infot td{padding:6px 7px;font-size:11px;overflow-wrap:anywhere;border:1px solid #c9d3df}.infot tr:nth-child(even) td{background:#f6f9fc}.infot td:nth-child(2),.infot td:nth-child(4){color:#1d3557;font-weight:600}.infot td:nth-child(1),.infot td:nth-child(3){width:17%;font-weight:800;background:#eaf0f7}.pdftable{width:100%;border-collapse:collapse;min-width:0;border:1px solid #9eacbc}.pdftable th,.pdftable td{border:1px solid #9eacbc;padding:5px 4px;font-size:9px}.pdftable th{background:linear-gradient(#315f8e,#244d79);color:#fff;position:static;text-align:center}.pdftable tbody tr:nth-child(even) td{background:#f6f9fc}.pdftable td:nth-child(2),.pdftable td:nth-child(3),.pdftable td:nth-child(4){text-align:right}.summary{margin-top:12px;border-collapse:collapse;border:1px solid #b8c5d6}.summary td{padding:5px 6px;font-size:10px;border:1px solid #c9d3df}.summary td:first-child{min-width:190px;background:#eaf0f7;font-weight:800}
+@media print{.pdfcard{max-width:none}.pdfhead,.pdfsection{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+.headClock{margin-left:auto;margin-right:8px;align-self:center;background:#ffffff16;border:1px solid #ffffff2b;border-radius:50%;width:34px;height:34px;padding:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;letter-spacing:.5px;font-variant-numeric:tabular-nums}.headClock:before{content:"🕒 ";font-size:12px}@media(max-width:480px){.headClock{font-size:8px;width:28px;height:28px;padding:0;margin-right:3px;border-radius:50%;letter-spacing:.2px}.headClock:before{font-size:8px}.brand b{max-width:145px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+/* Universal export buttons */
+.exportbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}.exportbar .btn{font-weight:800}.btn.pdfbtn{background:#8b1e2d;color:#fff}.btn.excelbtn{background:#1f7a4d;color:#fff}
+@media(max-width:600px){.exportbar .btn{flex:1 1 46%;min-width:145px}}
+<style>
+/* FINAL MOBILE COMPOSITION — optimized for iPhone */
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+header{padding:10px 12px;min-height:68px}
+.brand{gap:9px}.logo{width:44px;height:44px;aspect-ratio:1/1;border-radius:9px}.brand b{font-size:19px}.brand small{font-size:10px;letter-spacing:1px}
+nav{top:68px;padding:7px 8px;gap:7px;scrollbar-width:none;overflow-x:auto;-webkit-overflow-scrolling:touch}
+nav::-webkit-scrollbar{display:none}nav button{padding:9px 12px;border-radius:13px;font-size:13px;min-height:42px}
+main{width:100%;max-width:900px;padding:10px}
+.hero{padding:14px;border-radius:16px}.hero h1{font-size:20px}
+.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card{padding:11px;border-radius:14px}
+.toolbar{gap:7px}.toolbar select,.toolbar input{width:100%;min-width:0}
+.exportbar{display:grid;grid-template-columns:1fr 1fr;gap:8px}.exportbar .btn{min-width:0;width:100%;padding:11px 8px;font-size:12px}
+.pdfcard{width:100%;max-width:none;margin:0;padding:10px!important;border-radius:16px;background:#fff}
+.pdfhead{font-size:15px!important;line-height:1.25;padding:10px 7px!important;margin-bottom:9px;border-radius:0}
+.pdfsection{font-size:14px!important;padding:9px 6px!important;margin:9px 0 7px}
+.infot{width:100%;table-layout:fixed}
+.infot tr{display:grid;grid-template-columns:18% 32% 18% 32%;width:100%}
+.infot td{font-size:10.5px!important;line-height:1.25;padding:6px 4px!important;min-width:0;overflow:hidden;word-break:break-word;white-space:normal}
+.infot td:nth-child(1),.infot td:nth-child(3){width:auto;font-weight:800}.infot td:nth-child(2),.infot td:nth-child(4){width:auto}
+.pdftable{width:100%;table-layout:fixed}
+.pdftable th,.pdftable td{font-size:8.2px!important;padding:5px 2px!important;white-space:normal;word-break:break-word;line-height:1.15}
+.pdftable th:nth-child(1),.pdftable td:nth-child(1){width:17%}.pdftable th:nth-child(2),.pdftable td:nth-child(2){width:19%}.pdftable th:nth-child(3),.pdftable td:nth-child(3){width:19%}.pdftable th:nth-child(4),.pdftable td:nth-child(4){width:13%}.pdftable th:nth-child(5),.pdftable td:nth-child(5){width:19%}.pdftable th:nth-child(6),.pdftable td:nth-child(6){width:13%}
+.summary{width:100%;margin-top:8px}.summary td{font-size:10px!important;padding:5px 4px!important}.summary td:first-child{min-width:0;width:58%}
+.tablewrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{min-width:700px}
+footer,.footer{font-size:10px;padding:14px 8px}
+@media(max-width:480px){
+  main{padding:8px}.cards{grid-template-columns:1fr 1fr}.card{padding:9px}
+  .pdfcard{padding:7px!important}.pdfhead{font-size:13px!important}.pdfsection{font-size:13px!important}
+  .infot tr{grid-template-columns:21% 29% 21% 29%}.infot td{font-size:9.5px!important;padding:5px 3px!important}
+  .pdftable th,.pdftable td{font-size:7.4px!important;padding:4px 1.5px!important}
+  .summary td{font-size:9.5px!important}
+}
+
+.quickedit{margin:8px 0;padding:10px 12px;border:1px solid #dbe5f0;border-radius:12px;background:#f7fafc;display:none;align-items:center;justify-content:space-between;gap:8px;font-size:13px}.quickedit.show{display:flex}.quickedit .qtxt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.quickedit .qbtn{flex:0 0 auto;padding:8px 12px;border:0;border-radius:9px;background:#17365d;color:#fff;font-weight:700}
+@media(max-width:600px){.quickedit{font-size:12px;padding:8px}.quickedit .qbtn{font-size:12px;padding:7px 9px}.toolbar input#aq{min-width:0;width:100%;font-size:13px}}
+
+/* FINAL MOBILE HEADER COMPOSITION */
+header{display:grid;grid-template-columns:minmax(0,1fr) 36px 36px;align-items:center;gap:8px;padding:10px 12px;min-height:68px}
+.brand{min-width:0;display:flex;align-items:center;gap:8px}
+.brand>div:last-child{min-width:0}
+.brand b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px;line-height:1.15}
+.brand small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:8px;line-height:1.25;margin-top:2px}
+.logo{width:40px;height:40px;aspect-ratio:1/1;border-radius:8px;flex:0 0 40px}
+.headClock{grid-column:2;grid-row:1;margin:0;width:34px;height:34px;font-size:7px;letter-spacing:0;border-radius:50%;justify-self:center;overflow:hidden;white-space:nowrap}
+.headClock:before{font-size:7px}
+.mobileMenu{grid-column:3;grid-row:1;width:34px;height:34px;margin:0;padding:0;border-radius:10px;justify-self:center}
+@media(max-width:480px){header{grid-template-columns:minmax(0,1fr) 32px 32px;gap:6px;padding:9px 10px;min-height:62px}.logo{width:40px;height:40px;flex-basis:40px;border-radius:11px}.brand{gap:7px}.brand b{font-size:13px}.brand small{font-size:7px}.headClock{width:36px;height:36px;font-size:7px}.headClock:before{font-size:6px}.mobileMenu{width:30px;height:30px;border-radius:9px}}
+</style><style>.mobileMenu{display:none;margin-left:auto;width:46px;height:46px;border:1px solid #ffffff2b;border-radius:13px;background:#ffffff10;color:#fff;font-size:25px}.brand{min-width:0}.brand>div:last-child{min-width:0}@media(max-width:600px){.mobileMenu{display:grid;place-items:center}.brand small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px;display:block}}</style>
+<style>
+/* iPhone 17 Pro Max — ultra compact, no-overlap layout */
+@media (max-width:600px){
+  html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
+  header{padding:9px 10px!important;min-height:64px!important}
+  .brand{gap:8px!important}.logo{width:40px!important;height:40px!important;aspect-ratio:1/1!important;border-radius:8px!important}.logoF{font-size:32px!important}
+  .brand b{font-size:17px!important}.brand small{font-size:8px!important;letter-spacing:.7px!important;max-width:205px!important}
+  .mobileMenu{width:42px!important;height:42px!important;font-size:22px!important}
+  nav{top:64px!important;padding:5px 5px!important;gap:4px!important;width:100%!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;overflow:hidden!important}
+  nav button{padding:6px 2px!important;min-height:36px!important;font-size:9px!important;border-radius:9px!important;min-width:0!important;width:100%!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  main{width:100%!important;max-width:100%!important;padding:7px!important;margin:0!important}
+  .hero{padding:10px!important;margin-bottom:8px!important;border-radius:13px!important}.hero h1{font-size:18px!important}.muted{font-size:10px!important}
+  .toolbar{gap:6px!important;margin:7px 0!important}.toolbar select,.toolbar input{font-size:12px!important;padding:8px!important}
+  .exportbar{display:grid!important;grid-template-columns:1fr 1fr!important;gap:6px!important;margin:7px 0 9px!important}
+  .exportbar .btn{min-width:0!important;width:100%!important;padding:9px 5px!important;font-size:11px!important;border-radius:9px!important}
+  .pdfcard{width:100%!important;max-width:100%!important;margin:0!important;padding:6px!important;border-radius:12px!important}
+  .pdfhead{font-size:12px!important;line-height:1.15!important;padding:8px 5px!important;margin-bottom:6px!important}
+  .pdfsection{font-size:11px!important;line-height:1.15!important;padding:7px 4px!important;margin:7px 0 5px!important}
+  .infot{width:100%!important;table-layout:fixed!important;border-collapse:collapse!important}
+  .infot tr{display:table-row!important;width:auto!important}
+  .infot td{font-size:7.8px!important;line-height:1.1!important;padding:3px 2px!important;overflow:hidden!important;word-break:break-word!important;overflow-wrap:anywhere!important;white-space:normal!important;vertical-align:middle!important}
+  .infot td:nth-child(1),.infot td:nth-child(3){width:22%!important;font-weight:800!important}
+  .infot td:nth-child(2),.infot td:nth-child(4){width:28%!important;color:#1d3557!important}
+  .pdftable{width:100%!important;table-layout:fixed!important;border-collapse:collapse!important}
+  .pdftable th,.pdftable td{font-size:6.2px!important;line-height:1.05!important;padding:3px 1px!important;white-space:normal!important;word-break:break-word!important;overflow-wrap:anywhere!important;overflow:hidden!important;vertical-align:middle!important}
+  .pdftable th:nth-child(1),.pdftable td:nth-child(1){width:16%!important}.pdftable th:nth-child(2),.pdftable td:nth-child(2){width:20%!important}.pdftable th:nth-child(3),.pdftable td:nth-child(3){width:18%!important}.pdftable th:nth-child(4),.pdftable td:nth-child(4){width:12%!important}.pdftable th:nth-child(5),.pdftable td:nth-child(5){width:22%!important}.pdftable th:nth-child(6),.pdftable td:nth-child(6){width:12%!important}
+  .summary{width:100%!important;margin-top:6px!important}.summary td{font-size:8.5px!important;padding:3px!important;line-height:1.15!important}.summary td:first-child{min-width:0!important;width:65%!important}
+  .tablewrap{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
+  footer,.footer{font-size:9px!important;padding:10px 5px!important}
+}
+@media (max-width:390px){
+  .brand b{font-size:15px!important}.brand small{font-size:7px!important}.logo{width:40px!important;height:40px!important;aspect-ratio:1/1!important;border-radius:8px!important}.logoF{font-size:29px!important}
+  nav button{font-size:10px!important;padding:6px 8px!important}
+  .pdfhead{font-size:10.5px!important}.pdfsection{font-size:10px!important}
+  .infot td{font-size:7.8px!important;padding:3px 2px!important}
+  .pdftable th,.pdftable td{font-size:6.4px!important;padding:2.5px 1px!important}
+  .summary td{font-size:7.8px!important}
+}
+</style>
+
+
+<style id="dark-mode-theme">
+body.dark-mode{--line:#334155;background:#0f172a;color:#e5e7eb}body.dark-mode .card,body.dark-mode .tablewrap,body.dark-mode .monthbox,body.dark-mode .sheet,body.dark-mode input,body.dark-mode select{background:#172033;color:#e5e7eb;border-color:#334155}body.dark-mode .label,body.dark-mode .field label,body.dark-mode .muted{color:#aab7c7}body.dark-mode .reporttitle,body.dark-mode .monthbox h3{color:#9ec5ff}body.dark-mode tbody tr:nth-child(even) td{background:#1b273a}body.dark-mode tbody tr:nth-child(odd) td{background:#172033}body.dark-mode tbody tr:hover td{background:#243650}body.dark-mode .btn.light{background:#26354b;color:#e5e7eb}body.dark-mode .yearlabel{color:#b8c5d6}body.dark-mode .yearchip{background:#172033;color:#dbeafe;border-color:#475569}body.dark-mode .yearrange,body.dark-mode .kpi span{background:#243650;color:#bfdbfe}body.dark-mode .quickedit{background:#172033;border-color:#334155}body.dark-mode .infot td:nth-child(1),body.dark-mode .infot td:nth-child(3),body.dark-mode .summary td:first-child{background:#26354b;color:#e5e7eb}body.dark-mode .infot tr:nth-child(even) td,body.dark-mode .summary td{background:#172033;color:#e5e7eb;border-color:#334155}body.dark-mode .infot td:nth-child(2),body.dark-mode .infot td:nth-child(4){color:#dbeafe}body.dark-mode .footer{color:#94a3b8}
+.themeSwitch{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 13px;border:1px solid var(--line);border-radius:12px;background:var(--card,#fff);margin-top:10px}.themeSwitch .themeText{font-weight:800}.themeSwitch button{border:0;border-radius:999px;padding:7px 12px;background:#e9eef5;color:var(--navy);font-weight:800}.dark-mode .themeSwitch{background:#172033;border-color:#334155}.dark-mode .themeSwitch button{background:#26354b;color:#fff}
+</style>
+<style id="final-scroll-clock-fix">
+/* FINAL: compact numeric clock + independent table scrolling */
+.headClock:before{content:none!important;display:none!important}
+.headClock{font-size:10px!important;width:42px!important;height:42px!important;border-radius:50%!important;letter-spacing:0!important;white-space:nowrap!important;overflow:hidden!important;flex:0 0 42px!important}
+main{overflow:visible!important}
+.tablewrap{width:100%;max-width:100%;overflow:auto!important;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;position:relative;max-height:58vh!important;border:1px solid var(--line);border-radius:12px;background:#fff}
+.tablewrap table{border-collapse:separate;border-spacing:0;min-width:max-content}
+.tablewrap thead th{position:sticky!important;top:0!important;z-index:5!important}
+.tablewrap tbody td{white-space:nowrap}
+/* Info cards/panels stay in normal page flow; only table bodies move */
+.card,.hero,.toolbar,.exportbar,.info,.summary,.kpi{position:relative}
+@media(max-width:600px){
+  .headClock{font-size:9px!important;width:36px!important;height:36px!important;flex-basis:36px!important}
+  header{grid-template-columns:minmax(0,1fr) 30px 34px!important;gap:7px!important}
+  .tablewrap{max-height:52vh!important;border-radius:10px!important}
+  .tablewrap th,.tablewrap td{font-size:9px!important;padding:5px 4px!important}
+}
+</style>
+
+<style id="final-user-menu">
+.headerMenu{display:none;position:absolute;right:12px;top:60px;width:min(360px,calc(100vw - 24px));background:#fff;color:#132238;border:1px solid #dce4ee;border-radius:16px;padding:13px;box-shadow:0 14px 35px #0004;z-index:80}
+.headerMenu.open{display:block}.hmTitle{font-weight:900;color:#0b2342;font-size:16px;margin-bottom:9px}.hmRow{display:grid;grid-template-columns:1fr 1fr;gap:8px}.hmRow>div{background:#f4f7fb;border:1px solid #dce4ee;border-radius:11px;padding:8px}.hmRow span{display:block;color:#718096;font-size:10px}.hmRow b{font-size:15px}.hmRow input{width:100%;padding:6px;border:0;background:transparent;font-weight:800;color:#0b2342}.hmBrand{display:flex;align-items:center;gap:9px;margin-top:9px;padding:8px;background:#f4f7fb;border-radius:11px}.hmLogo{width:38px;height:38px;border-radius:9px;background:#0b2342;color:#f0ce70;display:grid;place-items:center;font:bold 27px Georgia,serif;border:1px solid #c89b3c}.hmBrand b{display:block}.hmBrand small{display:block;color:#718096;font-size:10px}.hmFields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.hmFields input{width:100%;padding:8px}.hmActions{display:flex;gap:8px;margin-top:9px}.hmActions .btn{flex:1;padding:9px 7px;font-size:11px}
+.pdfPreviewWrap{margin-top:12px;background:#fff;border:1px solid #dce4ee;border-radius:14px;overflow:hidden}.pdfPreviewTitle{padding:9px 11px;font-weight:900;color:#0b2342;border-bottom:1px solid #dce4ee}.pdfPreviewPages{padding:10px;background:#eef2f7;display:grid;gap:12px}.pdfPreviewPage{width:100%;height:auto;display:block;background:#fff;border:1px solid #cbd5e1;border-radius:6px;box-shadow:0 3px 12px #0001}.pdfPreviewEmpty{padding:22px;text-align:center;color:#718096;font-size:13px}
+body.dark-mode .headerMenu,body.dark-mode .pdfPreviewWrap{background:#172033;color:#e5e7eb;border-color:#334155}body.dark-mode .hmRow,body.dark-mode .hmBrand{background:#26354b;border-color:#475569}body.dark-mode .hmTitle,body.dark-mode .pdfPreviewTitle{color:#bfdbfe}body.dark-mode .hmRow input{color:#e5e7eb}
+@media(max-width:600px){.headerMenu{top:58px;right:8px;width:calc(100vw - 16px)}.pdfPreviewPages{padding:7px;gap:8px}}
+</style>
+
+<style id="final-request-fix">
+/* Requested final layout */
+.headClock,.headClock:before{background:transparent!important;border:0!important;box-shadow:none!important}
+.headClock{border-radius:0!important;width:auto!important;height:auto!important;min-width:58px!important;flex:0 0 auto!important;font-size:16px!important;color:#fff!important}
+@media(max-width:600px){
+  header{grid-template-columns:minmax(0,1fr) auto auto!important;gap:10px!important;min-height:70px!important}
+  .headClock{width:auto!important;height:auto!important;min-width:62px!important;font-size:13px!important;border-radius:0!important}
+  .mobileMenu{width:42px!important;height:42px!important}
+  nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important;padding:8px!important;overflow:visible!important}
+  nav button{min-height:52px!important;padding:10px 5px!important;font-size:13px!important;border-radius:12px!important}
+}
+@media(min-width:601px){nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;overflow:visible}nav button{min-height:48px;font-size:14px}}
+.pdfAllNote{margin:8px 0 12px;padding:10px 12px;background:#eaf3ff;border:1px solid #cfe0f5;border-radius:11px;color:#17365d;font-weight:700;font-size:12px}
+</style>
+
+<style id="fixed-top-scroll-fix">
+/* Қисми боло доимӣ мемонад; танҳо қисми поён ҳаракат мекунад */
+html,body{height:100%;min-height:100%;overflow:hidden!important}
+body{display:flex!important;flex-direction:column!important;height:100dvh!important;min-height:100dvh!important}
+body>header{position:relative!important;top:auto!important;flex:0 0 auto!important;z-index:100!important}
+body>nav{position:relative!important;top:auto!important;flex:0 0 auto!important;z-index:99!important}
+.content-scroll{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior-y:contain!important;position:relative!important}
+.content-scroll main{min-height:100%;overflow:visible!important}
+.content-scroll .footer{padding-bottom:24px}
+/* соат бе гирдаки пушташ */
+.headClock{background:transparent!important;border:0!important;box-shadow:none!important;width:auto!important;height:auto!important;border-radius:0!important;padding:0!important;font-size:14px!important;flex:0 0 auto!important}
+@media(max-width:600px){
+  .headClock{width:auto!important;height:auto!important;font-size:12px!important}
+}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo" id="logoBadge" aria-label="Лого"><span class="logoF" id="logoLetter">F</span></div><div><b id="systemName">БИНОИ F</b><small id="systemSub">СИСТЕМАИ ПАРДОХТҲО • 2026–2027</small></div></div><div class="headClock" id="headClock">00:00</div><button class="mobileMenu" onclick="toggleHeaderMenu()" aria-label="Меню">☰</button>
+<div class="headerMenu" id="headerMenu" aria-hidden="true">
+  <div class="hmTitle">Меню</div>
+  <div class="hmRow"><div><span>Соат</span><b id="menuClock">00:00:00</b></div><div><span>Сол</span><input id="headerYearInput" value="2026–2027" maxlength="20"></div></div>
+  <div class="hmBrand"><div class="hmLogo" id="menuLogo">F</div><div><b id="menuSystemName">БИНОИ F</b><small>Логотип ва номи система</small></div></div>
+  <div class="hmFields"><input id="menuLogoInput" maxlength="4" placeholder="Лого: F"><input id="menuNameInput" maxlength="40" placeholder="Номи система"></div>
+  <div class="hmActions"><button class="btn blue" onclick="saveHeaderMenu()">Сабт кардан</button><button class="btn light" onclick="toggleTheme()">🌙/☀️</button></div>
+</div></header>
+<nav>
+<button class="active" onclick="page('home',this)">🏠 Асосӣ</button>
+<button onclick="page('apartments',this)">🏢 Квартираҳо</button>
+<button onclick="page('payments',this)">💳 Пардохтҳо</button>
+<button onclick="page('months',this)">📅 Моҳҳо</button>
+<button onclick="page('reports',this)">📊 Ҳисобот</button>
+<button onclick="page('expenses',this)">💰 Хароҷот</button>
+<button onclick="page('settings',this)">⚙️ Танзимот</button>
+<button onclick="page('pdf',this)">📄 Нусхаи PDF</button>
+</nav>
+<div class="content-scroll">
+<main>
+<section id="home" class="page active">
+<div class="hero"><h1>Хуш омадед!</h1><div class="muted">Системаи пардохти квартираҳо — БИНОИ F</div><div class="yearbar"><span class="yearlabel">Солҳои ҳисоб:</span><button class="yearchip active">2026</button><span class="yeardash">—</span><button class="yearchip">2027</button><span class="yearrange">2026–2027</span></div></div><div class="exportbar no-print"><button class="btn pdfbtn" onclick="downloadPagePDF('home')">⬇️ СКАЧАТ PDF</button><button class="btn excelbtn" onclick="downloadPageExcel('home')">⬇️ СКАЧАТ EXCEL</button></div>
+<div class="cards">
+<div class="card"><div class="label">Квартираҳо</div><div class="big" id="kApt">72</div></div>
+<div class="card"><div class="label">Пардохти сабтшуда</div><div class="big paid" id="kPaid">0</div></div>
+<div class="card"><div class="label">Қарзи умумӣ</div><div class="big unpaid" id="kDebt">0</div></div>
+<div class="card"><div class="label">Моҳҳои супоридашуда</div><div class="big" id="kMonths">0</div></div>
+</div>
+<div class="toolbar no-print"><button class="btn blue" onclick="page('payments',document.querySelectorAll('nav button')[2])">＋ Сабти пардохт</button><button class="btn light" onclick="page('apartments',document.querySelectorAll('nav button')[1])">Рӯйхати квартираҳо</button></div>
+<div class="card"><div class="reporttitle">Рӯйхати квартираҳо</div><div id="homeList"></div></div>
+</section>
+
+<section id="apartments" class="page">
+<div class="hero"><h1>🏢 Квартираҳо</h1><div class="muted">Сохтори маълумот аз файли Excel-и асосӣ: Код, Ном, Ошёна, Квартира, Телефон, маблағҳо ва ҳолат.</div></div><div class="exportbar no-print"><button class="btn pdfbtn" onclick="downloadPagePDF('apartments')">⬇️ СКАЧАТ PDF</button><button class="btn excelbtn" onclick="downloadPageExcel('apartments')">⬇️ СКАЧАТ EXCEL</button></div>
+<div class="toolbar no-print"><input id="aq" placeholder="🔎 Кодро нависед, масалан KV-038" oninput="renderApt()"><select id="af" onchange="renderApt()"><option value="">Ҳамаи ошёнаҳо</option></select><select id="as" onchange="renderApt()"><option value="">Ҳамаи ҳолатҳо</option><option>СУПОРИД</option><option>ҚИСМАН</option><option>НАСУПОРИД</option></select><button class="btn" onclick="addApt()">＋ Иловаи квартира</button></div>
+<div id="aptQuickEdit" class="quickedit no-print"></div><div class="tablewrap"><table><thead><tr><th>№</th><th>Код</th><th>Ном</th><th>Ошёна</th><th>Квартира</th><th>Телефон</th><th>Маблағи умумӣ</th><th>Супори моҳона</th><th>Супоридашуда</th><th>Қарзи боқимонда</th><th>Ҳолат</th><th>Амал</th></tr></thead><tbody id="aptBody"></tbody></table></div>
+</section>
+
+<section id="payments" class="page">
+<div class="hero"><h1>💳 Пардохти квартира</h1><div class="muted">Ҳамаи маблағ ва санаҳо дар ҳамин ҷо ворид мешаванд — монанди варақаи «Ҳисоби моҳона» дар Excel.</div></div><div class="exportbar no-print"><button class="btn pdfbtn" onclick="downloadPagePDF('payments')">⬇️ СКАЧАТ PDF</button><button class="btn excelbtn" onclick="downloadPageExcel('payments')">⬇️ СКАЧАТ EXCEL</button></div>
+<div class="toolbar no-print"><select id="paySel" onchange="renderPay()"></select><button class="btn blue" onclick="savePay()">💾 Сабт кардани пардохтҳо</button></div>
+<div id="payArea"></div>
+</section>
+
+<section id="months" class="page">
+<div class="hero"><h1>📅 Моҳҳо</h1><div class="muted">Ин қисм сохтори варақаи «Моҳҳо»-и Excel-ро такрор мекунад: ҳар квартира × 12 моҳ.</div></div><div class="exportbar no-print"><button class="btn pdfbtn" onclick="downloadPagePDF('months')">⬇️ СКАЧАТ PDF</button><button class="btn excelbtn" onclick="downloadPageExcel('months')">⬇️ СКАЧАТ EXCEL</button></div>
+<div class="toolbar no-print"><select id="monthFilter" onchange="renderMonths()"><option value="">Ҳамаи моҳҳо</option></select><select id="monthStatus" onchange="renderMonths()"><option value="">Ҳамаи ҳолатҳо</option><option>СУПОРИД</option><option>ҚИСМАН</option><option>НАСУПОРИД</option></select></div>
+<div class="tablewrap"><table><thead><tr><th>Код</th><th>Ном</th><th>Ошёна</th><th>Квартира</th><th>Моҳ</th><th>Бояд супорида шавад</th><th>Супоридашуда</th><th>Фарқ/қарз</th><th>Ҳолат</th><th>Сана</th><th>Шарҳ</th></tr></thead><tbody id="monthBody"></tbody></table></div>
+</section>
+
+<section id="reports" class="page">
+<div class="hero"><h1>📊 Ҳисобот</h1><div class="kpi"><span>Давра: сентябр 2026 — август 2027</span><span id="rApt"></span><span id="rPaid"></span><span id="rDebt"></span></div></div><div class="exportbar no-print"><button class="btn pdfbtn" onclick="downloadPagePDF('reports')">⬇️ СКАЧАТ PDF</button><button class="btn excelbtn" onclick="downloadPageExcel('reports')">⬇️ СКАЧАТ EXCEL</button></div>
+<div class="card"><div class="reporttitle">Ҳисоботи моҳона</div><div class="tablewrap"><table><thead><tr><th>Моҳ</th><th>Бояд</th><th>Супоридашуда</th><th>Қарз</th><th>Супорид</th><th>Қисман</th><th>Насупорид</th></tr></thead><tbody id="reportBody"></tbody></table></div></div>
+</section>
+
+<section id="expenses" class="page">
+<div class="hero"><h1>💰 Хароҷот</h1><div class="muted">Қисми алоҳида барои хароҷоти бино.</div></div><div class="exportbar no-print"><button class="btn pdfbtn" onclick="downloadPagePDF('expenses')">⬇️ СКАЧАТ PDF</button><button class="btn excelbtn" onclick="downloadPageExcel('expenses')">⬇️ СКАЧАТ EXCEL</button></div>
+<div class="toolbar no-print"><button class="btn blue" onclick="addExpense()">＋ Иловаи хароҷот</button></div>
+<div class="card"><div class="tablewrap"><table><thead><tr><th>Сана</th><th>Номи хароҷот</th><th>Шарҳ</th><th>Маблағ</th></tr></thead><tbody id="expBody"></tbody><tfoot><tr><th colspan="3">Ҳамагӣ</th><th id="expTotal">0</th></tr></tfoot></table></div></div>
+</section>
+
+<section id="settings" class="page">
+<div class="hero"><h1>⚙️ Танзимот</h1><div class="muted">Маълумоти асосӣ ва идоракунии барнома.</div></div><div class="exportbar no-print"><button class="btn pdfbtn" onclick="downloadPagePDF('settings')">⬇️ СКАЧАТ PDF</button><button class="btn excelbtn" onclick="downloadPageExcel('settings')">⬇️ СКАЧАТ EXCEL</button></div>
+<div class="cards"><div class="card"><div class="label">Номи система</div><div class="big" id="settingsNameView">БИНОИ F</div></div><div class="card"><div class="label">Соли ҳисоб</div><div class="big">2026–2027</div></div><div class="card"><div class="label">Квартираҳо</div><div class="big">72</div></div><div class="card"><div class="label">Моҳҳо</div><div class="big">12</div></div></div>
+<div class="card no-print" style="margin-top:10px"><div class="reporttitle">🎨 Номи логотип ва номи система</div><div class="row"><div class="field"><label>Ҳарф / номи логотип</label><input id="logoNameInput" maxlength="4" placeholder="F"></div><div class="field"><label>Номи система</label><input id="systemNameInput" maxlength="40" placeholder="БИНОИ F"></div></div><div class="actions" style="justify-content:flex-start"><button class="btn blue" onclick="saveBrandSettings()">💾 Сабт кардан</button></div><div class="muted" style="margin-top:7px">Тағйирот дар худи барнома нигоҳ дошта мешавад.</div></div><div class="themeSwitch no-print"><div><div class="themeText">Режим экран</div><div class="muted">Рӯзона / шабона</div></div><button id="themeToggle" onclick="toggleTheme()">🌙 Шабона</button></div>
+<div class="toolbar no-print"><button class="btn" onclick="resetData()">↺ Бозгардондани маълумоти ибтидоӣ</button><button class="btn light" onclick="exportCSV()">⬇️ Экспорт ба Excel/CSV</button></div>
+</section>
+
+<section id="pdf" class="page">
+<div class="toolbar no-print"><select id="pdfSel" onchange="renderPDF()"></select><button class="btn pdfbtn" onclick="downloadPDF()">⬇️ PDF КВАРТИРА</button><button class="btn pdfbtn" onclick="downloadAllApartmentsPDF()">⬇️ PDF 72 КВАРТИРА</button><button class="btn excelbtn" onclick="downloadPageExcel('pdf')">⬇️ СКАЧАТ EXCEL</button></div>
+<div class="pdfAllNote no-print">PDF-и пурра: ҳамаи маълумоти ин система ба PDF табдил мешавад. Рӯйхати 72 квартира автоматӣ ба 3 саҳифа тақсим мешавад. Пешнамоиши PDF дар ҳамин ҷо нишон дода мешавад.</div><div id="pdfArea"></div><div id="pdfPreviewWrap" class="pdfPreviewWrap no-print"><div class="pdfPreviewTitle">Намоиши PDF</div><div id="pdfPreviewPages" class="pdfPreviewPages"></div></div>
+</section>
+</main>
+<div class="footer">БИНОИ F • Системаи пардохтҳо 2026–2027 • 72 квартира</div>
+</div>
+
+<div class="modal" id="modal"><div class="sheet"><h2 id="mt">Квартира</h2><div class="row">
+<div class="field"><label>Код</label><input id="mCode"></div><div class="field"><label>Ном</label><input id="mName"></div>
+<div class="field"><label>Ошёна</label><input id="mFloor" type="number"></div><div class="field"><label>Квартира</label><input id="mApt" type="number"></div>
+<div class="field"><label>Телефон</label><input id="mPhone"></div><div class="field"><label>Маблағи умумӣ</label><input id="mTotal" type="number"></div>
+<div class="field"><label>Супори моҳона</label><input id="mMonthly" type="number"></div></div>
+<div class="actions"><button class="btn light" onclick="closeModal()">Бекор</button><button class="btn" onclick="saveApt()">Сабт</button></div></div></div>
+
+<script>
+// iPhone/Safari-safe DOM references (do not rely on HTML id globals)
+var home=document.getElementById("home");
+var kApt=document.getElementById("kApt");
+var kPaid=document.getElementById("kPaid");
+var kDebt=document.getElementById("kDebt");
+var kMonths=document.getElementById("kMonths");
+var homeList=document.getElementById("homeList");
+var apartments=document.getElementById("apartments");
+var aq=document.getElementById("aq");
+var af=document.getElementById("af");
+var as=document.getElementById("as");
+var aptBody=document.getElementById("aptBody");
+var payments=document.getElementById("payments");
+var paySel=document.getElementById("paySel");
+var payArea=document.getElementById("payArea");
+var monthFilter=document.getElementById("monthFilter");
+var monthStatus=document.getElementById("monthStatus");
+var monthBody=document.getElementById("monthBody");
+var reports=document.getElementById("reports");
+var rApt=document.getElementById("rApt");
+var rPaid=document.getElementById("rPaid");
+var rDebt=document.getElementById("rDebt");
+var reportBody=document.getElementById("reportBody");
+var expBody=document.getElementById("expBody");
+var expTotal=document.getElementById("expTotal");
+var settings=document.getElementById("settings");
+var pdf=document.getElementById("pdf");
+var pdfSel=document.getElementById("pdfSel");
+var pdfArea=document.getElementById("pdfArea");
+var modal=document.getElementById("modal");
+var mt=document.getElementById("mt");
+var mCode=document.getElementById("mCode");
+var mName=document.getElementById("mName");
+var mFloor=document.getElementById("mFloor");
+var mApt=document.getElementById("mApt");
+var mPhone=document.getElementById("mPhone");
+var mTotal=document.getElementById("mTotal");
+var mMonthly=document.getElementById("mMonthly");
+const initial=[{"code":"KV-001","name":"Хушнуд","apt":1,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":4,"phone":""},{"code":"KV-002","name":"Олим","apt":2,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":4,"phone":""},{"code":"KV-003","name":"Фаридун","apt":3,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":4,"phone":""},{"code":"KV-004","name":"Искандар","apt":4,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":4,"phone":""},{"code":"KV-005","name":"Раҷабалӣ","apt":5,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":4,"phone":""},{"code":"KV-006","name":"","apt":6,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":4,"phone":""},{"code":"KV-007","name":"Ислом","apt":7,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":4,"phone":""},{"code":"KV-008","name":"Нурмухаммад","apt":8,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":4,"phone":""},{"code":"KV-009","name":"","apt":9,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":5,"phone":""},{"code":"KV-010","name":"Косимчон","apt":10,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":5,"phone":""},{"code":"KV-011","name":"Саъди","apt":11,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":5,"phone":""},{"code":"KV-012","name":"Сорбони","apt":12,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":5,"phone":""},{"code":"KV-013","name":"Махбуба","apt":13,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":5,"phone":""},{"code":"KV-014","name":"","apt":14,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":5,"phone":""},{"code":"KV-015","name":"Ислом","apt":15,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":5,"phone":""},{"code":"KV-016","name":"Фируза Ш","apt":16,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":5,"phone":""},{"code":"KV-017","name":"","apt":17,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":6,"phone":""},{"code":"KV-018","name":"Дилшод","apt":18,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":6,"phone":""},{"code":"KV-019","name":"Замчахир","apt":19,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":6,"phone":""},{"code":"KV-020","name":"Довуд","apt":20,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":6,"phone":""},{"code":"KV-021","name":"Чумахон","apt":21,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":6,"phone":""},{"code":"KV-022","name":"Рустам","apt":22,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":6,"phone":""},{"code":"KV-023","name":"Рахмонали","apt":23,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":6,"phone":""},{"code":"KV-024","name":"Мустафо","apt":24,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":6,"phone":""},{"code":"KV-025","name":"Абдушукур","apt":25,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":7,"phone":""},{"code":"KV-026","name":"Абдусаттор","apt":26,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":7,"phone":""},{"code":"KV-027","name":"Изатулло","apt":27,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":7,"phone":""},{"code":"KV-028","name":"Кв 28","apt":28,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":7,"phone":""},{"code":"KV-029","name":"","apt":29,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":7,"phone":""},{"code":"KV-030","name":"Саломат Г","apt":30,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":7,"phone":""},{"code":"KV-031","name":"Савлатби","apt":31,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":7,"phone":""},{"code":"KV-032","name":"Сулхия","apt":32,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":7,"phone":""},{"code":"KV-033","name":"Зевар","apt":33,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":8,"phone":""},{"code":"KV-034","name":"Нозофарид","apt":34,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":8,"phone":""},{"code":"KV-035","name":"Некруз","apt":35,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":8,"phone":""},{"code":"KV-036","name":"Насим","apt":36,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":8,"phone":""},{"code":"KV-037","name":"Чонибек","apt":37,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":8,"phone":""},{"code":"KV-038","name":"Фируза","apt":38,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":8,"phone":""},{"code":"KV-039","name":"Лилия","apt":39,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":8,"phone":""},{"code":"KV-040","name":"Мичгона","apt":40,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":8,"phone":""},{"code":"KV-041","name":"Сулаймон","apt":41,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":9,"phone":""},{"code":"KV-042","name":"Шахром","apt":42,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":9,"phone":""},{"code":"KV-043","name":"Абдумалик","apt":43,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":9,"phone":""},{"code":"KV-044","name":"Сочида","apt":44,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":9,"phone":""},{"code":"KV-045","name":"Часур","apt":45,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":9,"phone":""},{"code":"KV-046","name":"","apt":46,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":9,"phone":""},{"code":"KV-047","name":"","apt":47,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":9,"phone":""},{"code":"KV-048","name":"Энтони","apt":48,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":10,"phone":""},{"code":"KV-049","name":"Шахло","apt":49,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":10,"phone":""},{"code":"KV-050","name":"Зулфия","apt":50,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":10,"phone":""},{"code":"KV-051","name":"","apt":51,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":10,"phone":""},{"code":"KV-052","name":"Гуля","apt":52,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":10,"phone":""},{"code":"KV-053","name":"Салим","apt":53,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":10,"phone":""},{"code":"KV-054","name":"Сунатулло","apt":54,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":10,"phone":""},{"code":"KV-055","name":"Анис","apt":55,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":10,"phone":""},{"code":"KV-056","name":"Мадина","apt":56,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":10,"phone":""},{"code":"KV-057","name":"Назокат","apt":57,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":11,"phone":""},{"code":"KV-058","name":"Мунис","apt":58,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":11,"phone":""},{"code":"KV-059","name":"","apt":59,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":11,"phone":""},{"code":"KV-060","name":"Гулрухсор","apt":60,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":11,"phone":""},{"code":"KV-061","name":"Бахром","apt":61,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":11,"phone":""},{"code":"KV-062","name":"Рахим","apt":62,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":11,"phone":""},{"code":"KV-063","name":"Ноза","apt":63,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":11,"phone":""},{"code":"KV-064","name":"","apt":64,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":11,"phone":""},{"code":"KV-065","name":"Азиза","apt":65,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":12,"phone":""},{"code":"KV-066","name":"Мухаммад","apt":66,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":12,"phone":""},{"code":"KV-067","name":"Алишер","apt":67,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":12,"phone":""},{"code":"KV-068","name":"Мехри","apt":68,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":12,"phone":""},{"code":"KV-069","name":"Хидоят","apt":69,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":12,"phone":""},{"code":"KV-070","name":"Умед","apt":70,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":12,"phone":""},{"code":"KV-071","name":"Раджабов","apt":71,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":12,"phone":""},{"code":"KV-072","name":"Раджабов","apt":72,"total":0.0,"monthly":0.0,"payments":{"Сентябр 2026":{"amount":0.0,"date":""},"Октябр 2026":{"amount":0.0,"date":""},"Ноябр 2026":{"amount":0.0,"date":""},"Декабр 2026":{"amount":0.0,"date":""},"Январ 2027":{"amount":0.0,"date":""},"Феврал 2027":{"amount":0.0,"date":""},"Март 2027":{"amount":0.0,"date":""},"Апрел 2027":{"amount":0.0,"date":""},"Май 2027":{"amount":0.0,"date":""},"Июн 2027":{"amount":0.0,"date":""},"Июл 2027":{"amount":0.0,"date":""},"Август 2027":{"amount":0.0,"date":""}},"floor":12,"phone":""}];const months=["Сентябр 2026", "Октябр 2026", "Ноябр 2026", "Декабр 2026", "Январ 2027", "Феврал 2027", "Март 2027", "Апрел 2027", "Май 2027", "Июн 2027", "Июл 2027", "Август 2027"];
+let data;
+try{const saved=JSON.parse(localStorage.getItem("binoif2026_v7")||"null");data=Array.isArray(saved)?saved:initial.map(a=>JSON.parse(JSON.stringify(a)));}catch(e){data=initial.map(a=>JSON.parse(JSON.stringify(a)));}
+data=data.map((a,i)=>{a=a||{};a.code=a.code||`KV-${String(i+1).padStart(3,"0")}`;a.apt=a.apt??(i+1);a.floor=a.floor??"";a.name=a.name??"";a.phone=a.phone??"";a.total=Number(a.total||0);a.monthly=Number(a.monthly||0);a.payments=a.payments&&typeof a.payments==="object"?a.payments:{};months.forEach(m=>{if(!a.payments[m])a.payments[m]={amount:0,date:""};});return a;});
+let expenses=JSON.parse(localStorage.getItem("binoif_exp_v4")||"[]");
+function getBrand(){try{return JSON.parse(localStorage.getItem("binoif_brand_v1")||"null")||{name:"БИНОИ F",logo:"F"};}catch(e){return {name:"БИНОИ F",logo:"F"}}}
+function applyBrand(){let b=getBrand();let name=document.getElementById("systemName"), sub=document.getElementById("systemSub"), letter=document.getElementById("logoLetter"), view=document.getElementById("settingsNameView"), li=document.getElementById("logoNameInput"), ni=document.getElementById("systemNameInput");if(name)name.textContent=b.name||"БИНОИ F";if(sub)sub.textContent="СИСТЕМАИ ПАРДОХТҲО • 2026–2027";if(letter)letter.textContent=(b.logo||"F").slice(0,4);if(view)view.textContent=b.name||"БИНОИ F";if(li)li.value=b.logo||"F";if(ni)ni.value=b.name||"БИНОИ F";document.title=(b.name||"БИНОИ F")+" — Системаи пардохт";}
+applyYearSetting();
+function saveBrandSettings(){let logo=(document.getElementById("logoNameInput")?.value||"F").trim().slice(0,4)||"F";let name=(document.getElementById("systemNameInput")?.value||"БИНОИ F").trim()||"БИНОИ F";localStorage.setItem("binoif_brand_v1",JSON.stringify({name,logo}));applyBrand();applyTheme();alert("Номи логотип ва номи система сабт шуд.");}
+function applyTheme(){let dark=localStorage.getItem("binoif_theme_v1")==="dark";document.body.classList.toggle("dark-mode",dark);let b=document.getElementById("themeToggle");if(b)b.textContent=dark?"☀️ Рӯзона":"🌙 Шабона";}
+function toggleTheme(){let dark=!document.body.classList.contains("dark-mode");localStorage.setItem("binoif_theme_v1",dark?"dark":"light");applyTheme();}
+
+function toggleHeaderMenu(){
+  const m=document.getElementById("headerMenu"); if(!m)return;
+  const open=!m.classList.contains("open"); m.classList.toggle("open",open); m.setAttribute("aria-hidden",String(!open));
+  if(open){const b=JSON.parse(localStorage.getItem("binoif_brand_v1")||"{}");document.getElementById("menuLogoInput").value=b.logo||"F";document.getElementById("menuNameInput").value=b.name||"БИНОИ F";document.getElementById("headerYearInput").value=localStorage.getItem("binoif_year_v1")||"2026–2027";applyYearSetting();}
+}
+function saveHeaderMenu(){
+  const logo=(document.getElementById("menuLogoInput").value||"F").trim().slice(0,4)||"F";
+  const name=(document.getElementById("menuNameInput").value||"БИНОИ F").trim()||"БИНОИ F";
+  const year=(document.getElementById("headerYearInput").value||"2026–2027").trim()||"2026–2027";
+  localStorage.setItem("binoif_brand_v1",JSON.stringify({name,logo}));
+  localStorage.setItem("binoif_year_v1",year);
+  applyBrand(); applyYearSetting();
+  const m=document.getElementById("headerMenu"); if(m)m.classList.remove("open");
+}
+function applyYearSetting(){
+  const y=localStorage.getItem("binoif_year_v1")||"2026–2027";
+  const sub=document.getElementById("systemSub"); if(sub)sub.textContent="СИСТЕМАИ ПАРДОХТҲО • "+y;
+  document.querySelectorAll(".yearrange").forEach(e=>e.textContent=y);
+  document.querySelectorAll(".footer").forEach(e=>e.textContent=(document.getElementById("systemName")?.textContent||"БИНОИ F")+" • Системаи пардохтҳо "+y+" • "+data.length+" квартира");
+}
+function updateClock(){let d=new Date(), t=d.toLocaleTimeString("tg-TJ",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false});let el=document.getElementById("headClock");if(el)el.textContent=t;let mc=document.getElementById("menuClock");if(mc)mc.textContent=t;} setInterval(updateClock,1000); updateClock();
+function saveAll(){localStorage.setItem("binoif2026_v7",JSON.stringify(data));localStorage.setItem("binoif_exp_v4",JSON.stringify(expenses));}
+function money(n){return Number(n||0).toLocaleString("ru-RU")+" сомонӣ"}
+function totals(a){let paid=months.reduce((s,m)=>s+Number((a.payments[m]||{}).amount||0),0);let debt=Math.max(0,Number(a.total||0)-paid);return {paid,debt}}
+function stat(a,m=null){let due=Number(a.monthly||0),p=Number((a.payments[m]||{}).amount||0);return due===0?"—":p>=due?"СУПОРИД":p>0?"ҚИСМАН":"НАСУПОРИД"}
+function cls(s){return s==="СУПОРИД"?"paid":s==="ҚИСМАН"?"partial":s==="НАСУПОРИД"?"unpaid":"neutral"}
+function page(id,b){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");applyBrand();document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));if(b)b.classList.add("active");if(id==="home")renderHome();if(id==="apartments")renderApt();if(id==="payments"){fillSelects();renderPay()}if(id==="months"){fillMonths();renderMonths()}if(id==="reports")renderReports();if(id==="expenses")renderExpenses();if(id==="pdf"){fillSelects();renderPDF()}}
+function fillSelects(){["paySel","pdfSel"].forEach(id=>{let s=document.getElementById(id),old=s.value;s.innerHTML=data.map((a,i)=>`<option value="${i}">${a.code} — ${a.name||"бе ном"} — кв.${a.apt}</option>`).join("");if(old)s.value=old})}
+function renderHome(){let paid=data.reduce((s,a)=>s+totals(a).paid,0),debt=data.reduce((s,a)=>s+totals(a).debt,0),m=data.reduce((s,a)=>s+months.filter(x=>stat(a,x)==="СУПОРИД").length,0);kApt.textContent=data.length;kPaid.textContent=money(paid);kDebt.textContent=money(debt);kMonths.textContent=m;homeList.innerHTML=data.map(a=>{let t=totals(a),s=a.monthly?stat(a,months[0]):"—";return `<div style="display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid #edf1f5"><span><b>${a.code}</b> · кв.${a.apt} · ${a.name||"—"}</span><span class="status ${cls(s)}">${s} · ${money(t.debt)}</span></div>`}).join("")}
+function renderApt(){let q=(aq.value||"").trim().toLowerCase(),f=af.value,s=as.value;let filtered=data.filter(a=>(!q||[a.code,a.name,a.apt,a.phone].join(" ").toLowerCase().includes(q))&&(!f||String(a.floor)===f)&&(!s||months.some(m=>stat(a,m)===s)));let exact=q?data.findIndex(a=>String(a.code||"").toLowerCase()===q): -1;let qe=document.getElementById("aptQuickEdit");if(qe){if(exact>=0){let a=data[exact];qe.className="quickedit show";qe.innerHTML=`<span class="qtxt">🔎 <b>${a.code}</b> — ${a.name||"бе ном"} — кв.${a.apt}</span><button class="qbtn" onclick="editApt(${exact})">✏️ Тағйир додан</button>`}else{qe.className="quickedit";qe.innerHTML=""}}aptBody.innerHTML=filtered.map((a,ix)=>{let i=data.indexOf(a),t=totals(a),st=t.debt===0&&a.total>0?"СУПОРИД":t.paid>0?"ҚИСМАН":"НАСУПОРИД";return `<tr><td>${ix+1}</td><td><b>${a.code}</b></td><td>${a.name}</td><td>${a.floor}</td><td>${a.apt}</td><td>${a.phone}</td><td>${money(a.total)}</td><td>${money(a.monthly)}</td><td class="paid">${money(t.paid)}</td><td class="unpaid">${money(t.debt)}</td><td class="status ${cls(st)}">${st}</td><td><button class="btn light" onclick="editApt(${i})">✏️ Тағйир</button></td></tr>`}).join("")}
+function initFilters(){let fs=[...new Set(data.map(a=>a.floor).filter(x=>x!=="").sort((a,b)=>a-b))];af.innerHTML='<option value="">Ҳамаи ошёнаҳо</option>'+fs.map(f=>`<option>${f}</option>`).join("")}
+function renderPay(){let a=data[Number(paySel.value||0)];if(!a)return;payArea.innerHTML=`<div class="card"><div class="reporttitle">${a.code} — ${a.name||"—"} · Квартира ${a.apt}</div><div class="kpi"><span>Маблағи умумӣ: ${money(a.total)}</span><span>Супори моҳона: ${money(a.monthly)}</span><span>Супорида: ${money(totals(a).paid)}</span><span>Қарз: ${money(totals(a).debt)}</span></div><div class="monthgrid" style="margin-top:12px">${months.map(m=>{let p=a.payments[m]||{};return `<div class="monthbox"><h3>${m}</h3><label class="muted">Маблағ</label><input type="number" id="pa_${m}" value="${p.amount||""}"><label class="muted">Сана</label><input type="date" id="pd_${m}" value="${p.date||""}"></div>`}).join("")}</div></div>`}
+function savePay(){let a=data[Number(paySel.value||0)];months.forEach(m=>{let am=Number(document.getElementById("pa_"+m).value||0),dt=document.getElementById("pd_"+m).value||"";a.payments[m]={amount:am,date:dt}});saveAll();renderPay();renderHome();alert("Пардохтҳо сабт шуданд.")}
+function fillMonths(){monthFilter.innerHTML='<option value="">Ҳамаи моҳҳо</option>'+months.map(m=>`<option>${m}</option>`).join("")}
+function renderMonths(){let mf=monthFilter.value,ms=monthStatus.value,rows=[];data.forEach(a=>months.filter(m=>!mf||m===mf).forEach(m=>{let p=a.payments[m]||{},due=Number(a.monthly||0),paid=Number(p.amount||0),debt=Math.max(0,due-paid),st=stat(a,m);if(!ms||st===ms)rows.push(`<tr><td>${a.code}</td><td>${a.name}</td><td>${a.floor}</td><td>${a.apt}</td><td>${m}</td><td>${money(due)}</td><td>${money(paid)}</td><td>${money(debt)}</td><td class="status ${cls(st)}">${st}</td><td>${p.date||""}</td><td></td></tr>`)}));monthBody.innerHTML=rows.join("")}
+function renderReports(){let allP=data.reduce((s,a)=>s+totals(a).paid,0),allD=data.reduce((s,a)=>s+totals(a).debt,0);rApt.textContent="Квартираҳо: "+data.length;rPaid.textContent="Супоридашуда: "+money(allP);rDebt.textContent="Қарз: "+money(allD);reportBody.innerHTML=months.map(m=>{let due=0,p=0,counts={"СУПОРИД":0,"ҚИСМАН":0,"НАСУПОРИД":0};data.forEach(a=>{due+=Number(a.monthly||0);p+=Number((a.payments[m]||{}).amount||0);counts[stat(a,m)]++});return `<tr><td><b>${m}</b></td><td>${money(due)}</td><td>${money(p)}</td><td>${money(Math.max(0,due-p))}</td><td class="paid">${counts["СУПОРИД"]}</td><td class="partial">${counts["ҚИСМАН"]}</td><td class="unpaid">${counts["НАСУПОРИД"]}</td></tr>`}).join("")}
+function renderExpenses(){window.expensesData=expenses;expBody.innerHTML=expenses.map(e=>`<tr><td>${e.date}</td><td>${e.name}</td><td>${e.note}</td><td>${money(e.amount)}</td></tr>`).join("");expTotal.textContent=money(expenses.reduce((s,e)=>s+Number(e.amount||0),0))}
+function addExpense(){let date=prompt("Сана (YYYY-MM-DD):",new Date().toISOString().slice(0,10));if(!date)return;let name=prompt("Номи хароҷот:");if(!name)return;let amount=Number(prompt("Маблағ:","0")||0);let note=prompt("Шарҳ:","")||"";expenses.push({date,name,amount,note});saveAll();renderExpenses()}
+let editIndex=-1;
+function addApt(){editIndex=-1;mt.textContent="Иловаи квартира";["mCode","mName","mFloor","mApt","mPhone","mTotal","mMonthly"].forEach(id=>document.getElementById(id).value="");modal.classList.add("open")}
+function editApt(i){editIndex=i;let a=data[i];mt.textContent="Тағйири квартира";mCode.value=a.code;mName.value=a.name;mFloor.value=a.floor;mApt.value=a.apt;mPhone.value=a.phone;mTotal.value=a.total;mMonthly.value=a.monthly;modal.classList.add("open")}
+function closeModal(){modal.classList.remove("open")}
+function saveApt(){let old=editIndex>=0?data[editIndex]:null;let o={code:mCode.value.trim()||"KV-"+String(data.length+1).padStart(3,"0"),name:mName.value.trim(),floor:mFloor.value,apt:mApt.value,phone:mPhone.value,total:Number(mTotal.value||0),monthly:Number(mMonthly.value||0),payments:old?old.payments:{}};if(editIndex>=0)data[editIndex]=o;else data.push(o);saveAll();initFilters();renderApt();fillSelects();closeModal();renderHome()}
+function renderPDF(){let a=data[Number(pdfSel.value||0)];if(!a)return;let t=totals(a),paidMonths=months.filter(m=>stat(a,m)==="СУПОРИД").length,unpaidMonths=months.filter(m=>stat(a,m)==="НАСУПОРИД").length;
+pdfArea.innerHTML=`<div class="card pdfcard">
+<div class="pdfhead">КОРТИ ПАРДОХТ — СЕНТЯБР 2026 ТО АВГУСТ 2027</div>
+<table class="infot"><tr><td><b>Код:</b></td><td>${a.code}</td><td><b>Ном:</b></td><td>${a.name||"—"}</td></tr>
+<tr><td><b>Ошёна:</b></td><td>${a.floor||"—"}</td><td><b>Квартира:</b></td><td>${a.apt||"—"}</td></tr>
+<tr><td><b>Телефон:</b></td><td>${a.phone||"—"}</td><td><b>Маблағи умумӣ:</b></td><td>${money(a.total)}</td></tr>
+<tr><td><b>Супори моҳона:</b></td><td>${money(a.monthly)}</td><td><b>Супоридашуда:</b></td><td>${money(t.paid)}</td></tr>
+<tr><td><b>Қарзи боқимонда:</b></td><td>${money(t.debt)}</td><td><b>Ҳолат:</b></td><td>${a.total&&t.debt===0?"СУПОРИД":t.paid>0?"ҚИСМАН":"НАСУПОРИД"}</td></tr></table>
+<div class="pdfsection">МОҲҲО БА ПАРДОХТҲО</div>
+<table class="pdftable"><thead><tr><th>Моҳ</th><th>Бояд супорида шавад</th><th>Супоридашуда</th><th>Қарз</th><th>Санаи супоридан</th><th>Ҳолат</th></tr></thead>
+<tbody>${months.map(m=>{let p=a.payments[m]||{},due=Number(a.monthly||0),paid=Number(p.amount||0),d=Math.max(0,due-paid),s=stat(a,m);return `<tr><td>${m}</td><td>${money(due)}</td><td>${money(paid)}</td><td>${money(d)}</td><td>${p.date||""}</td><td class="${cls(s)}">${s}</td></tr>`}).join("")}</tbody></table>
+<table class="summary"><tr><td><b>Ҷамъ супорида шуд:</b></td><td>${money(t.paid)}</td></tr><tr><td><b>Қарзи боқимонда:</b></td><td>${money(t.debt)}</td></tr><tr><td><b>Моҳҳои супоридашуда:</b></td><td>${paidMonths}</td></tr><tr><td><b>Моҳҳои насупоридашуда:</b></td><td>${unpaidMonths}</td></tr><tr><td>WhatsApp:</td><td></td></tr><tr><td>Telegram:</td><td></td></tr></table>
+</div>`}
+previewCurrentPDF();
+
+function pdfEsc(s){return String(s??'').replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)')}
+function drawPdfPages(a){
+  const W=1240,H=1754, t=totals(a), paidMonths=months.filter(m=>stat(a,m)==='СУПОРИД').length, unpaidMonths=months.filter(m=>stat(a,m)==='НАСУПОРИД').length;
+  const navy='#2e5680',dark='#132238',line='#cfd7e1',head='#4f78a0';
+  function makePage(pageNo, monthList, showInfo, showSummary){
+    const c=document.createElement('canvas'); c.width=W;c.height=H;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,W,H);x.textBaseline='middle';
+    function rect(xx,yy,w,h,fill,stroke){if(fill){x.fillStyle=fill;x.fillRect(xx,yy,w,h)}if(stroke){x.strokeStyle=stroke;x.lineWidth=2;x.strokeRect(xx,yy,w,h)}}
+    function text(v,xx,yy,size,bold=false,fill=dark,align='left'){x.font=(bold?'700 ':'400 ')+size+'px -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif';x.fillStyle=fill;x.textAlign=align;x.fillText(String(v??''),xx,yy)}
+    rect(35,28,W-70,82,navy);text('КОРТИ ПАРДОХТ — СЕНТЯБР 2026 ТО АВГУСТ 2027',W/2,69,28,true,'#fff','center');
+    text('Саҳифа '+pageNo+' аз '+Math.ceil(months.length/6),W-48,125,15,false,'#607086','right');
+    let y=145,left=35;
+    if(showInfo){const rh=40, info=[['Код:',a.code||'—','Ном:',a.name||'—'],['Ошёна:',a.floor||'—','Квартира:',a.apt||'—'],['Телефон:',a.phone||'—','Маблағи умумӣ:',money(a.total)],['Супори моҳона:',money(a.monthly),'Супоридашуда:',money(t.paid)],['Қарзи боқимонда:',money(t.debt),'Ҳолат:',a.total&&t.debt===0?'СУПОРИД':t.paid>0?'ҚИСМАН':'НАСУПОРИД']];info.forEach(r=>{rect(left,y,W-70,rh,'#fff',line);text(r[0],55,y+20,18,true);text(r[1],300,y+20,18);text(r[2],650,y+20,18,true);text(r[3],910,y+20,18);y+=rh});y+=18;}
+    rect(left,y,W-70,52,navy);text('МОҲҲО БА ПАРДОХТҲО',W/2,y+26,25,true,'#fff','center');y+=59;
+    const cols=[35,210,555,755,920,1100,1205],heads=['Моҳ','Бояд супорида шавад','Супоридашуда','Қарз','Санаи супоридан','Ҳолат'];
+    heads.forEach((h,i)=>{rect(cols[i],y,cols[i+1]-cols[i],40,head,'#333');text(h,(cols[i]+cols[i+1])/2,y+20,14,true,'#fff','center')});y+=40;
+    monthList.forEach(m=>{let p=a.payments[m]||{},due=Number(a.monthly||0),paid=Number(p.amount||0),d=Math.max(0,due-paid),st=stat(a,m),vals=[m,money(due),money(paid),money(d),p.date||'',st];vals.forEach((v,i)=>{rect(cols[i],y,cols[i+1]-cols[i],42,'#fff','#333');text(v,i===0?cols[i]+7:(cols[i]+cols[i+1])/2,y+21,14,false,dark,i===0?'left':'center')});y+=42});
+    if(showSummary){y+=18;const sums=[['Ҷамъ супорида шуд:',money(t.paid)],['Қарзи боқимонда:',money(t.debt)],['Моҳҳои супоридашуда:',paidMonths],['Моҳҳои насупоридашуда:',unpaidMonths],['WhatsApp:',''],['Telegram:','']];sums.forEach(r=>{rect(left,y,W-70,38,'#fff',line);text(r[0],55,y+19,17,true);text(r[1],430,y+19,17);y+=38});}
+    text('БИНОИ F • Системаи пардохтҳо 2026–2027',W/2,H-28,14,true,'#607086','center');
+    return c.toDataURL('image/jpeg',0.92);
+  }
+  const chunks=[];for(let i=0;i<months.length;i+=6)chunks.push(months.slice(i,i+6));
+  return chunks.map((list,i)=>makePage(i+1,list,i===0,i===chunks.length-1));
+}
+function jpegBytes(dataUrl){let b=atob(dataUrl.split(',')[1]),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+function makePdfFromJpegs(images){
+  const enc=new TextEncoder(),chunks=[];let pos=0,offs=[0];
+  function add(s){let b=typeof s==='string'?enc.encode(s):s;chunks.push(b);pos+=b.length}
+  function obj(num,body){offs[num]=pos;add(num+' 0 obj\\n'+body+'\\nendobj\\n')}
+  add('%PDF-1.4\\n%\\xFF\\xFF\\xFF\\xFF\\n');
+  const n=images.length;
+  const pageStart=3,imgStart=3+n,contentStart=imgStart+n,objs=2+n*2;
+  obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
+  obj(2,'<< /Type /Pages /Kids ['+Array.from({length:n},(_,i)=>(pageStart+i)+' 0 R').join(' ') +'] /Count '+n+' >>');
+  images.forEach((im,i)=>{
+    const pageN=pageStart+i,imgN=imgStart+i,conN=contentStart+i;
+    obj(pageN,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /XObject << /Im1 '+imgN+' 0 R >> >> /Contents '+conN+' 0 R >>');
+    const jpeg=im.jpeg;
+    offs[imgN]=pos;
+    add(imgN+' 0 obj\\n<< /Type /XObject /Subtype /Image /Width '+im.w+' /Height '+im.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpeg.length+' >>\\nstream\\n');
+    add(jpeg); add('\\nendstream\\nendobj\\n');
+    const stream='q\\n595.28 0 0 841.89 0 0 cm\\n/Im1 Do\\nQ\\n';
+    offs[conN]=pos;
+    add(conN+' 0 obj\\n<< /Length '+enc.encode(stream).length+' >>\\nstream\\n'+stream+'endstream\\nendobj\\n');
+  });
+  const xref=pos;
+  add('xref\\n0 '+(objs+1)+'\\n0000000000 65535 f \\n');
+  for(let i=1;i<=objs;i++)add(String(offs[i]).padStart(10,'0')+' 00000 n \\n');
+  add('trailer\\n<< /Size '+(objs+1)+' /Root 1 0 R >>\\nstartxref\\n'+xref+'\\n%%EOF');
+  return new Blob(chunks,{type:'application/pdf'});
+}
+function makePdfFromJpeg(jpeg,w,h){return makePdfFromJpegs([{jpeg,w,h}])}
+function previewCurrentPDF(){
+  const a=data[Number(pdfSel.value||0)],wrap=document.getElementById('pdfPreviewPages');
+  if(!wrap)return;
+  wrap.innerHTML='';
+  if(!a){wrap.innerHTML='<div class="pdfPreviewEmpty">Квартира интихоб нашудааст.</div>';return;}
+  try{
+    const urls=drawPdfPages(a);
+    urls.forEach((u,i)=>{
+      const img=document.createElement('img');
+      img.className='pdfPreviewPage';
+      img.alt='PDF — саҳифа '+(i+1);
+      img.src=u;
+      wrap.appendChild(img);
+    });
+  }catch(e){console.error(e);wrap.innerHTML='<div class="pdfPreviewEmpty">PDF-ро нишон додан натавонист. Боз кӯшиш кунед.</div>';}
+}
+function downloadPDF(){
+  const a=data[Number(pdfSel.value||0)]; if(!a){alert('Квартира интихоб нашудааст.');return;}
+  const urls=drawPdfPages(a), imgs=urls.map(u=>new Promise(resolve=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;c.getContext('2d').drawImage(im,0,0);resolve({jpeg:jpegBytes(c.toDataURL('image/jpeg',0.92)),w:c.width,h:c.height})};im.src=u;}));
+  Promise.all(imgs).then(list=>{const blob=makePdfFromJpegs(list),u=URL.createObjectURL(blob),link=document.createElement('a');link.href=u;link.download=`BINOI_F_${(a.code||'KV').replace(/[^a-zA-Z0-9_-]/g,'_')}_Karti_Pardokht_2026_27.pdf`;document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(u),3000);});
+}
+function printPDF(){document.querySelectorAll(".page").forEach(x=>x.classList.remove("printing"));pdf.classList.add("printing");window.print();setTimeout(()=>pdf.classList.remove("printing"),500)}
+function printFull(){pdfArea.innerHTML=`<div class="card"><h2 style="text-align:center">БИНОИ F — ҲИСОБОТИ ПАРДОХТҲО 2026–2027</h2><div class="tablewrap"><table><thead><tr><th>Код</th><th>Ном</th><th>Ошёна</th><th>Квартира</th>${months.map(m=>`<th>${m}<br>Маблағ / Сана</th>`).join("")}<th>Супорида</th><th>Қарз</th><th>Ҳолат</th></tr></thead><tbody>${data.map(a=>{let t=totals(a),s=t.debt===0&&a.total>0?"СУПОРИД":t.paid>0?"ҚИСМАН":"НАСУПОРИД";return `<tr><td>${a.code}</td><td>${a.name}</td><td>${a.floor}</td><td>${a.apt}</td>${months.map(m=>{let p=a.payments[m]||{};return `<td>${money(p.amount)}<br>${p.date||""}</td>`}).join("")}<td>${money(t.paid)}</td><td>${money(t.debt)}</td><td>${s}</td></tr>`}).join("")}</tbody></table></div></div>`;pdf.classList.add("printing");window.print();setTimeout(()=>{pdf.classList.remove("printing");renderPDF()},500)}
+function exportCSV(){let lines=[["Код","Ном","Ошёна","Квартира","Телефон","Маблағи умумӣ","Супори моҳона","Супоридашуда","Қарз","Ҳолат"].join(",")];data.forEach(a=>{let t=totals(a),s=t.debt===0&&a.total>0?"СУПОРИД":t.paid>0?"ҚИСМАН":"НАСУПОРИД";lines.push([a.code,a.name,a.floor,a.apt,a.phone,a.total,a.monthly,t.paid,t.debt,s].map(x=>`"${String(x??"").replaceAll('"','""')}"`).join(","))});let b=new Blob(["\ufeff"+lines.join("\n")],{type:"text/csv;charset=utf-8"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="BINOI_F_Pardokht_2026_27.csv";a.click();URL.revokeObjectURL(u)}
+function downloadBlob(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2500)}
+function escHtml(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function xlsFile(title,headers,rows,name){let html=`<html><head><meta charset="utf-8">
+<style id="final-scroll-clock-fix">
+/* FINAL: compact numeric clock + independent table scrolling */
+.headClock:before{content:none!important;display:none!important}
+.headClock{font-size:10px!important;width:34px!important;height:34px!important;border-radius:50%!important;letter-spacing:0!important;white-space:nowrap!important;overflow:hidden!important;flex:0 0 34px!important}
+main{overflow:visible!important}
+.tablewrap{width:100%;max-width:100%;overflow:auto!important;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;position:relative;max-height:58vh!important;border:1px solid var(--line);border-radius:12px;background:#fff}
+.tablewrap table{border-collapse:separate;border-spacing:0;min-width:max-content}
+.tablewrap thead th{position:sticky!important;top:0!important;z-index:5!important}
+.tablewrap tbody td{white-space:nowrap}
+/* Info cards/panels stay in normal page flow; only table bodies move */
+.card,.hero,.toolbar,.exportbar,.info,.summary,.kpi{position:relative}
+@media(max-width:600px){
+  .headClock{font-size:9px!important;width:30px!important;height:30px!important;flex-basis:30px!important}
+  header{grid-template-columns:minmax(0,1fr) 30px 34px!important;gap:7px!important}
+  .tablewrap{max-height:52vh!important;border-radius:10px!important}
+  .tablewrap th,.tablewrap td{font-size:9px!important;padding:5px 4px!important}
+}
+</style>
+</head><body><h2>${escHtml(title)}</h2><table border="1"><thead><tr>${headers.map(h=>`<th>${escHtml(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(v=>`<td>${escHtml(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></body></html>`;downloadBlob(new Blob(['\ufeff',html],{type:'application/vnd.ms-excel;charset=utf-8'}),name+'.xls')}
+function apartmentRows(){return data.map((a,i)=>{let t=totals(a),st=t.debt===0&&a.total>0?'СУПОРИД':t.paid>0?'ҚИСМАН':'НАСУПОРИД';return [i+1,a.code,a.name||'',a.floor||'',a.apt||'',a.phone||'',a.total||0,a.monthly||0,t.paid,t.debt,st]})}
+function monthRows(){let rows=[];data.forEach(a=>months.forEach(m=>{let p=a.payments[m]||{},due=Number(a.monthly||0),paid=Number(p.amount||0),d=Math.max(0,due-paid);rows.push([a.code,a.name||'',a.floor||'',a.apt||'',m,due,paid,d,p.date||'',stat(a,m)])}));return rows}
+function reportRows(){return months.map(m=>{let due=0,paid=0,sup=0,part=0,un=0;data.forEach(a=>{due+=Number(a.monthly||0);let p=a.payments[m]||{},v=Number(p.amount||0);paid+=v;let st=stat(a,m);if(st==='СУПОРИД')sup++;else if(st==='ҚИСМАН')part++;else un++});return [m,due,paid,Math.max(0,due-paid),sup,part,un]})}
+function expenseRows(){return [...(window.expensesData||[])].map(x=>[x.date||'',x.name||'',x.note||'',x.amount||0])}
+function downloadPageExcel(id){
+ if(id==='home'||id==='apartments')return xlsFile('БИНОИ F — Квартираҳо',['№','Код','Ном','Ошёна','Квартира','Телефон','Маблағи умумӣ','Супори моҳона','Супоридашуда','Қарз','Ҳолат'],apartmentRows(),'BINOI_F_Kvartira_2026_27');
+ if(id==='payments'||id==='pdf')return xlsFile('БИНОИ F — Пардохтҳо',['Код','Ном','Моҳ','Бояд','Супоридашуда','Қарз','Сана','Ҳолат'],monthRows(),'BINOI_F_Pardokht_2026_27');
+ if(id==='months')return xlsFile('БИНОИ F — Моҳҳо',['Код','Ном','Ошёна','Квартира','Моҳ','Бояд','Супоридашуда','Қарз','Сана','Ҳолат'],monthRows(),'BINOI_F_Mohho_2026_27');
+ if(id==='reports')return xlsFile('БИНОИ F — Ҳисобот',['Моҳ','Бояд','Супоридашуда','Қарз','Супорид','Қисман','Насупорид'],reportRows(),'BINOI_F_Hisobot_2026_27');
+ if(id==='expenses')return xlsFile('БИНОИ F — Хароҷот',['Сана','Номи хароҷот','Шарҳ','Маблағ'],expenseRows(),'BINOI_F_Harojot_2026_27');
+ if(id==='settings')return xlsFile('БИНОИ F — Танзимот',['Параметр','Қимат'],[['Давра','Сентябр 2026 — Август 2027'],['Квартираҳо',data.length],['Номи система','БИНОИ F']],'BINOI_F_Tanzimot_2026_27');
+}
+function pdfPageData(id){
+ if(id==='apartments'||id==='home')return {title:'БИНОИ F — РӮЙХАТИ КВАРТИРАҲО 2026–2027',headers:['Код','Ном','Кв.','Маблағ','Супорида','Қарз','Ҳолат'],rows:data.map(a=>{let t=totals(a),st=t.debt===0&&a.total>0?'СУПОРИД':t.paid>0?'ҚИСМАН':'НАСУПОРИД';return [a.code,a.name||'—',a.apt||'—',money(a.total),money(t.paid),money(t.debt),st]})};
+ if(id==='months'||id==='payments')return {title:'БИНОИ F — МОҲҲО ВА ПАРДОХТҲО 2026–2027',headers:['Код','Ном','Моҳ','Бояд','Супорида','Қарз','Сана','Ҳолат'],rows:monthRows()};
+ if(id==='reports')return {title:'БИНОИ F — ҲИСОБОТИ ПАРДОХТҲО 2026–2027',headers:['Моҳ','Бояд','Супорида','Қарз','Супорид','Қисман','Насупорид'],rows:reportRows()};
+ if(id==='expenses')return {title:'БИНОИ F — ХАРОҶОТ 2026–2027',headers:['Сана','Номи хароҷот','Шарҳ','Маблағ'],rows:expenseRows()};
+ return {title:'БИНОИ F — СИСТЕМАИ ПАРДОХТҲО 2026–2027',headers:['Параметр','Қимат'],rows:[['Давра','Сентябр 2026 — Август 2027'],['Квартираҳо',data.length],['Система','БИНОИ F']]};
+}
+function makeTextPdfPages(title,headers,rows){
+  // PROFESSIONAL AUTO-PDF ENGINE
+  // Chooses portrait/landscape automatically, wraps long text, repeats headers,
+  // calculates row heights, and creates as many pages as the data requires.
+  const landscape=headers.length>=8 || headers.some(h=>String(h).length>18);
+  const W=landscape?1754:1240, H=landscape?1240:1754;
+  const M=42, usableW=W-M*2, top=128, bottom=58, headerH=46, baseRowH=38;
+  const pages=[];
+  const fontFamily='Arial, Helvetica, sans-serif';
+  const clean=v=>String(v??'').replace(/\s+/g,' ').trim();
+  const wrap=(x,ctx,maxW,font)=>{
+    ctx.font=font; const words=clean(x).split(' '); if(!words.length||words[0]==='')return [''];
+    const out=[]; let line='';
+    for(const word of words){
+      const test=line?line+' '+word:word;
+      if(ctx.measureText(test).width<=maxW){line=test;continue;}
+      if(line)out.push(line);
+      let part='';
+      for(const ch of word){const t=part+ch;if(ctx.measureText(t).width<=maxW)part=t;else{if(part)out.push(part);part=ch;}}
+      line=part;
+    }
+    if(line)out.push(line);
+    return out.length?out:[''];
+  };
+  const makePage=(pageNo,total,part)=>{
+    const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+    x.fillStyle='#fff';x.fillRect(0,0,W,H);x.textBaseline='middle';
+    // Header
+    x.fillStyle='#0b2342';x.fillRect(M,28,W-M*2,58);
+    x.fillStyle='#fff';x.font='700 24px '+fontFamily;x.textAlign='left';x.fillText(title,M+16,57);
+    x.fillStyle='#d7e5f5';x.font='13px '+fontFamily;x.textAlign='right';x.fillText('Саҳифа '+pageNo+' / '+total,W-M-14,57);
+    x.fillStyle='#718096';x.font='12px '+fontFamily;x.textAlign='left';x.fillText('БИНОИ F • 2026–2027 • Ҳуҷҷати расмии ҳисоботӣ',M,106);
+    // column widths: wider for text columns
+    const n=headers.length;
+    const weights=headers.map(h=>{const z=clean(h).toLowerCase();if(/ном|шарҳ|телефон/.test(z))return 1.45;if(/ҳолат|сана/.test(z))return 1.05;if(/моҳ/.test(z))return 1.2;return 1;});
+    const ws=weights.reduce((a,b)=>a+b,0), cw=weights.map(w=>usableW*w/ws);
+    let y=top;
+    const drawHeader=()=>{
+      let xx=M; x.fillStyle='#315f8e';x.fillRect(M,y,usableW,headerH);x.strokeStyle='#1e3b5a';x.lineWidth=1;
+      headers.forEach((h,i)=>{x.strokeRect(xx,y,cw[i],headerH);x.fillStyle='#fff';x.font='700 12px '+fontFamily;x.textAlign='center';const lines=wrap(h,x,cw[i]-10,'700 12px '+fontFamily);lines.slice(0,2).forEach((t,j)=>x.fillText(t,xx+cw[i]/2,y+headerH/2+(j-(lines.length-1)/2)*14));xx+=cw[i];});
+      y+=headerH;
+    };
+    drawHeader();
+    for(let ri=0;ri<part.length;ri++){
+      const r=part[ri];
+      const cellLines=r.map((v,i)=>wrap(v,x,Math.max(20,cw[i]-10),'12px '+fontFamily));
+      const maxLines=Math.max(1,...cellLines.map(a=>a.length));
+      const rh=Math.max(baseRowH,18*maxLines+12);
+      if(y+rh>H-bottom){
+        return {canvas:c,remaining:part.slice(ri),needsMore:true};
+      }
+      let xx=M;x.fillStyle=ri%2?'#f6f9fc':'#fff';x.fillRect(M,y,usableW,rh);x.strokeStyle='#c9d3df';x.lineWidth=1;
+      r.forEach((v,i)=>{x.strokeRect(xx,y,cw[i],rh);x.fillStyle='#132238';x.font='12px '+fontFamily;x.textAlign=(i===0||/ном|шарҳ|код/i.test(String(headers[i])))?'left':'center';const lines=cellLines[i];lines.forEach((t,j)=>x.fillText(t,x.textAlign==='left'?xx+6:xx+cw[i]/2,y+rh/2+(j-(lines.length-1)/2)*15));xx+=cw[i];});
+      y+=rh;
+    }
+    // footer
+    x.fillStyle='#607086';x.font='11px '+fontFamily;x.textAlign='center';x.fillText('БИНОИ F • Системаи пардохтҳо • '+new Date().toLocaleDateString('tg-TJ'),W/2,H-28);
+    return {canvas:c,remaining:[],needsMore:false};
+  };
+  // First determine pagination using the same layout logic, then render exact pages.
+  let remaining=rows.slice();
+  while(remaining.length){
+    const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+    const n=headers.length,weights=headers.map(h=>{const z=clean(h).toLowerCase();if(/ном|шарҳ|телефон/.test(z))return 1.45;if(/ҳолат|сана/.test(z))return 1.05;if(/моҳ/.test(z))return 1.2;return 1;}),ws=weights.reduce((a,b)=>a+b,0),cw=weights.map(w=>usableW*w/ws);
+    let y=top+headerH,count=0;
+    for(const r of remaining){const cellLines=r.map((v,i)=>wrap(v,x,Math.max(20,cw[i]-10),'12px '+fontFamily));const maxLines=Math.max(1,...cellLines.map(a=>a.length));const rh=Math.max(baseRowH,18*maxLines+12);if(y+rh>H-bottom)break;y+=rh;count++;}
+    if(count===0)count=1;
+    const part=remaining.slice(0,count);pages.push({part});remaining=remaining.slice(count);
+  }
+  const total=pages.length;const urls=[];
+  pages.forEach((pg,i)=>{const out=makePage(i+1,total,pg.part);urls.push(out.canvas.toDataURL('image/jpeg',0.92));});
+  return urls;
+}
+function downloadTextPdf(title,headers,rows,name){
+  const urls=makeTextPdfPages(title,headers,rows);
+  const imgs=urls.map(u=>new Promise(resolve=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;c.getContext('2d').drawImage(im,0,0);resolve({jpeg:jpegBytes(c.toDataURL('image/jpeg',0.92)),w:c.width,h:c.height})};im.src=u;}));
+  Promise.all(imgs).then(list=>downloadBlob(makePdfFromJpegs(list),name));
+}
+function downloadAllApartmentsPDF(){
+  const rows=data.map((a,i)=>{const t=totals(a),st=t.debt===0&&a.total>0?'СУПОРИД':t.paid>0?'ҚИСМАН':'НАСУПОРИД';return [i+1,a.code||'—',a.name||'—',a.floor||'—',a.apt||'—',a.phone||'—',money(a.total),money(t.paid),money(t.debt),st]});
+  downloadTextPdf('БИНОИ F — РӮЙХАТИ 72 КВАРТИРА',['№','Код','Ном','Ошёна','Кв.','Телефон','Маблағ','Супорида','Қарз','Ҳолат'],rows,'BINOI_F_72_Kvartira_2026_27.pdf');
+}
+function downloadPagePDF(id){
+  if(id==='pdf')return downloadPDF();
+  const d=pdfPageData(id);
+  downloadTextPdf(d.title,d.headers,d.rows,'BINOI_F_'+id+'_2026_27.pdf');
+}
+function resetData(){if(confirm("Маълумоти воридкардаи шумо нест мешавад. Давом диҳем?")){localStorage.removeItem("binoif2026_v7");location.reload()}}
+initFilters();fillSelects();fillMonths();renderHome();renderApt();renderReports();renderExpenses();
+document.addEventListener("click",e=>{const m=document.getElementById("headerMenu"),b=document.querySelector(".mobileMenu");if(m&&m.classList.contains("open")&&!m.contains(e.target)&&!b.contains(e.target))m.classList.remove("open");});
+applyYearSetting();
+</script></body></html>
