@@ -1,0 +1,2955 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1769d1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Танзими Бино</title>
+<style>
+/* Separate bottom-background control */
+.bottom-bg-control{display:flex;gap:8px;align-items:center;margin-top:8px;padding:10px;border-radius:16px;background:#f4f7fb;}
+.bottom-bg-control button{border:0;border-radius:12px;padding:9px 12px;font-weight:700;cursor:pointer;}
+.bottom-bg-control input[type=color]{width:42px;height:36px;border:0;background:transparent;padding:0;}
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f7fb;color:#14213d}
+.app{max-width:430px;margin:auto;min-height:100vh;background:#f4f7fb}
+.header{background:#1769d1;color:white;padding:28px 20px 24px;border-radius:0 0 26px 26px}
+.header h1{margin:0;font-size:27px}.header p{margin:7px 0 0;opacity:.9}.header-date{font-size:12px;margin-top:8px;opacity:.85}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hamburger{width:46px;height:46px;border:1px solid rgba(255,255,255,.38);border-radius:15px;background:rgba(255,255,255,.16);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 6px 18px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.28);color:white;font-size:25px;cursor:pointer;transition:transform .15s ease,background .15s ease}.hamburger:active{transform:scale(.94);background:rgba(255,255,255,.24)}
+.side-menu{position:fixed;z-index:20;top:0;right:-310px;width:290px;height:100vh;background:white;padding:22px 16px;box-shadow:-5px 0 25px #0003;transition:right .25s ease}
+.side-menu.open{right:0}
+.menu-head{display:flex;justify-content:space-between;align-items:center;font-size:21px;margin-bottom:20px}
+.menu-head button{border:0;background:#edf1f6;border-radius:10px;width:38px;height:38px;font-size:18px}
+.side-menu>button:not(.menu-head button){display:block;width:100%;text-align:left;border:0;background:#f3f6fa;margin:8px 0;padding:15px;border-radius:13px;font-size:16px;color:#1d3557}
+.overlay{display:none;position:fixed;z-index:19;inset:0;background:#0006;touch-action:none}
+.overlay.show{display:block}
+.menu{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px 14px 4px}
+.menu button{border:0;background:white;border-radius:15px;padding:12px 4px;font-size:12px;color:#35506f}
+.menu button.active{background:#e1efff;color:#1769d1;font-weight:700}
+.icon{display:block;font-size:24px;margin-bottom:4px}
+.content{padding:12px 18px 90px}.title{display:flex;justify-content:space-between;align-items:center}.title h2{font-size:24px;margin:12px 0}.count{color:#7d8da5}
+.search{background:#e8eef6;border:0;border-radius:14px;width:100%;padding:14px 16px;font-size:15px;margin-bottom:14px}
+.card{background:white;border-radius:18px;padding:13px;margin:10px 0;display:flex;align-items:center;gap:12px;box-shadow:0 2px 10px #0000000b}
+.pic{width:58px;height:58px;border-radius:13px;background:#dcecff;display:flex;align-items:center;justify-content:center;font-size:29px}
+.info{flex:1}.info h3{margin:0 0 4px;font-size:17px}.info p{margin:2px 0;color:#718096;font-size:13px}.arrow{font-size:25px;color:#718096}
+.add{width:100%;border:0;border-radius:15px;background:#18ad69;color:white;font-size:17px;font-weight:700;padding:16px;margin-top:12px}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(430px,100%);background:white;border-top:1px solid #e5eaf0;display:grid;grid-template-columns:repeat(4,1fr);padding:8px 5px calc(8px + env(safe-area-inset-bottom))}
+.bottom button{border:0;background:none;color:#8492a6;font-size:11px}.bottom button.active{color:#1769d1;font-weight:700}.bottom span{display:block;font-size:22px;margin-bottom:2px}
+.modal{display:none;position:fixed;inset:0;background:#0007;align-items:flex-end;justify-content:center;overscroll-behavior:contain;touch-action:none}.modal.show{display:flex}.modal .settings-sheet{transform:translateY(100%);transition:transform .25s ease}.modal.show .settings-sheet{transform:translateY(0)}
+body.modal-locked{overflow:hidden!important;position:fixed!important;width:100%!important;touch-action:none!important}.sheet{background:white;width:min(430px,100%);border-radius:25px 25px 0 0;padding:22px 20px 30px}.sheet h2{margin-top:0}.settings-sheet{background:white;width:min(430px,100%);border-radius:25px 25px 0 0;padding:0 0 28px;overflow:hidden}.settings-blue{background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzIwM2I2MyIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzExMWQzMSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idXJsKCNnKSIvPgo8Y2lyY2xlIGN4PSI3MzAiIGN5PSIxMDUiIHI9IjYyIiBmaWxsPSIjZmZmZmZmMjIiLz4KPHBhdGggZD0iTTAgNDEwIEwxODAgMjcwIEwzMDAgMzUwIEw0NTUgMTgwIEw2MjAgMzMwIEw3NjAgMjM1IEw5MDAgMzUwIEw5MDAgNTAwIEwwIDUwMFoiIGZpbGw9IiMwYjE0MjQiLz4KPGcgZmlsbD0iI2Y0Yzg2YiI+CjxyZWN0IHg9IjE2NSIgeT0iMzAwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjE0MCIgcng9IjMiLz48cmVjdCB4PSIzMTUiIHk9IjI1MCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxOTAiIHJ4PSIzIi8+PHJlY3QgeD0iNDk1IiB5PSIzMTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iMTMwIiByeD0iMyIvPjxyZWN0IHg9IjY0NSIgeT0iMjc1IiB3aWR0aD0iMTA1IiBoZWlnaHQ9IjE2NSIgcng9IjMiLz4KPC9nPgo8ZyBmaWxsPSIjMjAzYjYzIj4KPHJlY3QgeD0iMTg1IiB5PSIzMjAiIHdpZHRoPSIyMiIgaGVpZ2h0PSIzMCIvPjxyZWN0IHg9IjIzMCIgeT0iMzIwIiB3aWR0aD0iMjIiIGhlaWdodD0iMzAiLz48cmVjdCB4PSIzMzUiIHk9IjI3NSIgd2lkdGg9IjI1IiBoZWlnaHQ9IjM0Ii8+PHJlY3QgeD0iMzgwIiB5PSIyNzUiIHdpZHRoPSIyNSIgaGVpZ2h0PSIzNCIvPjxyZWN0IHg9IjQyNSIgeT0iMjc1IiB3aWR0aD0iMjUiIGhlaWdodD0iMzQiLz4KPHJlY3QgeD0iMzM1IiB5PSIzMzAiIHdpZHRoPSIyNSIgaGVpZ2h0PSIzNCIvPjxyZWN0IHg9IjM4MCIgeT0iMzMwIiB3aWR0aD0iMjUiIGhlaWdodD0iMzQiLz48cmVjdCB4PSI0MjUiIHk9IjMzMCIgd2lkdGg9IjI1IiBoZWlnaHQ9IjM0Ii8+CjxyZWN0IHg9IjUxNSIgeT0iMzMwIiB3aWR0aD0iMjIiIGhlaWdodD0iMzAiLz48cmVjdCB4PSI1NjAiIHk9IjMzMCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjMwIi8+PHJlY3QgeD0iNjY1IiB5PSIzMDAiIHdpZHRoPSIyMiIgaGVpZ2h0PSIzMiIvPjxyZWN0IHg9IjcxMCIgeT0iMzAwIiB3aWR0aD0iMjIiIGhlaWdodD0iMzIiLz4KPC9nPjwvc3ZnPg==');background-size:cover;background-position:center;color:#f4c86b;padding:25px 20px 22px;text-align:center;position:relative}.settings-body{padding:18px 20px}.setting-section{margin-top:12px}.setting-label{font-weight:700;margin-bottom:10px}.app-name-input{width:100%;padding:13px;border:1px solid #d5deea;border-radius:12px;font-size:16px}.background-options{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.bg-choice{border:0;border-radius:12px;padding:13px;color:white;font-weight:700;text-shadow:0 1px 3px #0006}.picture-btn{display:block;text-align:center;background:#edf1f6;color:#253b59;padding:14px;border-radius:12px;margin-top:10px;font-weight:700;cursor:pointer}.picture-btn input{display:none}.settings-close{float:right;border:0;background:#ffffff22;color:white;border-radius:9px;width:34px;height:34px;font-size:18px}.settings-tiles{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .small-setting-tile{
+  width:170px;height:72px;border:1px solid #dfe6ef;background:#fff;
+  border-radius:18px;display:flex;align-items:center;justify-content:flex-start;
+  gap:13px;padding:0 16px;color:#253b59;box-shadow:0 4px 14px #0000000d;
+  cursor:pointer;transition:transform .15s ease
+}
+.small-setting-tile:active{transform:scale(.97)}
+.small-setting-tile span{
+  width:48px;height:48px;border-radius:50%;background:#e8f1ff;
+  display:flex;align-items:center;justify-content:center;font-size:24px;flex:none
+}
+.small-setting-tile b{font-size:14px;font-weight:700}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.modal-head h2{margin:0}
+.modal-close-x{width:38px;height:38px;border:0;border-radius:50%;background:#edf1f6;color:#263b59;font-size:24px;line-height:38px;cursor:pointer;flex:none}
+.modal-close-x:active{transform:scale(.95)}
+.name-sheet{padding:22px 20px 28px}
+.name-subtitle{color:#718096;font-size:13px;margin:0 0 14px}
+.name-sheet .field{margin:12px 0}
+.field{margin:12px 0}.field label{display:block;font-weight:600;margin-bottom:7px}.field input{width:100%;padding:14px;border:1px solid #d5deea;border-radius:12px;font-size:16px}.save{background:#18ad69;color:white;border:0;width:100%;padding:15px;border-radius:13px;font-size:16px;font-weight:700;margin-top:8px}.cancel{background:#edf1f6;color:#3c4a5d;border:0;width:100%;padding:13px;border-radius:13px;font-size:15px;margin-top:8px}
+
+/* Bottom mirror reflection */
+.bottom{background:linear-gradient(to bottom,#1769d1 0%,#2f80d6 45%,#1769d1 100%) !important;border-top:1px solid rgba(255,255,255,.35) !important;box-shadow:0 -8px 22px rgba(23,105,209,.28);}
+.bottom button{color:rgba(255,255,255,.88) !important}.bottom button.active{color:#fff !important}
+
+/* Илова: инъикоси кабуди боло дар қисми поён */
+.bottom{overflow:hidden;background:linear-gradient(to bottom,rgba(23,105,209,.96),rgba(23,105,209,.78));border-top:1px solid rgba(255,255,255,.35);box-shadow:0 -10px 30px rgba(23,105,209,.18)}
+.bottom:before{content:"";position:absolute;left:0;right:0;top:0;height:100%;background:linear-gradient(to bottom,rgba(255,255,255,.18),rgba(255,255,255,0));pointer-events:none}
+.bottom button{position:relative;color:white}
+.bottom button.active{color:white}
+
+/* Илова: кабуди боло то қисми хеле боло меравад, бе тағйири тарҳи дохилӣ */
+.header{margin-top:0;}
+
+/* FIX: top and bottom background controls use the same style */
+.small-setting-tile{width:100%;min-height:72px;border:0;border-radius:18px;background:rgba(255,255,255,.96);box-shadow:0 4px 14px rgba(0,0,0,.08);display:flex;align-items:center;gap:12px;padding:12px 14px;text-align:left;cursor:pointer;}
+.small-setting-tile span{font-size:28px;width:38px;text-align:center;}
+.small-setting-tile b{font-size:15px;color:#1b2738;}
+</style>
+
+<style>
+/* Илова: услуби кабуди боло монанди iPhone — то боло ва бо кунҷҳои даврашакл */
+.header{
+  margin-top:0!important;
+  border-radius:32px 32px 46px 46px!important;
+  padding-top:34px!important;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(23,105,209,.18);
+}
+</style>
+
+<style>
+/* Илова: фонти менюи боло шишагин */
+.hamburger{background:rgba(255,255,255,.16)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.38)!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.35),0 6px 18px rgba(0,60,150,.18)!important;}
+</style>
+
+<style>
+/* Илова: кунҷҳои болоии панели кабуди поён даврашакл */
+.bottom{border-radius:28px 28px 0 0 !important;}
+</style>
+<style>
+/* additive: bottom glass blue follows selected header background */
+.bottom{background:var(--app-bottom-bg,#1769d1)!important;color:white!important;border-top:0!important;border-radius:26px 26px 0 0!important;overflow:hidden;}
+.bottom button{color:#ffffffcc!important}.bottom button.active{color:white!important}
+</style>
+<!-- Илова: иконка барои экрани телефон, силуэти хона -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%231769d1'/%3E%3Cpath d='M45 82 L90 42 L135 82 V138 H105 V105 H75 V138 H45 Z' fill='white'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%231769d1'/%3E%3Cpath d='M15 30 L32 15 L49 30 V51 H37 V37 H27 V51 H15 Z' fill='white'/%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-title" content="Танзими Бино">
+
+<!-- PWA: насб ба экрани телефон -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1769d1">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script>
+if('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{})); }
+</script>
+
+<style id="add-rounded-windows">
+/* ADDITIVE: rounded corners for all opened panels/windows */
+.side-menu{border-radius:32px 0 0 32px;overflow:hidden;}
+.modal .sheet,.modal .settings-sheet{border-radius:32px 32px 0 0;overflow:hidden;}
+</style>
+
+<!-- ADDITIVE: iPhone-style full blue top area and matching bottom panel -->
+<style>
+html,body{background:#1769d1!important;}
+body{margin:0!important;}
+.app{background:#f4f7fb!important;overflow:hidden;}
+.header{
+  position:relative!important;
+  width:100%!important;
+  min-height:360px!important;
+  margin:0!important;
+  padding:calc(22px + env(safe-area-inset-top)) 20px 48px!important;
+  border-radius:0 0 54px 54px!important;
+  background:#1769d1!important;
+  box-shadow:0 14px 34px rgba(23,105,209,.28)!important;
+}
+.header:before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,0) 38%,rgba(255,255,255,.06) 100%);}
+.header .topbar{position:relative;z-index:1;}
+.menu{padding-top:18px!important;}
+.bottom{
+  min-height:116px!important;
+  padding:16px 8px calc(16px + env(safe-area-inset-bottom))!important;
+  border-radius:34px 34px 0 0!important;
+  background:linear-gradient(to bottom,#1769d1,#2878d8)!important;
+  box-shadow:0 -10px 30px rgba(23,105,209,.24)!important;
+}
+</style>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+
+<style>
+/* ИЛОВА: танҳо акси фони қисми поёнро хира мекунад, иконкаҳо равшан мемонанд */
+.bottom.image-sync{position:fixed!important;isolation:isolate!important;}
+.bottom.image-sync::after{content:"";position:absolute;inset:0;background:rgba(8,30,82,.68)!important;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);pointer-events:none;z-index:0;}
+.bottom.image-sync::before{z-index:0!important;}
+.bottom.image-sync button,.bottom.image-sync a,.bottom.image-sync > *{position:relative;z-index:2;}
+</style>
+
+<style id="variant1-fix">
+/* Variant 1: settings buttons are identical */
+.settings-tiles{display:flex!important;flex-direction:column!important;gap:14px!important;padding:0 20px!important;}
+.small-setting-tile{width:100%!important;height:78px!important;min-height:78px!important;border:0!important;border-radius:22px!important;background:#fff!important;display:flex!important;align-items:center!important;gap:16px!important;padding:0 18px!important;text-align:left!important;box-shadow:0 5px 18px rgba(0,0,0,.07)!important;}
+.small-setting-tile span{width:52px!important;height:52px!important;border-radius:50%!important;background:#e8f2ff!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:27px!important;flex:none!important;}
+.small-setting-tile b{font-size:17px!important;font-weight:700!important;color:#182945!important;flex:1!important;}
+.small-setting-tile i{font-style:normal!important;font-size:34px!important;line-height:1!important;color:#18345f!important;font-weight:400!important;}
+.settings-tiles + .cancel{margin:16px 20px 0!important;width:calc(100% - 40px)!important;height:60px!important;border-radius:20px!important;font-size:18px!important;background:#edf3fa!important;color:#274064!important;}
+/* Menu button: fully inside the header, no clipping */
+.header .topbar{position:relative!important;display:block!important;}
+.header .topbar>div:first-child{width:100%!important;padding-right:82px!important;min-width:0!important;}
+.header .hamburger{position:absolute!important;right:0!important;top:0!important;width:64px!important;height:56px!important;min-width:64px!important;border-radius:19px!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important;font-size:31px!important;line-height:1!important;z-index:5!important;}
+@media(max-width:360px){.header .topbar>div:first-child{padding-right:74px!important}.header .hamburger{width:58px!important;min-width:58px!important;height:52px!important;font-size:28px!important}}
+</style>
+
+<style id="settings-transparent-backdrop-final">
+/* Финал: ҳангоми кушодани Танзимот фони поён равшан ва намоён мемонад */
+#settingsModal{background:transparent!important;align-items:flex-end!important;}
+#settingsModal .sheet{width:min(430px,100%)!important;max-height:72vh!important;overflow-y:auto!important;border-radius:32px 32px 0 0!important;box-shadow:0 -8px 30px rgba(15,45,90,.12)!important;}
+#settingsModal .settings-tiles{padding:0 20px!important;}
+#settingsModal .small-setting-tile{height:78px!important;min-height:78px!important;}
+#settingsModal .cancel{flex:none!important;}
+</style>
+
+<style id="top-background-full-screen">
+html, body{background-color:#1769d1;}
+body{background-position:top center!important;background-repeat:no-repeat!important;background-size:cover!important;}
+</style>
+
+<style id="settings-compact-final">
+#settingsModal .sheet{max-width:390px!important;width:calc(100% - 28px)!important;padding:18px!important;border-radius:24px!important;}
+#settingsModal .modal-head{margin-bottom:12px!important;}
+#settingsModal .modal-head h2{font-size:19px!important;}
+#settingsModal .settings-tiles{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px!important;}
+#settingsModal .small-setting-tile{min-width:0!important;height:92px!important;padding:9px 5px!important;border-radius:16px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;text-align:center!important;gap:5px!important;}
+#settingsModal .small-setting-tile span{font-size:25px!important;line-height:1!important;}
+#settingsModal .small-setting-tile b{font-size:11px!important;line-height:1.15!important;}
+#settingsModal .small-setting-tile i{display:none!important;}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header">
+<div class="topbar">
+  <div><h1><span id="headerLogoMark">🏢</span> <span id="headerLogoName">ТАНЗИМИ БИНО</span></h1><p>Беҳтар, осон, барои шумо</p><div class="header-date">📅 Сана: <span id="mainDate"></span></div></div>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Меню">☰</button>
+</div>
+</header>
+
+<div class="side-menu" id="sideMenu">
+  <div class="menu-head">
+    <strong>Меню</strong>
+    <button onclick="toggleMenu()">✕</button>
+  </div>
+  <button onclick="openSettings()">⚙️ &nbsp; Танзимот</button>
+</div>
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+<nav class="menu">
+<button class="active"><span class="icon">🏢</span>Биноҳо</button>
+<button><span class="icon">🚪</span>Хҷҳо</button>
+<button><span class="icon">💰</span>Пардохтҳо</button>
+<button><span class="icon">📊</span>Ҳисобот</button>
+</nav>
+<main class="content">
+<div class="title"><h2>Биноҳои ман</h2><span class="count" id="count">1</span></div>
+<input class="search" id="search" placeholder="🔍  Ҷустуҷӯи бино...">
+<div id="list"></div>
+</main>
+<div class="bottom">
+<button class="active" onclick="openBuildingInfo('01')"><span>🏢</span>Биноҳо</button>
+<button><span>🚪</span>Ҳуҷраҳо</button>
+<button><span>💰</span>Пардохтҳо</button>
+<button><span>📊</span>Ҳисобот</button>
+</div>
+</div>
+
+<div class="modal" id="logoModal" onclick="if(event.target===this) closeLogoSettings()"><div class="sheet"><div class="modal-head"><h2>🏷️ Тағйири логотип</h2><button class="modal-close-x" onclick="closeLogoSettings()">×</button></div><label style="display:block;font-weight:700;margin:8px 0 6px">Номи логотип</label><input id="logoNameInput" class="search" placeholder="Номи логотип"><label style="display:block;font-weight:700;margin:14px 0 6px">Фони логотип</label><input id="logoBgInput" type="color" value="#1769d1" style="width:100%;height:48px;border:0;border-radius:12px"><label style="display:block;font-weight:700;margin:14px 0 6px">Расми логотип</label><input id="logoImageInput" type="file" accept="image/*" style="width:100%"><button class="add" style="margin-top:16px;width:100%" onclick="saveLogoSettings()">💾 Сабт кардан</button></div></div>
+<div class="modal" id="settingsModal" onclick="if(event.target===this) closeSettings()">
+<div class="sheet" onclick="event.stopPropagation()">
+  <div class="modal-head"><h2>⚙️ Танзимот</h2><button class="modal-close-x" onclick="closeSettings()">×</button></div>
+  <div class="settings-tiles">
+<button class="small-setting-tile" onclick="openLogoSettings()"><span>🏷️</span><b>Тағйири логотип</b><i>›</i></button>
+      <button class="small-setting-tile" onclick="openBackgroundSettings()">
+        <span>🎨</span><b>Тағйири фони боло</b><i>›</i>
+      </button>
+      <button class="small-setting-tile" onclick="openTopBackBackgroundSettings()">
+        <span>🌌</span><b>Тағйири фони пуштии боло</b><i>›</i>
+      </button>
+      <button class="small-setting-tile" onclick="openBottomBackgroundSettings()">
+        <span>🖼️</span><b>Тағйири фони поён</b><i>›</i>
+      </button>
+      <button class="small-setting-tile" onclick="openBackBackgroundSettings()">
+        <span>🌄</span><b>Тағйири фони қафо</b><i>›</i>
+      </button>
+      <button class="small-setting-tile" onclick="openNameSettings()">
+        <span>✏️</span><b>Тағйири ном</b><i>›</i>
+      </button>
+      <button class="small-setting-tile" onclick="openBuildingFromSettings()">
+        <span>🏢</span><b>Тағйир ва иловаи бино</b><i>›</i>
+      </button>
+    </div>
+  <button class="cancel" onclick="closeSettings()">Бастан</button>
+</div>
+</div>
+
+<div class="modal" id="backgroundModal" onclick="if(event.target===this) closeBackgroundSettings()">
+<div class="sheet" onclick="event.stopPropagation()">
+  <div class="modal-head"><h2>🎨 Тағйири фони боло</h2><button class="modal-close-x" onclick="closeBackgroundSettings()">×</button></div>
+  <div class="background-options">
+    <button class="bg-choice" style="background:#1769d1" onclick="setAppBg('#1769d1')">Кабуд</button>
+    <button class="bg-choice" style="background:#168a63" onclick="setAppBg('#168a63')">Сабз</button>
+    <button class="bg-choice" style="background:#6b4bb3" onclick="setAppBg('#6b4bb3')">Бунафш</button>
+    <button class="bg-choice" style="background:#b56b22" onclick="setAppBg('#b56b22')">Тиллоӣ</button>
+  </div>
+  <label class="picture-btn">🖼️ Картинка интихоб кардан
+    <input type="file" accept="image/*" onchange="setAppPicture(event)">
+  </label>
+  <button class="cancel" onclick="closeBackgroundSettings()">Бастан</button>
+</div>
+</div>
+
+<div class="modal" id="topBackBackgroundModal" onclick="if(event.target===this) closeTopBackBackgroundSettings()">
+<div class="sheet" onclick="event.stopPropagation()">
+  <div class="modal-head"><h2>🌌 Тағйири фони пуштии боло</h2><button class="modal-close-x" onclick="closeTopBackBackgroundSettings()">×</button></div>
+  <div class="background-options">
+    <button class="bg-choice" style="background:#1769d1" onclick="setTopBackBg('#1769d1')">Кабуд</button>
+    <button class="bg-choice" style="background:#168a63" onclick="setTopBackBg('#168a63')">Сабз</button>
+    <button class="bg-choice" style="background:#6b4bb3" onclick="setTopBackBg('#6b4bb3')">Бунафш</button>
+    <button class="bg-choice" style="background:#b56b22" onclick="setTopBackBg('#b56b22')">Тиллоӣ</button>
+  </div>
+  <label class="picture-btn">🖼️ Картинка интихоб кардан
+    <input type="file" accept="image/*" onchange="setTopBackBgImage(event)">
+  </label>
+  <button class="cancel" onclick="closeTopBackBackgroundSettings()">Бастан</button>
+</div>
+</div>
+
+<div class="modal" id="bottomBackgroundModal" onclick="if(event.target===this) closeBottomBackgroundSettings()">
+<div class="sheet" onclick="event.stopPropagation()">
+  <div class="modal-head"><h2>🖼️ Тағйири фони поён</h2><button class="modal-close-x" onclick="closeBottomBackgroundSettings()">×</button></div>
+  <div class="background-options">
+    <button class="bg-choice" style="background:#1769d1" onclick="setBottomBg('#1769d1')">Кабуд</button>
+    <button class="bg-choice" style="background:#168a63" onclick="setBottomBg('#168a63')">Сабз</button>
+    <button class="bg-choice" style="background:#6b4bb3" onclick="setBottomBg('#6b4bb3')">Бунафш</button>
+    <button class="bg-choice" style="background:#b56b22" onclick="setBottomBg('#b56b22')">Тиллоӣ</button>
+  </div>
+  <label class="picture-btn">🖼️ Картинка интихоб кардан
+    <input type="file" accept="image/*" onchange="setBottomBgImage(event)">
+  </label>
+  <button class="cancel" onclick="closeBottomBackgroundSettings()">Бастан</button>
+</div>
+</div>
+
+<div class="modal" id="modal" onclick="if(event.target===this) closeModal()">
+<div class="sheet" onclick="event.stopPropagation()">
+<div class="modal-head"><h2>Илова кардани бино</h2><button class="modal-close-x" onclick="closeModal()">×</button></div>
+<div class="field"><label>Номи бино *</label><input id="name" placeholder="Масалан: Бинои марказӣ"></div>
+<div class="field"><label>Рақами бино *</label><input id="number" placeholder="Масалан: 01"></div>
+<div class="field"><label>Суроға *</label><input id="address" placeholder="Масалан: Душанбе, кӯчаи Сомонӣ 12"></div>
+<div class="field"><label>Шумораи ҳуҷраҳо *</label><input id="rooms" type="number" placeholder="Масалан: 24"></div>
+<button class="save" onclick="saveBuilding()">✓ Сабт кардан</button>
+<button class="cancel" onclick="closeModal()">Бекор кардан</button>
+</div>
+</div>
+
+<div class="modal" id="buildingInfoModal" onclick="if(event.target===this) closeBuildingInfo()">
+<div class="sheet" onclick="event.stopPropagation()">
+<div class="modal-head"><h2>🏢 Маълумоти бино</h2><button class="modal-close-x" onclick="closeBuildingInfo()">×</button></div>
+<div class="info-grid">
+<div class="info-box"><span>🏢 Номи бино</span><b id="biName">—</b></div>
+<div class="info-box"><span>🔢 Рақами бино</span><b id="biNumber">—</b></div>
+<div class="info-box"><span>📍 Суроға</span><b id="biAddress">—</b></div>
+<div class="info-box"><span>🚪 Ҳуҷраҳо / квартираҳо</span><b id="biRooms">—</b></div>
+<div class="info-box"><span>🏬 Ошёнаҳо</span><b id="biFloors">—</b></div>
+<div class="info-box"><span>📅 Соли ҳисоб</span><b id="biYear">2026–2027</b></div>
+<div class="info-box"><span>👥 Квартираҳо</span><b id="biApartments">72</b></div>
+<div class="info-box"><span>💰 Маблағи умумӣ</span><b id="biTotal">43 200 сомонӣ</b></div>
+<div class="info-box"><span>📆 Маблағи моҳона</span><b id="biMonthly">3 600 сомонӣ</b></div>
+<div class="info-box"><span>✅ Супоридашуда</span><b id="biPaid">3 100 сомонӣ</b></div>
+<div class="info-box"><span>⚠️ Қарзи боқимонда</span><b id="biDebt">40 100 сомонӣ</b></div>
+</div>
+</div>
+</div>
+
+<script>
+let buildings=[
+{name:"Бинои марказӣ",number:"01",address:"Душанбе, кӯчаи Сомонӣ 12",rooms:72,floors:"4–12 (9 ошёна)",year:"2026–2027",apartments:72,total:43200,monthly:3600,paid:3100,debt:40100}
+];
+
+let pageStack=[];
+
+function render(){
+ const q=(document.getElementById('search')?.value||'').toLowerCase();
+ const data=buildings.filter(b=>(b.name+" "+b.number+" "+b.address).toLowerCase().includes(q));
+ const count=document.getElementById('count');
+ const list=document.getElementById('list');
+ if(count)count.textContent=buildings.length;
+ if(list)list.innerHTML=data.map(b=>`
+ <div class="card" onclick="openBuildingInfo('${b.number}')"><div class="pic">🏢</div><div class="info">
+ <h3>${b.name}</h3><p>${b.address}</p><p>🏠 ${b.rooms} ҳуҷра</p>
+ </div><div class="arrow">›</div></div>`).join('');
+}
+
+function lockBackground(){ document.body.classList.add('modal-locked'); }
+
+function unlockBackground(){
+ const ids=['settingsModal','backgroundModal','topBackBackgroundModal','bottomBackgroundModal','backBackgroundModal','modal','nameModal'];
+ const anyOpen=ids.some(id=>document.getElementById(id)?.classList.contains('show'));
+ const menuOpen=document.getElementById('sideMenu')?.classList.contains('open');
+ if(!anyOpen && !menuOpen)document.body.classList.remove('modal-locked');
+}
+
+function hideAllModals(){
+ ['settingsModal','backgroundModal','topBackBackgroundModal','bottomBackgroundModal','backBackgroundModal','modal','nameModal'].forEach(id=>{
+   const e=document.getElementById(id); if(e)e.classList.remove('show');
+ });
+}
+
+function openModalById(id){
+ hideAllModals();
+ const e=document.getElementById(id);
+ if(e){e.classList.add('show');lockBackground();}
+}
+
+function openSettings(){
+ const menu=document.getElementById('sideMenu'), overlay=document.getElementById('overlay');
+ menu?.classList.remove('open'); overlay?.classList.remove('show');
+ pageStack=[];
+ openModalById('settingsModal');
+}
+
+function closeSettings(){
+ hideAllModals();
+ pageStack=[];
+ unlockBackground();
+}
+
+function openBackgroundSettings(){
+ pageStack.push('settingsModal');
+ openModalById('backgroundModal');
+}
+
+function closeBackgroundSettings(){
+ const previous=pageStack.pop()||'settingsModal';
+ openModalById(previous);
+}
+
+function openTopBackBackgroundSettings(){
+  pageStack.push('settingsModal');
+  openModalById('topBackBackgroundModal');
+}
+
+function closeTopBackBackgroundSettings(){
+  const previous=pageStack.pop()||'settingsModal';
+  openModalById(previous);
+}
+
+function openBottomBackgroundSettings(){
+ pageStack.push('settingsModal');
+ openModalById('bottomBackgroundModal');
+}
+
+function closeBottomBackgroundSettings(){
+ const previous=pageStack.pop()||'settingsModal';
+ openModalById(previous);
+}
+
+function openBackBackgroundSettings(){
+ pageStack.push('settingsModal');
+ openModalById('backBackgroundModal');
+}
+
+function closeBackBackgroundSettings(){
+ const previous=pageStack.pop()||'settingsModal';
+ openModalById(previous);
+}
+
+function openNameSettings(){
+ const n=document.getElementById('appNameInput');
+ const s=document.getElementById('appSubtitleInput');
+ if(n)n.value=localStorage.getItem('appName')||'ТАНЗИМИ БИНО';
+ if(s)s.value=localStorage.getItem('appSubtitle')||'Беҳтар, осон, барои шумо';
+ pageStack.push('settingsModal');
+ openModalById('nameModal');
+}
+
+function closeNameSettings(){
+ const previous=pageStack.pop()||'settingsModal';
+ openModalById(previous);
+}
+
+function saveNameSettings(){
+ const n=(document.getElementById('appNameInput')?.value||'').trim()||'ТАНЗИМИ БИНО';
+ const s=(document.getElementById('appSubtitleInput')?.value||'').trim()||'Беҳтар, осон, барои шумо';
+ localStorage.setItem('appName',n);
+ localStorage.setItem('appSubtitle',s);
+ applySavedSettings();
+ closeNameSettings();
+}
+
+function applySavedSettings(){
+ const n=localStorage.getItem('appName')||'ТАНЗИМИ БИНО';
+ const s=localStorage.getItem('appSubtitle')||'Беҳтар, осон, барои шумо';
+ const title=document.querySelector('.header h1');
+ const subtitle=document.querySelector('.header p');
+ if(title) { const mark=title.querySelector('#headerLogoMark'); const name=title.querySelector('#headerLogoName'); if(name) name.textContent=n; else title.textContent='🏢 '+n; if(mark) mark.textContent='🏢'; }
+ if(subtitle)subtitle.textContent=s;
+}
+
+function restoreAppName(){ applySavedSettings(); }
+function restoreAppSubtitle(){ applySavedSettings(); }
+function restoreTitleColor(){}
+
+function openBuildingFromSettings(){
+ pageStack.push('settingsModal');
+ openModalById('modal');
+}
+
+function openModal(){
+ pageStack=[];
+ openModalById('modal');
+}
+
+function closeModal(){
+ const previous=pageStack.pop();
+ if(previous){
+  hideAllModals();
+  openModalById(previous);
+  return;
+ }
+ hideAllModals();
+ unlockBackground();
+}
+
+function saveBuilding(){
+ const name=document.getElementById('name').value.trim();
+ const number=document.getElementById('number').value.trim();
+ const address=document.getElementById('address').value.trim();
+ const rooms=document.getElementById('rooms').value;
+ if(!name||!number||!address||!rooms){alert("Ҳамаи майдонҳоро пур кунед.");return}
+ buildings.push({name,number,address,rooms});
+ ["name","number","address","rooms"].forEach(id=>document.getElementById(id).value="");
+ closeModal();render();
+}
+
+function toggleMenu(){
+ const m=document.getElementById('sideMenu'), o=document.getElementById('overlay');
+ const opening=!m.classList.contains('open');
+ m.classList.toggle('open');o.classList.toggle('show');
+ if(opening)lockBackground();else unlockBackground();
+}
+
+function updateDates(){
+ const d=new Date();
+ const s=String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();
+ const a=document.getElementById('mainDate'), b=document.getElementById('settingsDate');
+ if(a)a.textContent=s;if(b)b.textContent=s;
+}
+
+function restoreAppBackground(){
+ const img=localStorage.getItem('appBgImage'), color=localStorage.getItem('appBg');
+ const h=document.querySelector('.header');
+ const body=document.body;
+ if(!h)return;
+ if(img){
+  const bg=`url("${img}")`;
+  h.style.backgroundImage=bg; h.style.backgroundSize='cover'; h.style.backgroundPosition='center'; h.style.backgroundRepeat='no-repeat';
+  if(body){ body.style.backgroundImage=bg; body.style.backgroundSize='cover'; body.style.backgroundPosition='top center'; body.style.backgroundRepeat='no-repeat'; }
+ } else if(color){
+  h.style.backgroundImage='none'; h.style.backgroundColor=color;
+  if(body){ body.style.backgroundImage='none'; body.style.backgroundColor=color; }
+ }
+}
+
+function setAppBg(color){
+ const h=document.querySelector('.header');
+ const body=document.body;
+ if(h){h.style.backgroundImage='none';h.style.backgroundColor=color;}
+ if(body){body.style.backgroundImage='none';body.style.backgroundColor=color;}
+ localStorage.setItem('appBg',color);
+ localStorage.removeItem('appBgImage');
+}
+
+function setAppPicture(event){
+ const file=event.target.files[0];if(!file)return;
+ const reader=new FileReader();
+ reader.onload=function(e){
+  const img=e.target.result;
+  const h=document.querySelector('.header');
+  const body=document.body;
+  if(h){
+   h.style.backgroundImage=`url("${img}")`;
+   h.style.backgroundSize='cover';h.style.backgroundPosition='center';h.style.backgroundRepeat='no-repeat';
+  }
+  if(body){
+   body.style.backgroundImage=`url("${img}")`;
+   body.style.backgroundSize='cover';body.style.backgroundPosition='top center';body.style.backgroundRepeat='no-repeat';
+  }
+  localStorage.setItem('appBgImage',img);
+  localStorage.removeItem('appBg');
+ };
+ reader.readAsDataURL(file);
+}
+
+document.getElementById('search')?.addEventListener('input',render);
+restoreAppBackground();
+restoreAppName();
+updateDates();
+setInterval(updateDates,60000);
+render();
+</script>
+
+
+
+<div class="modal" id="backBackgroundModal" onclick="if(event.target===this) closeBackBackgroundSettings()">
+<div class="sheet" onclick="event.stopPropagation()">
+  <div class="modal-head"><h2>🌄 Тағйири фони қафо</h2><button class="modal-close-x" onclick="closeBackBackgroundSettings()">×</button></div>
+  <div class="background-options">
+    <button class="bg-choice" style="background:#f4f7fb;color:#253b59;text-shadow:none" onclick="setBackBg('#f4f7fb')">Сафед</button>
+    <button class="bg-choice" style="background:#dcecff" onclick="setBackBg('#dcecff')">Кабуди равшан</button>
+    <button class="bg-choice" style="background:#dff3eb;color:#174b3b" onclick="setBackBg('#dff3eb')">Сабзи равшан</button>
+    <button class="bg-choice" style="background:#eee6ff;color:#44306b" onclick="setBackBg('#eee6ff')">Бунафши равшан</button>
+  </div>
+  <label class="picture-btn">🖼️ Картинка интихоб кардан
+    <input type="file" accept="image/*" onchange="setBackBgImage(event)">
+  </label>
+  <button class="cancel" onclick="closeBackBackgroundSettings()">Бастан</button>
+</div>
+</div>
+
+<div class="modal" id="nameModal" onclick="if(event.target===this) closeNameSettings()">
+  <div class="sheet name-sheet" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <h2>✏️ Тағйири ном</h2>
+      <button class="modal-close-x" onclick="closeNameSettings()">×</button>
+    </div>
+    <p class="name-subtitle">Ном ва матни зери номро тағйир диҳед.</p>
+    <div class="field"><label>Номи барнома</label>
+      <input id="appNameInput" type="text" placeholder="ТАНЗИМИ БИНО"></div>
+    <div class="field"><label>Матни зери ном</label>
+      <input id="appSubtitleInput" type="text" placeholder="Беҳтар, осон, барои шумо"></div>
+    <button class="save" onclick="saveNameSettings()">✓ Сабт кардан</button>
+    <button class="cancel" onclick="closeNameSettings()">Бастан</button>
+  </div>
+</div>
+
+<script>
+// Илова: X дар равзанаи «Иловаи бино» танҳо як қадам қафо меравад.
+(function(){
+  const oldCloseModal = window.closeModal;
+  window.closeModal = function(){
+    if (document.getElementById('addBuildingModal')?.classList.contains('show')) {
+      document.getElementById('addBuildingModal').classList.remove('show');
+      if (typeof unlockBackground === 'function') unlockBackground();
+      return;
+    }
+    if (typeof oldCloseModal === 'function') oldCloseModal();
+  };
+})();
+</script>
+<script>
+(function(){
+ const oldBg=window.setAppBg;
+ window.setAppBg=function(color){
+   if(typeof oldBg==="function") oldBg(color);
+   document.documentElement.style.setProperty("--app-bottom-bg",color);
+   localStorage.setItem("appBottomBg",color);
+ };
+ const oldPic=window.setAppPicture;
+ window.setAppPicture=function(event){
+   if(typeof oldPic==="function") oldPic(event);
+   setTimeout(function(){
+     const img=localStorage.getItem("appBgImage");
+     if(img){document.documentElement.style.setProperty("--app-bottom-bg","url(\""+img+"\") center/cover no-repeat");}
+   },50);
+ };
+ const saved=localStorage.getItem("appBottomBg")||localStorage.getItem("appBg");
+ if(saved) document.documentElement.style.setProperty("--app-bottom-bg",saved);
+})();
+</script>
+<style>
+/* Илова: кабуди боло ва поён — калонтару васеътар, бо кунҷҳои мулоими iPhone */
+.header{
+  width:100%!important;
+  min-height:205px!important;
+  padding:38px 20px 30px!important;
+  border-radius:0 0 48px 48px!important;
+}
+.bottom{
+  width:min(430px,100%)!important;
+  min-height:108px!important;
+  padding:14px 8px calc(14px + env(safe-area-inset-bottom))!important;
+  border-radius:32px 32px 0 0!important;
+  box-shadow:0 -8px 28px rgba(23,105,209,.20)!important;
+}
+</style>
+
+<!-- Ислоҳи иловагӣ: Тағйири фон ҳам кабудии боло ва ҳам поёнро иваз мекунад -->
+<style>
+  .header.bg-sync{background-image:none!important;}
+  .bottom.bg-sync{background-image:none!important;}
+</style>
+<script>
+(function(){
+  const originalSetAppBg = window.setAppBg;
+  window.setAppBg = function(color){
+    if(typeof originalSetAppBg === 'function') originalSetAppBg(color);
+    const header = document.querySelector('.header');
+    const bottom = document.querySelector('.bottom');
+    const html = document.documentElement;
+    const body = document.body;
+    if(html){ html.style.setProperty('background', color, 'important'); html.style.setProperty('background-image','none','important'); }
+    if(body){ body.style.setProperty('background', color, 'important'); body.style.setProperty('background-image','none','important'); }
+    document.querySelector('meta[name=theme-color]')?.setAttribute('content', color);
+    if(header){
+      header.classList.add('bg-sync');
+      header.style.setProperty('background', color, 'important');
+    }
+    if(bottom){
+      bottom.classList.add('bg-sync');
+      bottom.style.setProperty('background', color, 'important');
+    }
+    document.documentElement.style.setProperty('--app-bottom-bg', color);
+    localStorage.setItem('appBg', color);
+    localStorage.setItem('appBottomBg', color);
+    localStorage.removeItem('appBgImage');
+  };
+
+  const savedColor = localStorage.getItem('appBg');
+  if(savedColor){
+    const header = document.querySelector('.header');
+    const bottom = document.querySelector('.bottom');
+    if(header){ header.classList.add('bg-sync'); header.style.setProperty('background', savedColor, 'important'); }
+    if(bottom){ bottom.classList.add('bg-sync'); bottom.style.setProperty('background', savedColor, 'important'); }
+    document.documentElement.style.setProperty('--app-bottom-bg', savedColor);
+  }
+})();
+</script>
+
+<!-- Ислоҳи иловагӣ: интихоби Картинка дар «Тағйири фон» -->
+<style>
+.header.image-sync{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;}
+.bottom.image-sync{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;}
+</style>
+<script>
+(function(){
+  window.setAppPicture = function(event){
+    const file = event && event.target && event.target.files ? event.target.files[0] : null;
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e){
+      const img = e.target.result;
+      const header = document.querySelector('.header');
+      const bottom = document.querySelector('.bottom');
+      const html = document.documentElement;
+      const body = document.body;
+      if(html){
+        html.style.setProperty('background-image','url(\"'+img+'\")','important');
+        html.style.setProperty('background-size','cover','important');
+        html.style.setProperty('background-position','top center','important');
+        html.style.setProperty('background-repeat','no-repeat','important');
+      }
+      if(body){
+        body.style.setProperty('background-image','url(\"'+img+'\")','important');
+        body.style.setProperty('background-size','cover','important');
+        body.style.setProperty('background-position','top center','important');
+        body.style.setProperty('background-repeat','no-repeat','important');
+      }
+      document.querySelector('meta[name=theme-color]')?.setAttribute('content','#1769d1');
+      if(header){
+        header.classList.add('image-sync');
+        header.style.setProperty('background-image','url("'+img+'")','important');
+      }
+      if(bottom){
+        bottom.classList.add('image-sync');
+        bottom.style.setProperty('background-image','url("'+img+'")','important');
+      }
+      localStorage.setItem('appBgImage', img);
+      localStorage.removeItem('appBg');
+      localStorage.removeItem('appBottomBg');
+      document.documentElement.style.setProperty('--app-bottom-bg','url("'+img+'") center/cover no-repeat');
+      if(event.target) event.target.value='';
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const img = localStorage.getItem('appBgImage');
+  if(img){
+    const header = document.querySelector('.header');
+    const bottom = document.querySelector('.bottom');
+    const html = document.documentElement;
+    const body = document.body;
+    if(html){
+      html.style.setProperty('background-image','url(\"'+img+'\")','important');
+      html.style.setProperty('background-size','cover','important');
+      html.style.setProperty('background-position','top center','important');
+      html.style.setProperty('background-repeat','no-repeat','important');
+    }
+    if(body){
+      body.style.setProperty('background-image','url(\"'+img+'\")','important');
+      body.style.setProperty('background-size','cover','important');
+      body.style.setProperty('background-position','top center','important');
+      body.style.setProperty('background-repeat','no-repeat','important');
+    }
+    if(header){
+      header.classList.add('image-sync');
+      header.style.setProperty('background-image','url("'+img+'")','important');
+    }
+    if(bottom){
+      bottom.classList.add('image-sync');
+      bottom.style.setProperty('background-image','url("'+img+'")','important');
+    }
+    document.documentElement.style.setProperty('--app-bottom-bg','url("'+img+'") center/cover no-repeat');
+  }
+})();
+</script>
+
+<script>
+window.setBottomBg=function(color){
+ const b=document.querySelector('.bottom');
+ if(b){
+   b.classList.remove('image-sync');
+   b.style.setProperty('background',color,'important');
+   b.style.setProperty('background-image','none','important');
+ }
+ document.documentElement.style.setProperty('--app-bottom-bg',color);
+ localStorage.setItem('appBottomBg',color);
+ localStorage.removeItem('appBottomBgImage');
+};
+window.setBottomBgImage=function(e){
+ const f=e&&e.target&&e.target.files?e.target.files[0]:null;
+ if(!f)return;
+ const r=new FileReader();
+ r.onload=function(x){
+   const img=x.target.result;
+   const b=document.querySelector('.bottom');
+   if(b){
+     b.classList.add('image-sync');
+     b.style.setProperty('background-image','url("'+img+'")','important');
+     b.style.setProperty('background-size','cover','important');
+     b.style.setProperty('background-position','center','important');
+     b.style.setProperty('background-repeat','no-repeat','important');
+   }
+   document.documentElement.style.setProperty('--app-bottom-bg','url("'+img+'") center/cover no-repeat');
+   localStorage.setItem('appBottomBgImage',img);
+   localStorage.removeItem('appBottomBg');
+   if(e.target)e.target.value='';
+ };
+ r.readAsDataURL(f);
+};
+(function(){
+ const c=localStorage.getItem('appBottomBg');
+ const img=localStorage.getItem('appBottomBgImage');
+ const b=document.querySelector('.bottom');
+ if(b&&img){
+   b.classList.add('image-sync');
+   b.style.setProperty('background-image','url("'+img+'")','important');
+   b.style.setProperty('background-size','cover','important');
+   b.style.setProperty('background-position','center','important');
+ }else if(b&&c){
+   b.classList.add('bg-sync');
+   b.style.setProperty('background',c,'important');
+ }
+})();
+</script>
+
+<style id="back-background-control">
+/* Фони қафо: танҳо қабати умумии пушти барнома */
+.app.back-bg-sync{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;}
+</style>
+<script>
+window.setBackBg=function(color){
+  const app=document.querySelector('.app');
+  const body=document.body;
+  if(app){
+    app.classList.remove('back-bg-image-sync');
+    app.classList.add('back-bg-sync');
+    app.style.setProperty('background',color,'important');
+    app.style.setProperty('background-image','none','important');
+  }
+  if(body){ body.style.setProperty('background',color,'important'); }
+  localStorage.setItem('appBackBg',color);
+  localStorage.removeItem('appBackBgImage');
+};
+
+window.setBackBgImage=function(e){
+  const f=e&&e.target&&e.target.files?e.target.files[0]:null;
+  if(!f)return;
+  const r=new FileReader();
+  r.onload=function(x){
+    const img=x.target.result;
+    const app=document.querySelector('.app');
+    const body=document.body;
+    if(app){
+      app.classList.add('back-bg-sync','back-bg-image-sync');
+      app.style.setProperty('background-image','url("'+img+'")','important');
+      app.style.setProperty('background-size','cover','important');
+      app.style.setProperty('background-position','center','important');
+      app.style.setProperty('background-repeat','no-repeat','important');
+    }
+    if(body){ body.style.setProperty('background','#f4f7fb','important'); }
+    localStorage.setItem('appBackBgImage',img);
+    localStorage.removeItem('appBackBg');
+    if(e.target)e.target.value='';
+  };
+  r.readAsDataURL(f);
+};
+
+(function(){
+  const app=document.querySelector('.app');
+  const body=document.body;
+  const img=localStorage.getItem('appBackBgImage');
+  const color=localStorage.getItem('appBackBg');
+  if(img && app){
+    app.classList.add('back-bg-sync','back-bg-image-sync');
+    app.style.setProperty('background-image','url("'+img+'")','important');
+    app.style.setProperty('background-size','cover','important');
+    app.style.setProperty('background-position','center','important');
+    app.style.setProperty('background-repeat','no-repeat','important');
+  }else if(color){
+    if(app){app.classList.add('back-bg-sync');app.style.setProperty('background',color,'important');app.style.setProperty('background-image','none','important');}
+    if(body)body.style.setProperty('background',color,'important');
+  }
+})();
+</script>
+<style id="logo-independent-ui">
+.header h1{display:flex!important;align-items:center!important;gap:9px!important;}
+#headerLogoMark{width:38px!important;height:38px!important;min-width:38px!important;border-radius:11px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;background:#1769d1;box-shadow:0 4px 12px rgba(0,0,0,.16);overflow:hidden;font-size:23px!important;line-height:1!important;}
+#headerLogoMark.logo-has-image{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;font-size:0!important;}
+</style>
+<script id="logo-settings-js">(function(){
+window.openLogoSettings=function(){var m=document.getElementById('logoModal');if(m)m.classList.add('show');var n=localStorage.getItem('logoName')||'';var c=localStorage.getItem('logoBg')||'#1769d1';var ni=document.getElementById('logoNameInput'),ci=document.getElementById('logoBgInput');if(ni)ni.value=n;if(ci)ci.value=c};
+window.closeLogoSettings=function(){var m=document.getElementById('logoModal');if(m)m.classList.remove('show')};
+window.saveLogoSettings=function(){var n=document.getElementById('logoNameInput').value.trim()||'ТАНЗИМИ БИНО',c=document.getElementById('logoBgInput').value;localStorage.setItem('logoName',n);localStorage.setItem('logoBg',c);var f=document.getElementById('logoImageInput').files[0];if(f){var r=new FileReader();r.onload=function(){localStorage.setItem('logoImage',r.result);applyLogo(n,c,r.result)};r.readAsDataURL(f)}else applyLogo(n,c,localStorage.getItem('logoImage')||'');closeLogoSettings()};
+function applyLogo(n,c,img){var mark=document.getElementById('headerLogoMark'),name=document.getElementById('headerLogoName');if(name)name.textContent=n;if(mark){mark.style.background=c;if(img){mark.style.backgroundImage='url(\''+img+'\')';mark.classList.add('logo-has-image');mark.textContent=''}else{mark.style.backgroundImage='none';mark.classList.remove('logo-has-image');mark.textContent='🏢';}}}
+function restore(){var n=localStorage.getItem('logoName'),c=localStorage.getItem('logoBg'),i=localStorage.getItem('logoImage');if(n||c||i)applyLogo(n||'ТАНЗИМИ БИНО',c||'#1769d1',i||'')}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',restore);else restore()})();</script>
+<style id="logo-modal-top-fix">#logoModal{z-index:1000!important;}#logoModal .sheet{position:relative;z-index:1001;}</style>
+<script id="logo-modal-top-fix-js">(function(){var oldOpen=window.openLogoSettings;window.openLogoSettings=function(){if(typeof hideAllModals==='function')hideAllModals();if(typeof unlockBackground==='function')unlockBackground();var m=document.getElementById('logoModal');if(m){m.classList.add('show');document.body.classList.add('modal-locked');}};})();</script>
+<style id="bottom-glass-style">
+.bottom{background:rgba(255,255,255,.16)!important;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border-top:1px solid rgba(255,255,255,.28)!important;box-shadow:0 -6px 24px rgba(0,0,0,.12)!important;}
+.bottom button{border:1px solid rgba(255,255,255,.22)!important;border-radius:16px!important;background:rgba(255,255,255,.10)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 4px 12px rgba(0,0,0,.08)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:.2s;}
+.bottom button.active{background:rgba(255,255,255,.28)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 5px 14px rgba(0,0,0,.12)!important;transform:translateY(-2px);}
+.bottom button span{filter:drop-shadow(0 2px 3px rgba(0,0,0,.18));}
+</style>
+<style id="bottom-glass-final">.bottom{background:rgba(255,255,255,.16)!important;backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important;border:1px solid rgba(255,255,255,.28)!important;box-shadow:0 -6px 24px rgba(0,0,0,.12)!important}.bottom button{background:rgba(255,255,255,.13)!important;border:1px solid rgba(255,255,255,.24)!important;border-radius:16px!important;color:#fff!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.25)!important}.bottom button.active{background:rgba(255,255,255,.30)!important;box-shadow:0 4px 14px rgba(0,0,0,.12),inset 0 1px 1px rgba(255,255,255,.4)!important}.bottom button span{filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}</style>
+<style id="bottom-nav-style-2">
+.bottom{
+  background:rgba(255,255,255,.82)!important;
+  backdrop-filter:blur(18px)!important;
+  -webkit-backdrop-filter:blur(18px)!important;
+  border:1px solid rgba(255,255,255,.75)!important;
+  box-shadow:0 -8px 24px rgba(23,105,209,.12)!important;
+  padding:9px 8px!important;
+  gap:7px!important;
+}
+.bottom button{
+  border:0!important;
+  border-radius:16px!important;
+  background:transparent!important;
+  color:#607086!important;
+  font-weight:600!important;
+  transition:.2s ease!important;
+  box-shadow:none!important;
+}
+.bottom button span{
+  width:38px!important;height:38px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  margin:0 auto 3px!important;
+  border-radius:13px!important;
+  background:#f1f5fa!important;
+  font-size:20px!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9)!important;
+}
+.bottom button.active{
+  color:#1769d1!important;
+  background:rgba(23,105,209,.08)!important;
+}
+.bottom button.active span{
+  background:#1769d1!important;
+  color:#fff!important;
+  box-shadow:0 5px 12px rgba(23,105,209,.25)!important;
+}
+</style>
+
+
+<style id="restore-logo-size">
+.header h1{font-size:22px!important;line-height:1.2!important;margin:0!important;}
+.header h1:first-letter{font-size:22px!important;}
+</style>
+
+
+<style id="logo-menu-match">
+.header h1{
+  font-size:22px!important;
+  line-height:1.15!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:7px!important;
+}
+.header h1:first-letter{font-size:22px!important;}
+</style>
+
+
+<style id="logo-save-fix">
+#logoModal{z-index:10000!important}
+#logoModal .sheet{max-height:88vh;overflow:auto}
+#headerLogoMark{background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important}
+</style>
+<script id="logo-save-fix-js">
+(function(){
+  function get(id){return document.getElementById(id);}
+  window.openLogoSettings=function(){
+    var m=get('logoModal');
+    if(m){m.classList.add('show');m.style.zIndex='10000';}
+    var n=get('logoNameInput'), c=get('logoBgInput');
+    if(n)n.value=localStorage.getItem('logoName') || (get('headerLogoName')?.textContent || 'ТАНЗИМИ БИНО');
+    if(c)c.value=localStorage.getItem('logoBg') || '#1769d1';
+  };
+  window.closeLogoSettings=function(){
+    var m=get('logoModal'); if(m)m.classList.remove('show');
+  };
+  window.saveLogoSettings=function(){
+    var n=(get('logoNameInput')?.value || '').trim() || 'ТАНЗИМИ БИНО';
+    var c=get('logoBgInput')?.value || '#1769d1';
+    var f=get('logoImageInput')?.files?.[0];
+    function done(img){
+      try{
+        localStorage.setItem('logoName',n);
+        localStorage.setItem('logoBg',c);
+        if(img)localStorage.setItem('logoImage',img);
+      }catch(e){}
+      apply(n,c,img||'');
+      closeLogoSettings();
+    }
+    if(f){
+      var r=new FileReader();
+      r.onload=function(e){done(e.target.result);};
+      r.readAsDataURL(f);
+    }else{
+      done(localStorage.getItem('logoImage')||'');
+    }
+  };
+  function apply(n,c,img){
+    var mark=get('headerLogoMark'), name=get('headerLogoName');
+    if(name)name.textContent=n;
+    if(mark){
+      mark.style.backgroundColor=c;
+      if(img){
+        mark.style.backgroundImage='url("' + img.replace(/"/g,'%22') + '")';
+        mark.classList.add('logo-has-image');
+        mark.textContent='';
+      }else{
+        mark.style.backgroundImage='none';
+        mark.classList.remove('logo-has-image');
+        mark.textContent='🏢';
+      }
+    }
+  }
+  function restore(){
+    var n=localStorage.getItem('logoName'),c=localStorage.getItem('logoBg'),i=localStorage.getItem('logoImage');
+    if(n||c||i)apply(n||'ТАНЗИМИ БИНО',c||'#1769d1',i||'');
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',restore);else restore();
+})();
+</script>
+
+
+<style id="logo-same-as-menu">
+/* Танҳо андозаи логотипро бо иконкаи меню мутаносиб мекунем */
+#headerLogoMark{
+  width:52px!important;height:52px!important;min-width:52px!important;
+  border-radius:16px!important;font-size:30px!important;
+}
+</style>
+
+<style id="glass-menu-only">
+/* Танҳо меню: шишагин */
+.side-menu{background:rgba(255,255,255,.72)!important;backdrop-filter:blur(22px) saturate(145%)!important;-webkit-backdrop-filter:blur(22px) saturate(145%)!important;border-right:1px solid rgba(255,255,255,.65)!important;box-shadow:8px 0 30px rgba(23,105,209,.16)!important;}
+.side-menu button,.side-menu a{background:rgba(255,255,255,.38)!important;border:1px solid rgba(255,255,255,.55)!important;border-radius:16px!important;box-shadow:0 5px 14px rgba(23,105,209,.07),inset 0 1px 0 rgba(255,255,255,.8)!important;transition:.2s ease!important;}
+.side-menu button:hover,.side-menu a:hover{background:rgba(255,255,255,.62)!important;transform:translateX(2px);}
+</style>
+
+<style id="menu-glass-v2">
+/* Варианти 2 — менюи шишагини тоза ва замонавӣ. Танҳо меню тағйир дода мешавад. */
+.side-menu{
+  background:rgba(255,255,255,.72)!important;
+  backdrop-filter:blur(24px) saturate(150%)!important;
+  -webkit-backdrop-filter:blur(24px) saturate(150%)!important;
+  border-right:1px solid rgba(255,255,255,.85)!important;
+  box-shadow:10px 0 35px rgba(20,60,110,.18)!important;
+  padding:18px 14px!important;
+}
+.side-menu .menu-head{
+  background:linear-gradient(135deg,rgba(23,105,209,.92),rgba(60,140,235,.72))!important;
+  border:1px solid rgba(255,255,255,.5)!important;
+  border-radius:22px!important;
+  box-shadow:0 8px 22px rgba(23,105,209,.20)!important;
+}
+.side-menu button,
+.side-menu a{
+  background:rgba(255,255,255,.58)!important;
+  border:1px solid rgba(255,255,255,.78)!important;
+  border-radius:18px!important;
+  box-shadow:0 4px 12px rgba(30,70,120,.08)!important;
+  margin:7px 0!important;
+  transition:transform .18s ease,background .18s ease,box-shadow .18s ease!important;
+}
+.side-menu button:active,
+.side-menu a:active{
+  transform:scale(.97)!important;
+}
+.side-menu button:hover,
+.side-menu a:hover{
+  background:rgba(255,255,255,.88)!important;
+  box-shadow:0 7px 18px rgba(30,70,120,.12)!important;
+}
+</style>
+
+
+<style id="modern-menu-icon">
+/* Танҳо иконкаи меню — шакли замонавии glass */
+#menuBtn{
+  width:52px!important;
+  height:52px!important;
+  border-radius:18px!important;
+  background:rgba(255,255,255,.20)!important;
+  border:1px solid rgba(255,255,255,.48)!important;
+  backdrop-filter:blur(18px) saturate(160%)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(160%)!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.55)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0!important;
+}
+#menuBtn::before{
+  content:"☰"!important;
+  font-size:27px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  color:#fff!important;
+  text-shadow:0 2px 6px rgba(0,0,0,.20)!important;
+}
+#menuBtn{
+  font-size:0!important;
+  transition:transform .18s ease,background .18s ease!important;
+}
+#menuBtn:active{
+  transform:scale(.92)!important;
+  background:rgba(255,255,255,.34)!important;
+}
+</style>
+
+<style>
+#buildingManagerInside{margin-bottom:14px}.bm-title{font-weight:800;font-size:15px;margin:0 0 9px}.bm-item{display:flex;align-items:center;gap:8px;background:#f5f8fc;border:1px solid #e4eaf2;border-radius:13px;padding:9px 10px;margin-bottom:7px}.bm-info{flex:1;min-width:0}.bm-info b{display:block;font-size:14px}.bm-info small{display:block;color:#718096;font-size:12px;margin-top:2px}.bm-del{border:0;border-radius:10px;background:#ffe9e9;color:#d33;padding:8px 10px;font-size:13px;font-weight:700}.bm-empty{color:#7a8798;font-size:13px;text-align:center;padding:10px}
+</style>
+<script>
+function openBuildingFromSettings(){
+ pageStack.push('settingsModal');
+ openModalById('modal');
+ setTimeout(renderBuildingManagerInside,0);
+}
+function renderBuildingManagerInside(){
+ const sheet=document.querySelector('#modal .sheet'); if(!sheet)return;
+ let box=document.getElementById('buildingManagerInside');
+ if(!box){
+  box=document.createElement('div'); box.id='buildingManagerInside';
+  const head=sheet.querySelector('.modal-head');
+  if(head) head.insertAdjacentElement('afterend',box); else sheet.prepend(box);
+ }
+ let html='<div class="bm-title">🏢 Биноҳои мавҷуда</div>';
+ if(!buildings.length) html+='<div class="bm-empty">Ҳоло бино нест</div>';
+ buildings.forEach((b,i)=>{html+=`<div class="bm-item"><div class="bm-info"><b>🏢 ${escapeHtmlBM(b.name)}</b><small>№ ${escapeHtmlBM(b.number)} · ${escapeHtmlBM(b.address)}</small></div><button class="bm-del" onclick="deleteBuildingInside(${i})">🗑️ Удалит</button></div>`});
+ box.innerHTML=html;
+ const h=sheet.querySelector('.modal-head h2'); if(h)h.textContent='Тағйир ва иловаи бино';
+}
+function escapeHtmlBM(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+function deleteBuildingInside(i){
+ if(i<0||i>=buildings.length)return;
+ if(!confirm('Ин биноро удалит мекунед?'))return;
+ buildings.splice(i,1);
+ try{localStorage.setItem('tanzimiBuildings',JSON.stringify(buildings));}catch(e){}
+ render(); renderBuildingManagerInside();
+}
+const _saveBuildingOriginal=saveBuilding;
+saveBuilding=function(){
+ const before=buildings.length;
+ _saveBuildingOriginal();
+ if(buildings.length!==before){try{localStorage.setItem('tanzimiBuildings',JSON.stringify(buildings));}catch(e){} renderBuildingManagerInside();}
+};
+</script>
+
+<style id="year-month-fullscreen-fix">
+/* Интихоби сол ва моҳ ҳангоми кушодан тамоми экранро мепӯшонад */
+#yearMonthModal.show, #yearMonthModal.active, #yearModal.show, #monthModal.show{
+ position:fixed!important; inset:0!important; width:100vw!important; height:100vh!important;
+ min-height:100vh!important; z-index:99999!important;
+ align-items:flex-end!important; justify-content:center!important;
+ background:rgba(0,0,0,.42)!important;
+}
+#yearMonthModal.show .sheet, #yearModal.show .sheet, #monthModal.show .sheet{
+ width:100%!important; max-width:430px!important; height:100vh!important; max-height:100vh!important;
+ margin:0!important; border-radius:0!important; overflow-y:auto!important;
+}
+</style>
+
+<style id="rooms-active-add">
+#roomsModal.show{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:100000!important;display:flex!important;align-items:stretch!important;justify-content:center!important;background:rgba(0,0,0,.42)!important;padding:0!important}
+#roomsModal .sheet{width:100%!important;max-width:430px!important;height:100vh!important;max-height:100vh!important;margin:0!important;border-radius:0!important;overflow-y:auto!important;box-sizing:border-box!important}
+.rooms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.room-item{border:1px solid #e2e8f0;background:#f8fafc;border-radius:14px;padding:13px 6px;text-align:center;font-weight:700;color:#172033}.room-item span{display:block;font-size:22px;margin-bottom:4px}.rooms-sub{font-size:13px;color:#6b778c;margin-top:4px}
+</style>
+<div class="modal" id="roomsModal" onclick="if(event.target===this)closeRooms()"><div class="sheet" onclick="event.stopPropagation()"><div class="modal-head"><h2>🚪 Хҷҳо</h2><button class="modal-close-x" onclick="closeRooms()">×</button></div><div class="rooms-sub" id="roomsBuildingName"></div><div class="rooms-grid" id="roomsGrid"></div></div></div>
+<script id="rooms-active-add-js">
+(function(){
+ function openRooms(){
+  ['settingsModal','backgroundModal','topBackBackgroundModal','bottomBackgroundModal','backBackgroundModal','modal','nameModal','buildingInfoModal'].forEach(id=>{const e=document.getElementById(id);if(e)e.classList.remove('show')});
+  const b=buildings[0]||{name:'Бино',rooms:0};
+  const n=Number(b.rooms)||0, g=document.getElementById('roomsGrid');
+  document.getElementById('roomsBuildingName').textContent=b.name+' — '+n+' ҳуҷра';
+  g.innerHTML=''; for(let i=1;i<=n;i++){const d=document.createElement('div');d.className='room-item';d.innerHTML='<span>🚪</span>Хҷи '+i;g.appendChild(d)}
+  document.getElementById('roomsModal').classList.add('show');lockBackground();
+ }
+ function closeRooms(){const e=document.getElementById('roomsModal');if(e)e.classList.remove('show');unlockBackground()}
+ window.openRooms=openRooms;window.closeRooms=closeRooms;
+ document.querySelectorAll('.bottom button').forEach(btn=>{if(btn.textContent.includes('Хҷҳо'))btn.onclick=openRooms});
+ document.querySelectorAll('nav.menu button').forEach(btn=>{if(btn.textContent.includes('Хҷҳо'))btn.onclick=openRooms});
+})();
+</script>
+
+<style id="rooms-control-inside-building">
+#buildingInfoModal .rooms-clickable{cursor:pointer;transition:.15s ease}
+#buildingInfoModal .rooms-clickable:active{transform:scale(.99)}
+#roomsModal.show{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:100001!important;display:flex!important;align-items:stretch!important;justify-content:center!important;padding:0!important;background:rgba(0,0,0,.42)!important}
+#roomsModal.show .sheet{width:100%!important;max-width:430px!important;height:100vh!important;max-height:100vh!important;margin:0!important;border-radius:0!important;overflow-y:auto!important;box-sizing:border-box!important;padding-bottom:30px!important}
+.room-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.room-detail-box{background:#f5f7fb;border:1px solid #e2e8f0;border-radius:15px;padding:13px}
+.room-detail-box span{display:block;color:#718096;font-size:13px;margin-bottom:5px}
+.room-detail-box b{display:block;color:#172033;font-size:16px;line-height:1.25}
+.room-detail-box.full{grid-column:1/-1}
+.room-back{width:100%;border:0;border-radius:14px;background:#eef3fa;color:#1769d1;font-weight:700;padding:13px;margin-top:14px}
+</style>
+<script id="rooms-control-inside-building-js">
+(function(){
+  function getRoom(n){ return (window.excelRooms||[]).find(r=>String(r.apt)===String(n)); }
+
+  function showRoomDetail(n){
+    const r=getRoom(n); if(!r)return;
+    const grid=document.getElementById('roomsGrid');
+    const title=document.getElementById('roomsBuildingName');
+    if(title) title.textContent='🚪 Хҷ №'+r.apt+' — '+(r.name||'Холӣ');
+    if(grid){
+      grid.innerHTML=
+        '<div class="room-detail-grid">'+
+        '<div class="room-detail-box"><span>🚪 Рақами квартира</span><b>'+r.apt+'</b></div>'+
+        '<div class="room-detail-box"><span>🆔 Код</span><b>'+r.code+'</b></div>'+
+        '<div class="room-detail-box"><span>👤 Ном</span><b>'+(r.name||'Холӣ')+'</b></div>'+
+        '<div class="room-detail-box"><span>🏢 Ошёна</span><b>'+r.floor+'</b></div>'+
+        '<div class="room-detail-box full"><span>📞 Телефон</span><b>'+(r.phone||'—')+'</b></div>'+
+        '<div class="room-detail-box"><span>💰 Маблағи умумӣ</span><b>'+Number(r.total||0).toLocaleString("ru-RU")+' сомонӣ</b></div>'+
+        '<div class="room-detail-box"><span>📆 Маблағи моҳона</span><b>'+Number(r.monthly||0).toLocaleString("ru-RU")+' сомонӣ</b></div>'+
+        '<div class="room-detail-box"><span>✅ Супоридашуда</span><b>'+Number(r.paid||0).toLocaleString("ru-RU")+' сомонӣ</b></div>'+
+        '<div class="room-detail-box"><span>⚠️ Қарз</span><b>'+Number(r.debt||0).toLocaleString("ru-RU")+' сомонӣ</b></div>'+
+        '<div class="room-detail-box full"><span>📊 Ҳолат</span><b>'+r.status+'</b></div>'+
+        '</div>'+
+        '<button class="room-back" type="button" onclick="showRoomsList()">← Бозгашт ба ҳуҷраҳо</button>';
+    }
+  }
+
+  function showRoomsList(){
+    const b=(window.buildings||[])[0]||{name:'Бино',rooms:0};
+    const n=Number(b.rooms)||0, grid=document.getElementById('roomsGrid');
+    const title=document.getElementById('roomsBuildingName');
+    if(title) title.textContent=b.name+' — '+n+' квартира';
+    if(grid){
+      grid.innerHTML='';
+      const data=(window.excelRooms||[]).length ? window.excelRooms : Array.from({length:n},(_,i)=>({apt:i+1,name:'',code:'',floor:'',phone:'',total:0,monthly:0,paid:0,debt:0,status:''}));
+      data.forEach(r=>{
+        const d=document.createElement('button');
+        d.type='button'; d.className='room-item'; d.style.cursor='pointer';
+        d.innerHTML='<span>🚪</span>Хҷи '+r.apt+(r.name?'<div class="rooms-sub">'+r.name+'</div>':'');
+        d.onclick=function(){showRoomDetail(r.apt)};
+        grid.appendChild(d);
+      });
+    }
+  }
+
+  function openRoomsInsideBuilding(){
+    const info=document.getElementById('buildingInfoModal');
+    if(info)info.classList.remove('show');
+    showRoomsList();
+    const m=document.getElementById('roomsModal');
+    if(m)m.classList.add('show');
+    lockBackground();
+  }
+
+  window.showRoomsList=showRoomsList;
+  window.showRoomDetail=showRoomDetail;
+  window.openRoomsInsideBuilding=openRoomsInsideBuilding;
+
+  function wire(){
+    const boxes=document.querySelectorAll('#buildingInfoModal .info-box');
+    boxes.forEach(box=>{
+      const s=box.querySelector('span');
+      if(s && s.textContent.includes('Ҳуҷраҳо / квартираҳо')){
+        box.classList.add('rooms-clickable');
+        box.setAttribute('role','button');
+        box.onclick=openRoomsInsideBuilding;
+      }
+    });
+    document.querySelectorAll('.bottom button').forEach(btn=>{
+      if(btn.textContent.includes('Хҷҳо')) btn.onclick=function(){openRoomsInsideBuilding()};
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire);else wire();
+})();
+</script>
+
+
+<style id="excel-2026-2027-style">
+  #aptListModal .sheet, #aptInfoModal .sheet{max-height:90vh;overflow:auto}
+  .apt-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;background:#f5f7fb;border:1px solid #e2e8f0;border-radius:16px;margin:8px 0}
+  .apt-row b{font-size:17px;color:#172033} .apt-row small{display:block;color:#718096;margin-top:3px}
+  .apt-arrow{font-size:24px;color:#718096}
+</style>
+<script id="excel-2026-2027-data">
+const excelApartments20262027 = [{"code": "KV-001", "name": "Хушнуд", "floor": "4", "apt": "1", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 200.0, "debt": 400.0, "status": "ҚИСМАН"}, {"code": "KV-002", "name": "Олим", "floor": "4", "apt": "2", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-003", "name": "Фаридун", "floor": "4", "apt": "3", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 200.0, "debt": 400.0, "status": "ҚИСМАН"}, {"code": "KV-004", "name": "Искандар", "floor": "4", "apt": "4", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-005", "name": "Раҷабалӣ", "floor": "4", "apt": "5", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 50.0, "debt": 550.0, "status": "ҚИСМАН"}, {"code": "KV-006", "name": "", "floor": "4", "apt": "6", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-007", "name": "Ислом", "floor": "4", "apt": "7", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 50.0, "debt": 550.0, "status": "ҚИСМАН"}, {"code": "KV-008", "name": "Нурмухаммад", "floor": "4", "apt": "8", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-009", "name": "", "floor": "5", "apt": "9", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-010", "name": "Косимчон", "floor": "5", "apt": "10", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 50.0, "debt": 550.0, "status": "ҚИСМАН"}, {"code": "KV-011", "name": "Саъди", "floor": "5", "apt": "11", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-012", "name": "Сорбони", "floor": "5", "apt": "12", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-013", "name": "Махбуба", "floor": "5", "apt": "13", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 200.0, "debt": 400.0, "status": "ҚИСМАН"}, {"code": "KV-014", "name": "", "floor": "5", "apt": "14", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-015", "name": "Ислом", "floor": "5", "apt": "15", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-016", "name": "Фируза Ш", "floor": "5", "apt": "16", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-017", "name": "", "floor": "6", "apt": "17", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-018", "name": "Дилшод", "floor": "6", "apt": "18", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-019", "name": "Замчахир", "floor": "6", "apt": "19", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 200.0, "debt": 400.0, "status": "ҚИСМАН"}, {"code": "KV-020", "name": "Довуд", "floor": "6", "apt": "20", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-021", "name": "Чумахон", "floor": "6", "apt": "21", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 200.0, "debt": 400.0, "status": "ҚИСМАН"}, {"code": "KV-022", "name": "Рустам", "floor": "6", "apt": "22", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-023", "name": "Рахмонали", "floor": "6", "apt": "23", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 50.0, "debt": 550.0, "status": "ҚИСМАН"}, {"code": "KV-024", "name": "Мустафо", "floor": "6", "apt": "24", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-025", "name": "Абдушукур", "floor": "7", "apt": "25", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-026", "name": "Абдусаттор", "floor": "7", "apt": "26", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-027", "name": "Изатулло", "floor": "7", "apt": "27", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-028", "name": "Кв 28", "floor": "7", "apt": "28", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-029", "name": "", "floor": "7", "apt": "29", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-030", "name": "Саломат Г", "floor": "7", "apt": "30", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 50.0, "debt": 550.0, "status": "ҚИСМАН"}, {"code": "KV-031", "name": "Савлатби", "floor": "7", "apt": "31", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 200.0, "debt": 400.0, "status": "ҚИСМАН"}, {"code": "KV-032", "name": "Сулхия", "floor": "7", "apt": "32", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-033", "name": "Зевар", "floor": "8", "apt": "33", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-034", "name": "Нозофарид", "floor": "8", "apt": "34", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-035", "name": "Некруз", "floor": "8", "apt": "35", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-036", "name": "Насим", "floor": "8", "apt": "36", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 200.0, "debt": 400.0, "status": "ҚИСМАН"}, {"code": "KV-037", "name": "Чонибек", "floor": "8", "apt": "37", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 200.0, "debt": 400.0, "status": "ҚИСМАН"}, {"code": "KV-038", "name": "Фируза", "floor": "8", "apt": "38", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 200.0, "debt": 400.0, "status": "ҚИСМАН"}, {"code": "KV-039", "name": "Лилия", "floor": "8", "apt": "39", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-040", "name": "Мичгона", "floor": "8", "apt": "40", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-041", "name": "Сулаймон", "floor": "9", "apt": "41", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-042", "name": "Шахром", "floor": "9", "apt": "42", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-043", "name": "Абдумалик", "floor": "9", "apt": "43", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 200.0, "debt": 400.0, "status": "ҚИСМАН"}, {"code": "KV-044", "name": "Сочида", "floor": "9", "apt": "44", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-045", "name": "Часур", "floor": "9", "apt": "45", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 200.0, "debt": 400.0, "status": "ҚИСМАН"}, {"code": "KV-046", "name": "", "floor": "9", "apt": "46", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-047", "name": "", "floor": "9", "apt": "47", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-048", "name": "", "floor": "10", "apt": "48", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-049", "name": "Шахло", "floor": "10", "apt": "49", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 200.0, "debt": 400.0, "status": "ҚИСМАН"}, {"code": "KV-050", "name": "Зулфия", "floor": "10", "apt": "50", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-051", "name": "", "floor": "10", "apt": "51", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-052", "name": "Гуля", "floor": "10", "apt": "52", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-053", "name": "Салим", "floor": "10", "apt": "53", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-054", "name": "Сунатулло", "floor": "10", "apt": "54", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-055", "name": "Анис", "floor": "10", "apt": "55", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-056", "name": "Мадина", "floor": "10", "apt": "56", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-057", "name": "Назокат", "floor": "11", "apt": "57", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-058", "name": "Мунис", "floor": "11", "apt": "58", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 50.0, "debt": 550.0, "status": "ҚИСМАН"}, {"code": "KV-059", "name": "", "floor": "11", "apt": "59", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-060", "name": "Гулрухсор", "floor": "11", "apt": "60", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-061", "name": "Бахром", "floor": "11", "apt": "61", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 200.0, "debt": 400.0, "status": "ҚИСМАН"}, {"code": "KV-062", "name": "Рахим", "floor": "11", "apt": "62", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-063", "name": "Ноза", "floor": "11", "apt": "63", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-064", "name": "", "floor": "11", "apt": "64", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-065", "name": "Азиза", "floor": "12", "apt": "65", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-066", "name": "Мухаммад", "floor": "12", "apt": "66", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-067", "name": "Алишер", "floor": "12", "apt": "67", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-068", "name": "Мехри", "floor": "12", "apt": "68", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-069", "name": "Хидоят", "floor": "12", "apt": "69", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-070", "name": "Умед", "floor": "12", "apt": "70", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 200.0, "debt": 400.0, "status": "ҚИСМАН"}, {"code": "KV-071", "name": "Раджабов", "floor": "12", "apt": "71", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}, {"code": "KV-072", "name": "Раджабов", "floor": "12", "apt": "72", "phone": "", "total": 600.0, "monthly": 50.0, "paid": 0.0, "debt": 600.0, "status": "НАСУПОРИД"}];
+const excelApartmentByNo = Object.fromEntries(excelApartments20262027.map(x=>[String(x.apt),x]));
+
+function openExcelApartments20262027(){
+  const m=document.getElementById('aptListModal');
+  if(!m) return;
+  const list=document.getElementById('excelAptList');
+  if(list) list.innerHTML=excelApartments20262027.map(x=>`
+    <div class="apt-row" onclick="openExcelApartment20262027('${String(x.apt).replace(/'/g,"\\'")}')">
+      <div><b>🚪 Квартира №${x.apt}</b><small>👤 ${x.name || 'Ном сабт нашудааст'} · 🏢 Ошёна ${x.floor}</small></div>
+      <div class="apt-arrow">›</div>
+    </div>`).join('');
+  m.classList.add('show');
+  document.body.classList.add('modal-locked');
+}
+function closeExcelApartments20262027(){
+  const m=document.getElementById('aptListModal'); if(m)m.classList.remove('show');
+  document.body.classList.remove('modal-locked');
+}
+function openExcelApartment20262027(no){
+  const x=excelApartmentByNo[String(no)]; if(!x)return;
+  document.getElementById('eaCode').textContent=x.code;
+  document.getElementById('eaName').textContent=x.name || '—';
+  document.getElementById('eaApt').textContent=x.apt;
+  document.getElementById('eaFloor').textContent=x.floor;
+  document.getElementById('eaPhone').textContent=x.phone && x.phone!=='nan' ? x.phone : '—';
+  document.getElementById('eaTotal').textContent=x.total.toLocaleString('ru-RU')+' сомонӣ';
+  document.getElementById('eaMonthly').textContent=x.monthly.toLocaleString('ru-RU')+' сомонӣ';
+  document.getElementById('eaPaid').textContent=x.paid.toLocaleString('ru-RU')+' сомонӣ';
+  document.getElementById('eaDebt').textContent=x.debt.toLocaleString('ru-RU')+' сомонӣ';
+  document.getElementById('eaStatus').textContent=x.status || '—';
+  const list=document.getElementById('aptListModal'); if(list)list.classList.remove('show');
+  const info=document.getElementById('aptInfoModal'); if(info)info.classList.add('show');
+}
+function closeExcelApartmentInfo(){
+  const m=document.getElementById('aptInfoModal'); if(m)m.classList.remove('show');
+  const list=document.getElementById('aptListModal'); if(list)list.classList.add('show');
+}
+</script>
+<div class="modal" id="aptListModal" onclick="if(event.target===this)closeExcelApartments20262027()">
+ <div class="sheet" onclick="event.stopPropagation()">
+  <div class="modal-head"><h2>🚪 Хҷҳо / Квартираҳо</h2><button class="modal-close-x" onclick="closeExcelApartments20262027()">×</button></div>
+  <div style="padding:0 4px 8px"><b>Соли ҳисоб: 2026–2027</b></div>
+  <div id="excelAptList"></div>
+ </div>
+</div>
+<div class="modal" id="aptInfoModal" onclick="if(event.target===this)closeExcelApartmentInfo()">
+ <div class="sheet" onclick="event.stopPropagation()">
+  <div class="modal-head"><h2>👤 Маълумоти квартира</h2><button class="modal-close-x" onclick="closeExcelApartmentInfo()">×</button></div>
+  <div class="info-grid">
+   <div class="info-box"><span>🆔 Код</span><b id="eaCode">—</b></div>
+   <div class="info-box"><span>🚪 Рақами квартира</span><b id="eaApt">—</b></div>
+   <div class="info-box"><span>👤 Ном</span><b id="eaName">—</b></div>
+   <div class="info-box"><span>🏢 Ошёна</span><b id="eaFloor">—</b></div>
+   <div class="info-box"><span>📞 Телефон</span><b id="eaPhone">—</b></div>
+   <div class="info-box"><span>💰 Маблағи умумӣ</span><b id="eaTotal">—</b></div>
+   <div class="info-box"><span>📅 Маблағи моҳона</span><b id="eaMonthly">—</b></div>
+   <div class="info-box"><span>✅ Супоридашуда</span><b id="eaPaid">—</b></div>
+   <div class="info-box"><span>⚠️ Қарзи боқимонда</span><b id="eaDebt">—</b></div>
+   <div class="info-box"><span>📊 Ҳолат</span><b id="eaStatus">—</b></div>
+  </div>
+ </div>
+</div>
+<script id="excel-2026-2027-hook">
+(function(){
+ const old=document.getElementById('biRooms');
+ if(old){
+   const box=old.closest('.info-box');
+   if(box){
+     box.style.cursor='pointer';
+     box.onclick=openExcelApartments20262027;
+     box.title='Кушодани ҳамаи квартираҳо';
+   }
+ }
+})();
+</script>
+
+
+<style id="building-current-room-fix">
+#roomsModal.show{z-index:100001!important}
+</style>
+<script id="building-current-room-fix-js">
+(function(){
+  window.currentBuildingNumber = window.currentBuildingNumber || null;
+  const oldOpenBuildingInfo = window.openBuildingInfo;
+  if(typeof oldOpenBuildingInfo==='function'){
+    window.openBuildingInfo=function(number){
+      window.currentBuildingNumber=String(number);
+      return oldOpenBuildingInfo(number);
+    };
+  }
+  const oldShowRoomsList = window.showRoomsList;
+  if(typeof oldShowRoomsList==='function'){
+    window.showRoomsList=function(){
+      const b=(window.buildings||[]).find(x=>String(x.number)===String(window.currentBuildingNumber)) || (window.buildings||[])[0] || {name:'Бино',rooms:0};
+      const data=(window.excelRooms||[]);
+      const n=data.length || Number(b.rooms)||0;
+      const title=document.getElementById('roomsBuildingName');
+      if(title) title.textContent=(b.name||'Бино')+' — '+n+' квартира';
+      const grid=document.getElementById('roomsGrid');
+      if(!grid)return;
+      grid.innerHTML='';
+      const rows=data.length ? data : Array.from({length:n},(_,i)=>({apt:i+1,name:'',code:'',floor:'',phone:'',total:0,monthly:0,paid:0,debt:0,status:''}));
+      rows.forEach(r=>{
+        const d=document.createElement('button');
+        d.type='button'; d.className='room-item'; d.style.cursor='pointer';
+        d.innerHTML='<span>🚪</span>Хҷи '+r.apt+(r.name?'<div class="rooms-sub">'+r.name+'</div>':'');
+        d.onclick=function(){ if(typeof window.showRoomDetail==='function') window.showRoomDetail(r.apt); };
+        grid.appendChild(d);
+      });
+    };
+  }
+  // When the room box inside building information is tapped, open the rooms of that selected building.
+  document.addEventListener('click',function(e){
+    const box=e.target.closest && e.target.closest('#buildingInfoModal .info-box');
+    if(box){
+      const s=box.querySelector('span');
+      if(s && s.textContent.includes('Ҳуҷраҳо / квартираҳо')){
+        if(typeof window.openRoomsInsideBuilding==='function') window.openRoomsInsideBuilding();
+      }
+    }
+  },true);
+})();
+</script>
+
+
+<script id="rooms-excel-2026-2027-final-fix">
+(function(){
+  // Маълумоти Excel-ро ба функсияи Хҷҳо пайваст мекунем.
+  window.excelRooms = window.excelApartments20262027 || [];
+
+  // Рӯйхати Хҷҳо бояд аз маълумоти ҳамин бино сохта шавад.
+  window.openRoomsInsideBuilding = function(){
+    const info=document.getElementById('buildingInfoModal');
+    if(info) info.classList.remove('show');
+
+    const b=(window.buildings||[])[0]||{name:'Бино',rooms:window.excelRooms.length};
+    const data=window.excelRooms;
+    const title=document.getElementById('roomsBuildingName');
+    const grid=document.getElementById('roomsGrid');
+
+    if(title) title.textContent=b.name+' — '+data.length+' квартира';
+    if(grid){
+      grid.innerHTML='';
+      data.forEach(r=>{
+        const d=document.createElement('button');
+        d.type='button';
+        d.className='room-item';
+        d.style.cursor='pointer';
+        d.innerHTML='<span>🚪</span>Хҷи '+r.apt+
+          (r.name?'<div class="rooms-sub">'+r.name+'</div>':'');
+        d.onclick=function(){window.showRoomDetail(r.apt)};
+        grid.appendChild(d);
+      });
+    }
+
+    const m=document.getElementById('roomsModal');
+    if(m)m.classList.add('show');
+    if(typeof lockBackground==='function')lockBackground();
+  };
+
+  // Тугмаи "Хҷҳо"-и поён ҳам ҳамин маълумоти Excel-ро мекушояд.
+  document.querySelectorAll('.bottom button').forEach(btn=>{
+    if(btn.textContent.includes('Хҷҳо')) btn.onclick=window.openRoomsInsideBuilding;
+  });
+})();
+</script>
+
+
+<style id="rooms-final-excel-fix">
+#roomsModal .rooms-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+#roomsModal .room-item{display:block!important;width:100%!important;min-height:78px!important;border:1px solid #e2e8f0!important;background:#f8fafc!important;border-radius:15px!important;padding:12px 8px!important;text-align:center!important;font-weight:700!important;color:#172033!important}
+#roomsModal .room-item span{display:block!important;font-size:22px!important;margin-bottom:4px!important}
+#roomsModal .rooms-sub{font-size:13px!important;color:#6b778c!important;margin-top:4px!important}
+</style>
+<script id="rooms-final-excel-fix-js">
+(function(){
+  function excelData(){ return (typeof excelApartments20262027!=='undefined' ? excelApartments20262027 : (window.excelRooms||[])); }
+  function showList(){
+    const data=excelData();
+    const b=(window.buildings||[]).find(x=>x.number==='01') || (window.buildings||[])[0] || {name:'Бино'};
+    const title=document.getElementById('roomsBuildingName');
+    const grid=document.getElementById('roomsGrid');
+    if(title) title.textContent=(b.name||'Бино')+' — '+data.length+' квартира';
+    if(!grid)return;
+    grid.innerHTML='';
+    data.forEach(function(r){
+      const d=document.createElement('button'); d.type='button'; d.className='room-item';
+      d.innerHTML='<span>🚪</span>Хҷ №'+r.apt+(r.name?'<div class="rooms-sub">👤 '+r.name+'</div>':'<div class="rooms-sub">Холӣ</div>');
+      d.onclick=function(){
+        if(typeof openRoomPersonal==='function'){ openRoomPersonal(r.apt); return; }
+        if(typeof showRoomDetail==='function'){ showRoomDetail(r.apt); return; }
+      };
+      grid.appendChild(d);
+    });
+  }
+  function openInside(){
+    ['settingsModal','backgroundModal','topBackBackgroundModal','bottomBackgroundModal','backBackgroundModal','modal','nameModal'].forEach(function(id){const e=document.getElementById(id);if(e)e.classList.remove('show')});
+    const info=document.getElementById('buildingInfoModal'); if(info)info.classList.remove('show');
+    showList();
+    const m=document.getElementById('roomsModal'); if(m)m.classList.add('show');
+    if(typeof lockBackground==='function')lockBackground();
+  }
+  window.openRooms=openInside;
+  window.openRoomsInsideBuilding=openInside;
+  function wire(){
+    document.querySelectorAll('.bottom button').forEach(function(btn){if(btn.textContent.includes('Хҷҳо'))btn.onclick=openInside;});
+    document.querySelectorAll('#buildingInfoModal .info-box').forEach(function(box){
+      const sp=box.querySelector('span');
+      if(sp && /Ҳуҷраҳо/.test(sp.textContent)){box.onclick=openInside;box.style.cursor='pointer';}
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire);else wire();
+  setTimeout(wire,300);setTimeout(wire,1000);
+})();
+</script>
+
+
+<style id="room-click-personal-final">
+#roomsModal .room-item{cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
+</style>
+<script id="room-click-personal-final-js">
+(function(){
+  function wireRoomClicks(){
+    const grid=document.getElementById('roomsGrid');
+    if(!grid || grid.dataset.personalClickWired==='1') return;
+    grid.dataset.personalClickWired='1';
+
+    // Бо пахши ҳар як ҳуҷра/квартира маълумоти шахсии ҳамон квартира кушода мешавад.
+    grid.addEventListener('click', function(ev){
+      const card=ev.target.closest('.room-item');
+      if(!card || !grid.contains(card)) return;
+
+      const text=card.textContent || '';
+      const m=text.match(/(?:№\s*|Хҷи\s*)(\d+)/);
+      if(!m) return;
+      const apt=m[1];
+
+      if(typeof window.openRoomPersonal==='function'){
+        ev.preventDefault();
+        ev.stopPropagation();
+        window.openRoomPersonal(apt);
+      }
+    }, true);
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',wireRoomClicks);
+  }else{
+    wireRoomClicks();
+  }
+  setTimeout(wireRoomClicks,300);
+  setTimeout(wireRoomClicks,1000);
+})();
+</script>
+
+
+<style id="room-edit-pencil-final">
+#roomPersonalModal .room-edit-pencil{
+  width:42px;height:42px;border:0;border-radius:13px;
+  background:#eef3fa;color:#1769d1;font-size:21px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 2px 8px rgba(23,105,209,.12);
+}
+#roomPersonalModal .room-edit-pencil:active{transform:scale(.96)}
+#roomEditModal.show{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:210000!important;display:flex!important;align-items:stretch!important;justify-content:center!important;background:rgba(0,0,0,.42)!important;padding:0!important}
+#roomEditModal .sheet{width:100%!important;max-width:430px!important;height:100vh!important;max-height:100vh!important;border-radius:0!important;margin:0!important;overflow-y:auto!important}
+</style>
+
+<div class="modal" id="roomEditModal" onclick="if(event.target===this)closeRoomEdit()">
+ <div class="sheet" onclick="event.stopPropagation()">
+  <div class="modal-head">
+   <h2>✏️ Тағйири ҳуҷра</h2>
+   <button class="modal-close-x" onclick="closeRoomEdit()">×</button>
+  </div>
+  <div class="field"><label>Номи истиқоматкунанда</label><input id="reName" type="text"></div>
+  <div class="field"><label>Телефон</label><input id="rePhone" type="text"></div>
+  <div class="field"><label>Ошёна</label><input id="reFloor" type="text"></div>
+  <div class="field"><label>Маблағи умумӣ</label><input id="reTotal" type="number"></div>
+  <div class="field"><label>Маблағи моҳона</label><input id="reMonthly" type="number"></div>
+  <div class="field"><label>Супоридашуда</label><input id="rePaid" type="number"></div>
+  <div class="field"><label>Қарз</label><input id="reDebt" type="number"></div>
+  <div class="field"><label>Ҳолат</label><input id="reStatus" type="text"></div>
+  <button class="save" onclick="saveRoomEdit()">✓ Сабт кардан</button>
+  <button class="cancel" onclick="closeRoomEdit()">Бекор кардан</button>
+ </div>
+</div>
+
+<script id="room-edit-pencil-final-js">
+(function(){
+  window.currentEditRoomNo=null;
+
+  function getData(){
+    if(typeof window.excelApartments20262027!=='undefined') return window.excelApartments20262027;
+    if(typeof roomPersonalData!=='undefined') return roomPersonalData;
+    return [];
+  }
+
+  window.openRoomEdit=function(apt){
+    const r=getData().find(x=>String(x.apt)===String(apt));
+    if(!r)return;
+    window.currentEditRoomNo=String(apt);
+    const set=(id,v)=>{const e=document.getElementById(id);if(e)e.value=(v==null?'':v)};
+    set('reName',r.name); set('rePhone',r.phone); set('reFloor',r.floor);
+    set('reTotal',r.total); set('reMonthly',r.monthly); set('rePaid',r.paid);
+    set('reDebt',r.debt); set('reStatus',r.status);
+    const m=document.getElementById('roomEditModal'); if(m)m.classList.add('show');
+    if(typeof lockBackground==='function')lockBackground();
+  };
+
+  window.closeRoomEdit=function(){
+    const m=document.getElementById('roomEditModal'); if(m)m.classList.remove('show');
+    if(typeof unlockBackground==='function')unlockBackground();
+  };
+
+  window.saveRoomEdit=function(){
+    const r=getData().find(x=>String(x.apt)===String(window.currentEditRoomNo));
+    if(!r)return;
+    const val=id=>document.getElementById(id)?.value?.trim()||'';
+    r.name=val('reName'); r.phone=val('rePhone'); r.floor=val('reFloor');
+    r.total=Number(val('reTotal'))||0; r.monthly=Number(val('reMonthly'))||0;
+    r.paid=Number(val('rePaid'))||0; r.debt=Number(val('reDebt'))||0;
+    r.status=val('reStatus');
+    if(typeof roomPersonalData!=='undefined'){
+      const p=roomPersonalData.find(x=>String(x.apt)===String(r.apt));
+      if(p) Object.assign(p,r);
+    }
+    closeRoomEdit();
+    if(typeof openRoomPersonal==='function') openRoomPersonal(r.apt);
+  };
+
+  function addPencil(){
+    const modal=document.getElementById('roomPersonalModal');
+    if(!modal || modal.dataset.pencilAdded==='1')return;
+    const head=modal.querySelector('.modal-head');
+    if(!head)return;
+    const title=head.querySelector('h2');
+    const b=document.createElement('button');
+    b.type='button'; b.className='room-edit-pencil'; b.textContent='✏️';
+    b.title='Тағйир додани маълумоти ҳуҷра';
+    b.onclick=function(){
+      const apt=document.getElementById('rpApt')?.textContent||'';
+      openRoomEdit(apt);
+    };
+    head.insertBefore(b,head.querySelector('.modal-close-x'));
+    modal.dataset.pencilAdded='1';
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',addPencil);
+  else addPencil();
+  setTimeout(addPencil,300);
+})();
+</script>
+
+</body>
+
+<style id="top-back-background-control">
+/* Фони пуштии боло — алоҳида аз фони боло */
+html,body{background-color:var(--top-back-bg,#1769d1)!important;}
+body.top-back-image-active{background-image:var(--top-back-image)!important;background-repeat:no-repeat!important;background-position:top center!important;background-size:100% auto!important;}
+</style>
+<script id="top-back-background-control-js">
+(function(){
+  function setColor(color){
+    document.body.classList.remove('top-back-image-active');
+    document.documentElement.style.removeProperty('--top-back-image');
+    document.documentElement.style.setProperty('--top-back-bg',color);
+    document.body.style.setProperty('background-color',color,'important');
+    document.body.style.setProperty('background-image','none','important');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content',color);
+    localStorage.setItem('appTopBackBg',color);
+    localStorage.removeItem('appTopBackBgImage');
+  }
+  function setImage(img){
+    document.body.classList.add('top-back-image-active');
+    document.documentElement.style.setProperty('--top-back-image','url("'+img+'")');
+    document.body.style.setProperty('background-image','url("'+img+'")','important');
+    document.body.style.setProperty('background-size','100% auto','important');
+    document.body.style.setProperty('background-position','top center','important');
+    document.body.style.setProperty('background-repeat','no-repeat','important');
+    localStorage.setItem('appTopBackBgImage',img);
+    localStorage.removeItem('appTopBackBg');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content','#1769d1');
+  }
+  window.setTopBackBg=setColor;
+  window.setTopBackBgImage=function(e){
+    const f=e&&e.target&&e.target.files?e.target.files[0]:null; if(!f)return;
+    const r=new FileReader(); r.onload=function(x){setImage(x.target.result); if(e.target)e.target.value='';}; r.readAsDataURL(f);
+  };
+  function restore(){
+    const img=localStorage.getItem('appTopBackBgImage'), color=localStorage.getItem('appTopBackBg');
+    if(img)setImage(img); else if(color)setColor(color);
+  }
+  setTimeout(restore,80);
+})();
+</script>
+
+<style id="calendar-date-toggle">
+  .header-date{cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;display:inline-flex;align-items:center;gap:4px;}
+  #calendarPanel{
+    display:none;position:fixed;left:50%;transform:translateX(-50%);
+    top:calc(env(safe-area-inset-top) + 92px);width:min(398px,calc(100% - 24px));
+    z-index:9999;background:rgba(255,255,255,.97);color:#17263d;
+    border:1px solid rgba(255,255,255,.9);border-radius:24px;
+    padding:16px;box-shadow:0 18px 45px rgba(10,45,90,.24);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  }
+  #calendarPanel.show{display:block;}
+  .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .cal-title{font-size:18px;font-weight:800;}
+  .cal-nav{width:38px;height:38px;border:0;border-radius:12px;background:#eef4fb;color:#1769d1;font-size:22px;font-weight:700;}
+  .cal-week,.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center;}
+  .cal-week div{font-size:11px;font-weight:700;color:#7b8ba0;padding:4px 0;}
+  .cal-day{height:40px;border:0;border-radius:12px;background:transparent;font-size:14px;color:#26384f;}
+  .cal-day:hover{background:#edf5ff;}
+  .cal-day.today{background:#e2efff;color:#1769d1;font-weight:800;}
+  .cal-day.selected{background:#1769d1;color:#fff;font-weight:800;box-shadow:0 5px 12px rgba(23,105,209,.25);}
+  .cal-day.empty{pointer-events:none;}
+</style>
+<div id="calendarPanel" aria-hidden="true">
+  <div class="cal-head">
+    <button class="cal-nav" type="button" onclick="changeCalendarMonth(-1)">‹</button>
+    <div class="cal-title" id="calTitle"></div>
+    <button class="cal-nav" type="button" onclick="changeCalendarMonth(1)">›</button>
+  </div>
+  <div class="cal-week">
+    <div>ЯК</div><div>ДУ</div><div>СЕ</div><div>ЧА</div><div>ПА</div><div>ША</div><div>ЯШ</div>
+  </div>
+  <div class="cal-grid" id="calGrid"></div>
+</div>
+<script id="calendar-date-toggle-js">
+(function(){
+  var cal=document.getElementById('calendarPanel');
+  var dateBox=document.querySelector('.header-date');
+  var view=new Date(); view.setDate(1);
+  var selected=new Date();
+
+  function monthName(m){
+    return ['Январ','Феврал','Март','Апрел','Май','Июн','Июл','Август','Сентябр','Октябр','Ноябр','Декабр'][m];
+  }
+  function sameDay(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();}
+  function renderCal(){
+    var title=document.getElementById('calTitle'), grid=document.getElementById('calGrid');
+    if(!title||!grid)return;
+    title.textContent=monthName(view.getMonth())+' '+view.getFullYear();
+    var first=new Date(view.getFullYear(),view.getMonth(),1);
+    var days=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();
+    var start=(first.getDay()+6)%7;
+    var html='';
+    for(var i=0;i<start;i++) html+='<button class="cal-day empty" type="button"></button>';
+    for(var d=1;d<=days;d++){
+      var cur=new Date(view.getFullYear(),view.getMonth(),d);
+      var cls='cal-day'+(sameDay(cur,new Date())?' today':'')+(sameDay(cur,selected)?' selected':'');
+      html+='<button class="'+cls+'" type="button" onclick="selectCalendarDate('+d+')">'+d+'</button>';
+    }
+    grid.innerHTML=html;
+  }
+  window.toggleCalendar=function(){
+    if(!cal)return;
+    var opening=!cal.classList.contains('show');
+    cal.classList.toggle('show',opening);
+    cal.setAttribute('aria-hidden',opening?'false':'true');
+    if(opening)renderCal();
+  };
+  window.changeCalendarMonth=function(step){
+    view.setMonth(view.getMonth()+step); renderCal();
+  };
+  window.selectCalendarDate=function(day){
+    selected=new Date(view.getFullYear(),view.getMonth(),day);
+    var out=document.getElementById('mainDate');
+    if(out)out.textContent=String(day).padStart(2,'0')+'.'+String(view.getMonth()+1).padStart(2,'0')+'.'+view.getFullYear();
+    localStorage.setItem('selectedAppDate',out?out.textContent:'');
+    renderCal();
+  };
+  if(dateBox){
+    dateBox.addEventListener('click',function(e){
+      e.stopPropagation(); window.toggleCalendar();
+    });
+  }
+  document.addEventListener('click',function(e){
+    if(cal && cal.classList.contains('show') && !cal.contains(e.target) && !dateBox.contains(e.target)){
+      cal.classList.remove('show'); cal.setAttribute('aria-hidden','true');
+    }
+  });
+  var saved=localStorage.getItem('selectedAppDate');
+  if(saved){
+    var parts=saved.split('.');
+    if(parts.length===3){
+      selected=new Date(+parts[2],+parts[1]-1,+parts[0]);
+      view=new Date(+parts[2],+parts[1]-1,1);
+      var out=document.getElementById('mainDate'); if(out)out.textContent=saved;
+    }
+  }
+})();
+</script>
+
+
+<style id="calendar-window-fix">
+/* Ислоҳ: календар дигар равзанаҳои Танзимотро намепӯшонад ва ба онҳо таъсир намерасонад */
+#calendarPanel{z-index:40!important;}
+#settingsModal,#backgroundModal,#topBackBackgroundModal,#bottomBackgroundModal,#backBackgroundModal,#modal,#nameModal,#logoModal{z-index:1000!important;}
+</style>
+<script id="calendar-window-fix-js">
+(function(){
+  var oldOpenSettings=window.openSettings;
+  var oldOpenBackgroundSettings=window.openBackgroundSettings;
+  var oldOpenTopBack=window.openTopBackBackgroundSettings;
+  var oldOpenBottom=window.openBottomBackgroundSettings;
+  var oldOpenBack=window.openBackBackgroundSettings;
+  var oldOpenName=window.openNameSettings;
+  var oldOpenLogo=window.openLogoSettings;
+
+  function closeCalendar(){
+    var c=document.getElementById('calendarPanel');
+    if(c){c.classList.remove('show');c.setAttribute('aria-hidden','true');}
+  }
+  window.openSettings=function(){closeCalendar(); if(oldOpenSettings)oldOpenSettings();};
+  window.openBackgroundSettings=function(){closeCalendar(); if(oldOpenBackgroundSettings)oldOpenBackgroundSettings();};
+  window.openTopBackBackgroundSettings=function(){closeCalendar(); if(oldOpenTopBack)oldOpenTopBack();};
+  window.openBottomBackgroundSettings=function(){closeCalendar(); if(oldOpenBottom)oldOpenBottom();};
+  window.openBackBackgroundSettings=function(){closeCalendar(); if(oldOpenBack)oldOpenBack();};
+  window.openNameSettings=function(){closeCalendar(); if(oldOpenName)oldOpenName();};
+  window.openLogoSettings=function(){closeCalendar(); if(oldOpenLogo)oldOpenLogo();};
+})();
+</script>
+
+</html>
+<!-- FINAL TOP BACKGROUND UNIFICATION FIX -->
+<style id="top-background-unified-fix">
+  html,body{background:#1769d1!important;}
+  body.top-photo-active{background-color:#1769d1!important;background-repeat:no-repeat!important;background-position:top center!important;background-size:100% auto!important;}
+  body.top-photo-active .app{background:linear-gradient(to bottom,transparent 0,var(--top-bg-height,505px) var(--top-bg-height,505px),#f4f7fb calc(var(--top-bg-height,505px) + 1px),#f4f7fb 100%)!important;}
+  body.top-photo-active .header{background-color:transparent!important;background-image:none!important;box-shadow:none!important;}
+  body.top-photo-active .header:before{display:none!important;}
+</style>
+<script>
+(function(){
+  function applyUnifiedTopImage(img){
+    if(!img)return;
+    const body=document.body, app=document.querySelector('.app'), header=document.querySelector('.header');
+    if(!body || !app || !header)return;
+    body.classList.add('top-photo-active');
+    body.style.setProperty('background-image','url("'+img+'")','important');
+    body.style.setProperty('background-repeat','no-repeat','important');
+    body.style.setProperty('background-position','top center','important');
+    body.style.setProperty('background-size','100% auto','important');
+    const h=Math.ceil(header.getBoundingClientRect().bottom);
+    body.style.setProperty('--top-bg-height',h+'px');
+    header.style.setProperty('background-image','none','important');
+    header.style.setProperty('background-color','transparent','important');
+    app.style.setProperty('background','linear-gradient(to bottom,transparent 0,'+h+'px, #f4f7fb '+(h+1)+'px, #f4f7fb 100%)','important');
+  }
+  function applyUnifiedTopColor(color){
+    if(!color)return;
+    const body=document.body, app=document.querySelector('.app'), header=document.querySelector('.header');
+    if(!body || !app || !header)return;
+    body.classList.remove('top-photo-active');
+    body.style.setProperty('background',color,'important');
+    body.style.setProperty('background-image','none','important');
+    header.style.setProperty('background-image','none','important');
+    header.style.setProperty('background-color',color,'important');
+    app.style.setProperty('background','#f4f7fb','important');
+    document.querySelector('meta[name=theme-color]')?.setAttribute('content',color);
+  }
+  const oldPicture=window.setAppPicture;
+  window.setAppPicture=function(event){
+    const file=event&&event.target&&event.target.files?event.target.files[0]:null;
+    if(!file)return;
+    const reader=new FileReader();
+    reader.onload=function(e){
+      const img=e.target.result;
+      localStorage.setItem('appBgImage',img);
+      localStorage.removeItem('appBg');
+      localStorage.removeItem('appBottomBg');
+      applyUnifiedTopImage(img);
+      if(event.target)event.target.value='';
+    };
+    reader.readAsDataURL(file);
+  };
+  window.setAppBg=function(color){
+    localStorage.setItem('appBg',color);
+    localStorage.removeItem('appBgImage');
+    localStorage.removeItem('appBottomBgImage');
+    localStorage.setItem('appBottomBg',color);
+    applyUnifiedTopColor(color);
+    const bottom=document.querySelector('.bottom');
+    if(bottom){bottom.classList.remove('image-sync');bottom.style.setProperty('background',color,'important');bottom.style.setProperty('background-image','none','important');}
+  };
+  function restore(){
+    const img=localStorage.getItem('appBgImage');
+    const color=localStorage.getItem('appBg');
+    if(img)applyUnifiedTopImage(img); else if(color)applyUnifiedTopColor(color);
+  }
+  window.addEventListener('resize',function(){
+    const img=localStorage.getItem('appBgImage');
+    if(img)applyUnifiedTopImage(img);
+  });
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',restore);else restore();
+})();
+</script>
+
+<style id="top-photo-final-fix">
+html,body{min-height:100%;}
+body.top-photo-active{background:transparent!important;}
+body.top-photo-active::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background-image:var(--top-screen-image);
+  background-repeat:no-repeat;
+  background-position:top center;
+  background-size:cover;
+}
+body.top-photo-active .app{position:relative;z-index:1;background:transparent!important;}
+body.top-photo-active .header{background:transparent!important;background-image:none!important;}
+body.top-photo-active .content{background:#f4f7fb;}
+body.top-photo-active .menu{background:transparent;}
+</style>
+<script>
+(function(){
+  function setTopScreenImage(img){
+    if(!img)return;
+    document.body.classList.add('top-photo-active');
+    document.body.style.setProperty('--top-screen-image','url("'+img+'")');
+    const app=document.querySelector('.app');
+    const header=document.querySelector('.header');
+    if(app && header){
+      const h=Math.ceil(header.getBoundingClientRect().bottom);
+      app.style.setProperty('background', 'linear-gradient(to bottom, transparent 0, transparent '+h+'px, #f4f7fb '+(h+1)+'px, #f4f7fb 100%)','important');
+    }
+    const meta=document.querySelector('meta[name="theme-color"]');
+    if(meta) meta.setAttribute('content','transparent');
+  }
+  function clearTopScreenImage(color){
+    document.body.classList.remove('top-photo-active');
+    document.body.style.removeProperty('--top-screen-image');
+    const meta=document.querySelector('meta[name="theme-color"]');
+    if(meta) meta.setAttribute('content',color||'#1769d1');
+  }
+  const oldSetPicture=window.setAppPicture;
+  window.setAppPicture=function(event){
+    const file=event&&event.target&&event.target.files?event.target.files[0]:null;
+    if(!file)return;
+    const reader=new FileReader();
+    reader.onload=function(e){
+      const img=e.target.result;
+      localStorage.setItem('appBgImage',img);
+      localStorage.removeItem('appBg');
+      setTopScreenImage(img);
+      if(event.target)event.target.value='';
+    };
+    reader.readAsDataURL(file);
+  };
+  const oldSetBg=window.setAppBg;
+  window.setAppBg=function(color){
+    localStorage.setItem('appBg',color);
+    localStorage.removeItem('appBgImage');
+    clearTopScreenImage(color);
+    const header=document.querySelector('.header');
+    const app=document.querySelector('.app');
+    if(header) header.style.setProperty('background',color,'important');
+    if(app) app.style.setProperty('background','#f4f7fb','important');
+  };
+  function restore(){
+    const img=localStorage.getItem('appBgImage');
+    const color=localStorage.getItem('appBg');
+    if(img)setTopScreenImage(img); else if(color)clearTopScreenImage(color);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',restore);else restore();
+  window.addEventListener('resize',restore);
+})();
+</script>
+
+<!-- FINAL FIX: ФОНИ БОЛО ЯКЛУХТ, АЗ STATUS BAR ТО ОХИРИ HEADER -->
+<style id="final-top-unified">
+  html,body{background:#1769d1!important;}
+  body.top-photo-active{position:relative!important;background:#1769d1!important;}
+  body.top-photo-active::before{
+    content:"";
+    position:fixed;
+    left:0;right:0;top:0;
+    height:var(--top-bg-height,505px);
+    background-image:var(--top-screen-image);
+    background-repeat:no-repeat;
+    background-position:center top;
+    background-size:cover;
+    z-index:0;
+    pointer-events:none;
+  }
+  body.top-photo-active .app{
+    position:relative!important;
+    z-index:1!important;
+    background:transparent!important;
+  }
+  body.top-photo-active .header{
+    background:transparent!important;
+    background-image:none!important;
+    box-shadow:none!important;
+  }
+  body.top-photo-active .header:before{display:none!important;}
+  body.top-photo-active .content{background:#f4f7fb!important;}
+  body.top-photo-active .bottom{z-index:20!important;}
+</style>
+<script id="final-top-unified-js">
+(function(){
+  function applyTopImage(img){
+    if(!img) return;
+    const body=document.body, app=document.querySelector('.app'), header=document.querySelector('.header');
+    if(!body||!app||!header) return;
+    const h=Math.ceil(header.getBoundingClientRect().bottom);
+    document.documentElement.style.setProperty('--top-screen-image','url("'+img+'")');
+    document.documentElement.style.setProperty('--top-bg-height',h+'px');
+    body.classList.add('top-photo-active');
+    body.style.setProperty('background','#1769d1','important');
+    app.style.setProperty('background','transparent','important');
+    header.style.setProperty('background','transparent','important');
+    header.style.setProperty('background-image','none','important');
+    localStorage.setItem('appBgImage',img);
+    localStorage.removeItem('appBg');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content','#1769d1');
+  }
+  function applyTopColor(color){
+    if(!color) return;
+    const body=document.body, app=document.querySelector('.app'), header=document.querySelector('.header');
+    body.classList.remove('top-photo-active');
+    document.documentElement.style.removeProperty('--top-screen-image');
+    if(body) body.style.setProperty('background',color,'important');
+    if(app) app.style.setProperty('background','#f4f7fb','important');
+    if(header){header.style.setProperty('background',color,'important');header.style.setProperty('background-image','none','important');}
+    localStorage.setItem('appBg',color);
+    localStorage.removeItem('appBgImage');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content',color);
+  }
+  window.setAppPicture=function(event){
+    const file=event&&event.target&&event.target.files?event.target.files[0]:null;
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=function(e){applyTopImage(e.target.result); if(event.target) event.target.value='';};
+    reader.readAsDataURL(file);
+  };
+  window.setAppBg=function(color){applyTopColor(color);};
+  function restore(){
+    const img=localStorage.getItem('appBgImage'), color=localStorage.getItem('appBg');
+    if(img) applyTopImage(img); else if(color) applyTopColor(color);
+  }
+  window.addEventListener('resize',function(){
+    if(document.body.classList.contains('top-photo-active')){
+      const h=Math.ceil(document.querySelector('.header')?.getBoundingClientRect().bottom||505);
+      document.documentElement.style.setProperty('--top-bg-height',h+'px');
+    }
+  });
+  setTimeout(restore,60);
+})();
+</script>
+
+<!-- FINAL FIX: КАРТИНКАИ ФОНИ ПУШТӢ ҚАБУЛ ВА НИШОН ДОДА МЕШАВАД -->
+<style id="back-bg-image-final-fix">
+  .app{position:relative;}
+  .app.back-bg-image-final{background:transparent!important;}
+  .app.back-bg-image-final::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background-image:var(--back-bg-image-final);
+    background-size:cover;
+    background-position:center center;
+    background-repeat:no-repeat;
+  }
+  .app.back-bg-image-final > *{position:relative;z-index:1;}
+</style>
+<script id="back-bg-image-final-fix-js">
+(function(){
+  function applyBackImage(img){
+    if(!img)return;
+    const app=document.querySelector('.app');
+    if(!app)return;
+    app.classList.add('back-bg-image-final');
+    app.style.setProperty('--back-bg-image-final','url("'+img+'")');
+    localStorage.setItem('appBackBgImage',img);
+    localStorage.removeItem('appBackBg');
+  }
+  function applyBackColor(color){
+    const app=document.querySelector('.app');
+    if(!app)return;
+    app.classList.remove('back-bg-image-final');
+    app.style.removeProperty('--back-bg-image-final');
+    app.style.setProperty('background',color,'important');
+    localStorage.setItem('appBackBg',color);
+    localStorage.removeItem('appBackBgImage');
+  }
+  window.setBackBgImage=function(e){
+    const file=e&&e.target&&e.target.files?e.target.files[0]:null;
+    if(!file)return;
+    if(!file.type || !file.type.startsWith('image/')){ alert('Лутфан танҳо картинка интихоб кунед.'); return; }
+    const reader=new FileReader();
+    reader.onload=function(ev){
+      applyBackImage(ev.target.result);
+      if(e.target)e.target.value='';
+    };
+    reader.onerror=function(){ alert('Картинка хонда нашуд. Дубора интихоб кунед.'); };
+    reader.readAsDataURL(file);
+  };
+  window.setBackBg=function(color){applyBackColor(color);};
+  function restoreBack(){
+    const img=localStorage.getItem('appBackBgImage');
+    const color=localStorage.getItem('appBackBg');
+    if(img)applyBackImage(img);
+    else if(color)applyBackColor(color);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',restoreBack);else restoreBack();
+})();
+</script>
+<style id="logo-modal-same-style-fix">
+/* Логотип мисли дигар равзанаҳои Танзимот — ҳамон андоза, ҷой ва услуб. */
+#logoModal{z-index:10000!important;}
+#logoModal .sheet{width:min(430px,100% )!important;max-height:90vh!important;border-radius:24px 24px 0 0!important;margin:0 auto!important;transform:none!important;}
+#logoModal.show{display:flex!important;align-items:flex-end!important;justify-content:center!important;}
+</style>
+<script id="logo-modal-same-style-js">
+(function(){
+  window.openLogoSettings=function(){
+    var m=document.getElementById('logoModal'); if(!m)return;
+    m.classList.add('show');
+    m.style.setProperty('z-index','10000','important');
+    document.body.classList.add('modal-locked');
+    var n=document.getElementById('logoNameInput'), c=document.getElementById('logoBgInput');
+    if(n)n.value=localStorage.getItem('logoName')||document.getElementById('headerLogoName')?.textContent||'ТАНЗИМИ БИНО';
+    if(c)c.value=localStorage.getItem('logoBg')||'#1769d1';
+  };
+})();
+</script>
+
+<style id="building-info-step1">
+#buildingInfoModal .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+#buildingInfoModal .info-box{background:#f4f7fb;border:1px solid #e5ebf3;border-radius:15px;padding:12px}
+#buildingInfoModal .info-box span{display:block;color:#718096;font-size:12px;margin-bottom:5px}
+#buildingInfoModal .info-box b{display:block;color:#172033;font-size:15px;line-height:1.25}
+#buildingInfoModal .info-box:nth-child(3),#buildingInfoModal .info-box:nth-child(4){grid-column:1/-1}
+@media(max-width:360px){#buildingInfoModal .info-grid{grid-template-columns:1fr}.\#buildingInfoModal .info-box:nth-child(3),.\#buildingInfoModal .info-box:nth-child(4){grid-column:auto}}
+</style>
+<script id="building-info-step1-js">
+function openBuildingInfo(number){
+ const b=buildings.find(x=>String(x.number)===String(number)); if(!b)return;
+ document.getElementById('biName').textContent=b.name;
+ document.getElementById('biNumber').textContent=b.number;
+ document.getElementById('biAddress').textContent=b.address;
+ document.getElementById('biRooms').textContent=(b.rooms||0)+' квартира';
+ const fmt=v=>Number(v||0).toLocaleString('ru-RU')+' сомонӣ';
+ const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+ set('biFloors',b.floors||'4–12 (9 ошёна)');
+ set('biYear',b.year||'2026–2027');
+ set('biApartments',b.apartments||b.rooms||72);
+ set('biTotal',fmt(b.total||43200));
+ set('biMonthly',fmt(b.monthly||3600));
+ set('biPaid',fmt(b.paid||3100));
+ set('biDebt',fmt(b.debt||40100));
+ document.getElementById('buildingInfoModal').classList.add('show');
+ lockBackground();
+}
+function closeBuildingInfo(){
+ const m=document.getElementById('buildingInfoModal'); if(m)m.classList.remove('show');
+ unlockBackground();
+}
+</script>
+
+<!-- Иловаи қадами нав: танҳо элементҳои ишорашуда аз саҳифаи асосӣ пинҳон мешаванд. Қисмҳои дигар дастнорас мемонанд. -->
+<style id="step-building-cleanup">
+  /* 4 иконкаи миёнаи боло */
+  nav.menu{display:none!important;}
+  /* Корти "Бинои марказӣ" аз ҳамин ҷой хориҷ мешавад; маълумоти бино нигоҳ дошта мешавад. */
+  main.content #list{display:block!important;}
+</style>
+
+<style id="building-full-info-add">
+#buildingInfoModal .info-grid{grid-template-columns:1fr 1fr!important}
+#buildingInfoModal .info-box:nth-child(3){grid-column:1/-1}
+@media(max-width:360px){#buildingInfoModal .info-grid{grid-template-columns:1fr!important}#buildingInfoModal .info-box:nth-child(3){grid-column:auto!important}}
+</style>
+<style id="year-month-selector-fix">
+#buildingInfoModal .year-month-panel{margin-top:14px;padding:12px;border:1px solid #e4eaf2;border-radius:16px;background:#f8fafc}
+#buildingInfoModal .year-month-panel select{width:100%;padding:11px;border:1px solid #d8e0ea;border-radius:12px;background:#fff;font-size:15px;margin-top:6px}
+#buildingInfoModal .ym-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+</style>
+<script id="year-month-selector-fix-js">
+(function(){
+ const oldOpen=window.openBuildingInfo;
+ window.openBuildingInfo=function(number){
+  oldOpen(number); const m=document.getElementById('buildingInfoModal'); if(!m)return;
+  let p=m.querySelector('.year-month-panel');
+  if(!p){p=document.createElement('div');p.className='year-month-panel';p.innerHTML='<b>📅 Сол ва моҳ</b><div class="ym-row"><label>Соли ҳисоб<select id="biYearSelect"></select></label><label>Моҳ<select id="biMonthSelect"></select></label></div>';m.querySelector('.info-grid').after(p);}
+  const ys=document.getElementById('biYearSelect'), ms=document.getElementById('biMonthSelect');
+  if(ys && !ys.options.length){for(let y=2000;y<=2100;y++){ys.add(new Option(y+'–'+(y+1),y+'–'+(y+1)))}}
+  if(ms){ms.innerHTML=''; ['Сентябр','Октябр','Ноябр','Декабр','Январ','Феврал','Март','Апрел','Май','Июн','Июл','Август'].forEach((x,i)=>ms.add(new Option(x,x)));}
+  const now=new Date(); const y=now.getMonth()>=8?now.getFullYear():now.getFullYear()-1;
+  if(ys)ys.value=y+'–'+(y+1);
+  if(ms)ms.value=['Сентябр','Октябр','Ноябр','Декабр','Январ','Феврал','Март','Апрел','Май','Июн','Июл','Август'][now.getMonth()>=8?now.getMonth()-8:now.getMonth()+4];
+ };
+})();
+</script>
+<style id="building-info-true-fullscreen-fix">
+/* Равзанаи «Маълумоти бино» ҳангоми кушодан тамоми экранро мепӯшонад */
+#buildingInfoModal.show{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  z-index:100000!important;
+  display:flex!important;
+  align-items:stretch!important;
+  justify-content:center!important;
+  background:rgba(0,0,0,.42)!important;
+  padding:0!important;
+}
+#buildingInfoModal.show .sheet{
+  width:100%!important;
+  max-width:430px!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  max-height:100vh!important;
+  margin:0!important;
+  border-radius:0!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  box-sizing:border-box!important;
+  padding-bottom:30px!important;
+}
+</style>
+
+<script id="excel-room-data-final">
+const excelRooms = [{"code": "KV-001", "name": "Хушнуд", "floor": 4, "apt": 1, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-002", "name": "Олим", "floor": 4, "apt": 2, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-003", "name": "Фаридун", "floor": 4, "apt": 3, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-004", "name": "Искандар", "floor": 4, "apt": 4, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-005", "name": "Раҷабалӣ", "floor": 4, "apt": 5, "phone": "", "total": 600, "monthly": 50, "paid": 50, "debt": 550, "status": "ҚИСМАН"}, {"code": "KV-006", "name": "", "floor": 4, "apt": 6, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-007", "name": "Ислом", "floor": 4, "apt": 7, "phone": "", "total": 600, "monthly": 50, "paid": 50, "debt": 550, "status": "ҚИСМАН"}, {"code": "KV-008", "name": "Нурмухаммад", "floor": 4, "apt": 8, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-009", "name": "", "floor": 5, "apt": 9, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-010", "name": "Косимчон", "floor": 5, "apt": 10, "phone": "", "total": 600, "monthly": 50, "paid": 50, "debt": 550, "status": "ҚИСМАН"}, {"code": "KV-011", "name": "Саъди", "floor": 5, "apt": 11, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-012", "name": "Сорбони", "floor": 5, "apt": 12, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-013", "name": "Махбуба", "floor": 5, "apt": 13, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-014", "name": "", "floor": 5, "apt": 14, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-015", "name": "Ислом", "floor": 5, "apt": 15, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-016", "name": "Фируза Ш", "floor": 5, "apt": 16, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-017", "name": "", "floor": 6, "apt": 17, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-018", "name": "Дилшод", "floor": 6, "apt": 18, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-019", "name": "Замчахир", "floor": 6, "apt": 19, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-020", "name": "Довуд", "floor": 6, "apt": 20, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-021", "name": "Чумахон", "floor": 6, "apt": 21, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-022", "name": "Рустам", "floor": 6, "apt": 22, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-023", "name": "Рахмонали", "floor": 6, "apt": 23, "phone": "", "total": 600, "monthly": 50, "paid": 50, "debt": 550, "status": "ҚИСМАН"}, {"code": "KV-024", "name": "Мустафо", "floor": 6, "apt": 24, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-025", "name": "Абдушукур", "floor": 7, "apt": 25, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-026", "name": "Абдусаттор", "floor": 7, "apt": 26, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-027", "name": "Изатулло", "floor": 7, "apt": 27, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-028", "name": "Кв 28", "floor": 7, "apt": 28, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-029", "name": "", "floor": 7, "apt": 29, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-030", "name": "Саломат Г", "floor": 7, "apt": 30, "phone": "", "total": 600, "monthly": 50, "paid": 50, "debt": 550, "status": "ҚИСМАН"}, {"code": "KV-031", "name": "Савлатби", "floor": 7, "apt": 31, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-032", "name": "Сулхия", "floor": 7, "apt": 32, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-033", "name": "Зевар", "floor": 8, "apt": 33, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-034", "name": "Нозофарид", "floor": 8, "apt": 34, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-035", "name": "Некруз", "floor": 8, "apt": 35, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-036", "name": "Насим", "floor": 8, "apt": 36, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-037", "name": "Чонибек", "floor": 8, "apt": 37, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-038", "name": "Фируза", "floor": 8, "apt": 38, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-039", "name": "Лилия", "floor": 8, "apt": 39, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-040", "name": "Мичгона", "floor": 8, "apt": 40, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-041", "name": "Сулаймон", "floor": 9, "apt": 41, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-042", "name": "Шахром", "floor": 9, "apt": 42, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-043", "name": "Абдумалик", "floor": 9, "apt": 43, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-044", "name": "Сочида", "floor": 9, "apt": 44, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-045", "name": "Часур", "floor": 9, "apt": 45, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-046", "name": "", "floor": 9, "apt": 46, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-047", "name": "", "floor": 9, "apt": 47, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-048", "name": "", "floor": 10, "apt": 48, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-049", "name": "Шахло", "floor": 10, "apt": 49, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-050", "name": "Зулфия", "floor": 10, "apt": 50, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-051", "name": "", "floor": 10, "apt": 51, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-052", "name": "Гуля", "floor": 10, "apt": 52, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-053", "name": "Салим", "floor": 10, "apt": 53, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-054", "name": "Сунатулло", "floor": 10, "apt": 54, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-055", "name": "Анис", "floor": 10, "apt": 55, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-056", "name": "Мадина", "floor": 10, "apt": 56, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-057", "name": "Назокат", "floor": 11, "apt": 57, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-058", "name": "Мунис", "floor": 11, "apt": 58, "phone": "", "total": 600, "monthly": 50, "paid": 50, "debt": 550, "status": "ҚИСМАН"}, {"code": "KV-059", "name": "", "floor": 11, "apt": 59, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-060", "name": "Гулрухсор", "floor": 11, "apt": 60, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-061", "name": "Бахром", "floor": 11, "apt": 61, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-062", "name": "Рахим", "floor": 11, "apt": 62, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-063", "name": "Ноза", "floor": 11, "apt": 63, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-064", "name": "", "floor": 11, "apt": 64, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-065", "name": "Азиза", "floor": 12, "apt": 65, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-066", "name": "Мухаммад", "floor": 12, "apt": 66, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-067", "name": "Алишер", "floor": 12, "apt": 67, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-068", "name": "Мехри", "floor": 12, "apt": 68, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-069", "name": "Хидоят", "floor": 12, "apt": 69, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-070", "name": "Умед", "floor": 12, "apt": 70, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-071", "name": "Раджабов", "floor": 12, "apt": 71, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-072", "name": "Раджабов", "floor": 12, "apt": 72, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}];
+function getExcelRooms(){return excelRooms.slice();}
+</script>
+<style id="excel-room-style">.room-card{background:#fff;border-radius:16px;padding:12px;margin:8px 0;box-shadow:0 3px 12px rgba(0,0,0,.07);display:flex;justify-content:space-between;gap:10px}.room-card h3{margin:0 0 4px}.room-card p{margin:3px 0;color:#64748b;font-size:13px}.room-badge{background:#eef5ff;color:#1769d1;border-radius:10px;padding:6px 9px;height:max-content;font-weight:700}</style>
+<script>
+(function(){
+ function activate(){
+  if(typeof window.openRooms!=='function') return;
+  const old=window.openRooms;
+  window.openRooms=function(){
+   try{old.apply(this,arguments)}catch(e){}
+   setTimeout(function(){
+    const box=document.querySelector('#roomsModal #roomsList,#roomsModal .rooms-list,#roomsModal .sheet'); if(!box)return;
+    const list=box.querySelector('#roomsList')||box; if(!list)return;
+    if(list.dataset.excelLoaded==='1')return; list.dataset.excelLoaded='1';
+    list.innerHTML=excelRooms.map(r=>`<div class="room-card"><div><h3>🚪 Хҷ №${r.apt}</h3><p>👤 ${r.name||'Холӣ'} · Ошёна ${r.floor}</p><p>💰 Моҳона: ${r.monthly} сомонӣ · Ҳолат: ${r.status}</p></div><div class="room-badge">${r.code}</div></div>`).join('');
+   },100);
+  };
+ }
+ const t=setInterval(()=>{if(typeof window.openRooms==='function'){clearInterval(t);activate()}},100);
+})();
+</script>
+
+<style id="room-personal-detail-style">#roomPersonalModal.show{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:200000!important;display:flex!important;align-items:stretch!important;justify-content:center!important;background:rgba(0,0,0,.42)!important;padding:0!important}#roomPersonalModal .sheet{width:100%!important;max-width:430px!important;height:100vh!important;max-height:100vh!important;border-radius:0!important;margin:0!important;overflow-y:auto!important}.personal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.personal-box{background:#f7f9fc;border-radius:15px;padding:12px}.personal-box span{display:block;color:#718096;font-size:12px;margin-bottom:5px}.personal-box b{font-size:15px;color:#172033}.personal-box.full{grid-column:1/-1}.room-detail-back{width:100%;border:0;border-radius:14px;padding:13px;margin-top:14px;background:#1769d1;color:white;font-weight:700;font-size:15px}#roomsModal .room-card{cursor:pointer}
+</style>
+<div class="modal" id="roomPersonalModal" onclick="if(event.target===this)closeRoomPersonal()"><div class="sheet" onclick="event.stopPropagation()"><div class="modal-head"><h2>🚪 Маълумоти ҳуҷра</h2><button class="modal-close-x" onclick="closeRoomPersonal()">×</button></div><div class="personal-grid"><div class="personal-box"><span>🔢 Рақами ҳуҷра</span><b id="rpApt">—</b></div><div class="personal-box"><span>🆔 Код</span><b id="rpCode">—</b></div><div class="personal-box full"><span>👤 Номи истиқоматкунанда</span><b id="rpName">—</b></div><div class="personal-box"><span>🏢 Ошёна</span><b id="rpFloor">—</b></div><div class="personal-box"><span>📞 Телефон</span><b id="rpPhone">—</b></div><div class="personal-box"><span>💰 Маблағи умумӣ</span><b id="rpTotal">—</b></div><div class="personal-box"><span>📅 Моҳона</span><b id="rpMonthly">—</b></div><div class="personal-box"><span>✅ Супоридашуда</span><b id="rpPaid">—</b></div><div class="personal-box"><span>⚠️ Қарз</span><b id="rpDebt">—</b></div><div class="personal-box full"><span>📊 Ҳолат</span><b id="rpStatus">—</b></div></div><button class="room-detail-back" onclick="closeRoomPersonal()">Бозгашт</button></div></div>
+<script id="room-personal-detail-js">
+const roomPersonalData=[{"code": "KV-001", "name": "Хушнуд", "floor": 4, "apt": 1, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-002", "name": "Олим", "floor": 4, "apt": 2, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-003", "name": "Фаридун", "floor": 4, "apt": 3, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-004", "name": "Искандар", "floor": 4, "apt": 4, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-005", "name": "Раҷабалӣ", "floor": 4, "apt": 5, "phone": "", "total": 600, "monthly": 50, "paid": 50, "debt": 550, "status": "ҚИСМАН"}, {"code": "KV-006", "name": "", "floor": 4, "apt": 6, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-007", "name": "Ислом", "floor": 4, "apt": 7, "phone": "", "total": 600, "monthly": 50, "paid": 50, "debt": 550, "status": "ҚИСМАН"}, {"code": "KV-008", "name": "Нурмухаммад", "floor": 4, "apt": 8, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-009", "name": "", "floor": 5, "apt": 9, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-010", "name": "Косимчон", "floor": 5, "apt": 10, "phone": "", "total": 600, "monthly": 50, "paid": 50, "debt": 550, "status": "ҚИСМАН"}, {"code": "KV-011", "name": "Саъди", "floor": 5, "apt": 11, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-012", "name": "Сорбони", "floor": 5, "apt": 12, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-013", "name": "Махбуба", "floor": 5, "apt": 13, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-014", "name": "", "floor": 5, "apt": 14, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-015", "name": "Ислом", "floor": 5, "apt": 15, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-016", "name": "Фируза Ш", "floor": 5, "apt": 16, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-017", "name": "", "floor": 6, "apt": 17, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-018", "name": "Дилшод", "floor": 6, "apt": 18, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-019", "name": "Замчахир", "floor": 6, "apt": 19, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-020", "name": "Довуд", "floor": 6, "apt": 20, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-021", "name": "Чумахон", "floor": 6, "apt": 21, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-022", "name": "Рустам", "floor": 6, "apt": 22, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-023", "name": "Рахмонали", "floor": 6, "apt": 23, "phone": "", "total": 600, "monthly": 50, "paid": 50, "debt": 550, "status": "ҚИСМАН"}, {"code": "KV-024", "name": "Мустафо", "floor": 6, "apt": 24, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-025", "name": "Абдушукур", "floor": 7, "apt": 25, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-026", "name": "Абдусаттор", "floor": 7, "apt": 26, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-027", "name": "Изатулло", "floor": 7, "apt": 27, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-028", "name": "Кв 28", "floor": 7, "apt": 28, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-029", "name": "", "floor": 7, "apt": 29, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-030", "name": "Саломат Г", "floor": 7, "apt": 30, "phone": "", "total": 600, "monthly": 50, "paid": 50, "debt": 550, "status": "ҚИСМАН"}, {"code": "KV-031", "name": "Савлатби", "floor": 7, "apt": 31, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-032", "name": "Сулхия", "floor": 7, "apt": 32, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-033", "name": "Зевар", "floor": 8, "apt": 33, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-034", "name": "Нозофарид", "floor": 8, "apt": 34, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-035", "name": "Некруз", "floor": 8, "apt": 35, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-036", "name": "Насим", "floor": 8, "apt": 36, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-037", "name": "Чонибек", "floor": 8, "apt": 37, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-038", "name": "Фируза", "floor": 8, "apt": 38, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-039", "name": "Лилия", "floor": 8, "apt": 39, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-040", "name": "Мичгона", "floor": 8, "apt": 40, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-041", "name": "Сулаймон", "floor": 9, "apt": 41, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-042", "name": "Шахром", "floor": 9, "apt": 42, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-043", "name": "Абдумалик", "floor": 9, "apt": 43, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-044", "name": "Сочида", "floor": 9, "apt": 44, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-045", "name": "Часур", "floor": 9, "apt": 45, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-046", "name": "", "floor": 9, "apt": 46, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-047", "name": "", "floor": 9, "apt": 47, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-048", "name": "", "floor": 10, "apt": 48, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-049", "name": "Шахло", "floor": 10, "apt": 49, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-050", "name": "Зулфия", "floor": 10, "apt": 50, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-051", "name": "", "floor": 10, "apt": 51, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-052", "name": "Гуля", "floor": 10, "apt": 52, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-053", "name": "Салим", "floor": 10, "apt": 53, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-054", "name": "Сунатулло", "floor": 10, "apt": 54, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-055", "name": "Анис", "floor": 10, "apt": 55, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-056", "name": "Мадина", "floor": 10, "apt": 56, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-057", "name": "Назокат", "floor": 11, "apt": 57, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-058", "name": "Мунис", "floor": 11, "apt": 58, "phone": "", "total": 600, "monthly": 50, "paid": 50, "debt": 550, "status": "ҚИСМАН"}, {"code": "KV-059", "name": "", "floor": 11, "apt": 59, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-060", "name": "Гулрухсор", "floor": 11, "apt": 60, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-061", "name": "Бахром", "floor": 11, "apt": 61, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-062", "name": "Рахим", "floor": 11, "apt": 62, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-063", "name": "Ноза", "floor": 11, "apt": 63, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-064", "name": "", "floor": 11, "apt": 64, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-065", "name": "Азиза", "floor": 12, "apt": 65, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-066", "name": "Мухаммад", "floor": 12, "apt": 66, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-067", "name": "Алишер", "floor": 12, "apt": 67, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-068", "name": "Мехри", "floor": 12, "apt": 68, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-069", "name": "Хидоят", "floor": 12, "apt": 69, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-070", "name": "Умед", "floor": 12, "apt": 70, "phone": "", "total": 600, "monthly": 50, "paid": 200, "debt": 400, "status": "ҚИСМАН"}, {"code": "KV-071", "name": "Раджабов", "floor": 12, "apt": 71, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}, {"code": "KV-072", "name": "Раджабов", "floor": 12, "apt": 72, "phone": "", "total": 600, "monthly": 50, "paid": 0, "debt": 600, "status": "НАСУПОРИД"}];
+function openRoomPersonal(apt){const r=roomPersonalData.find(x=>String(x.apt)===String(apt));if(!r)return;const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};set('rpApt',r.apt);set('rpCode',r.code);set('rpName',r.name||'Холӣ');set('rpFloor',r.floor);set('rpPhone',r.phone||'—');set('rpTotal',(r.total||0)+' сомонӣ');set('rpMonthly',(r.monthly||0)+' сомонӣ');set('rpPaid',(r.paid||0)+' сомонӣ');set('rpDebt',(r.debt||0)+' сомонӣ');set('rpStatus',r.status||'—');document.getElementById('roomPersonalModal').classList.add('show');lockBackground()}
+function closeRoomPersonal(){document.getElementById('roomPersonalModal').classList.remove('show');unlockBackground()}
+const _roomCards=document.getElementById('roomsGrid');if(_roomCards){const obs=new MutationObserver(()=>_roomCards.querySelectorAll('.room-card').forEach((el,i)=>{if(!el.dataset.detail){el.dataset.detail='1';el.onclick=()=>openRoomPersonal(roomPersonalData[i].apt)}}));obs.observe(_roomCards,{childList:true,subtree:true})}
+</script>
+
+<style>
+/* Илова: рӯйхати ҳуҷраҳо 4 қатор дар як сатр — дигар қисмҳо дастнорас */
+#roomsModal .rooms-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:8px!important;
+}
+#roomsModal .room-item{
+  padding:10px 4px!important;
+  min-width:0!important;
+}
+</style>
+
+<style id="rooms-compact-composition">
+/* Иловаи хурд: номҳо хурдтар ва композитсияи 4-қатора тозатар */
+#roomsModal .rooms-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:7px!important;
+  margin-top:12px!important;
+}
+#roomsModal .room-item{
+  min-height:88px!important;
+  height:88px!important;
+  padding:8px 3px!important;
+  border-radius:14px!important;
+  line-height:1.15!important;
+  overflow:hidden!important;
+}
+#roomsModal .room-item span{
+  font-size:18px!important;
+  line-height:20px!important;
+  margin-bottom:3px!important;
+}
+#roomsModal .room-item:not(:has(.rooms-sub)){
+  font-size:11px!important;
+}
+#roomsModal .room-item .rooms-sub{
+  font-size:10.5px!important;
+  line-height:1.15!important;
+  margin-top:3px!important;
+  white-space:normal!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  max-height:25px!important;
+}
+</style>
+
+<!-- ===== ИЛОВА: Ивазкунандаи забонҳо (бе даст расондан ба функсияҳои мавҷуда) ===== -->
+<style id="language-switcher-addition">
+#languageModal{z-index:200000!important;background:rgba(0,0,0,.35)!important;align-items:flex-end!important;justify-content:center!important;}
+#languageModal .sheet{width:min(430px,100%)!important;max-width:430px!important;margin:0 auto!important;border-radius:26px 26px 0 0!important;padding:18px!important;box-sizing:border-box!important;}
+.lang-options{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;}
+.lang-option{border:1px solid #e1e8f2;border-radius:17px;background:#f7f9fc;padding:14px 6px;cursor:pointer;font-weight:700;color:#1b2738;text-align:center;}
+.lang-option:active{transform:scale(.97);}
+.lang-option.active{background:#1769d1;color:#fff;border-color:#1769d1;box-shadow:0 5px 14px rgba(23,105,209,.22);}
+#languageSwitcherTile{cursor:pointer;}
+</style>
+
+<div class="modal" id="languageModal" onclick="if(event.target===this) closeLanguageSettings()">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="modal-head"><h2>🌐 Забон</h2><button class="modal-close-x" onclick="closeLanguageSettings()">×</button></div>
+    <div class="lang-options">
+      <button class="lang-option" data-lang="tg" onclick="setAppLanguage('tg')">🇹🇯<br>Тоҷикӣ</button>
+      <button class="lang-option" data-lang="ru" onclick="setAppLanguage('ru')">🇷🇺<br>Русский</button>
+      <button class="lang-option" data-lang="en" onclick="setAppLanguage('en')">🇬🇧<br>English</button>
+    </div>
+    <button class="cancel" style="margin-top:14px;width:100%" onclick="closeLanguageSettings()">Бастан</button>
+  </div>
+</div>
+
+<script id="language-switcher-js">
+(function(){
+  const tile=document.createElement('button');
+  tile.id='languageSwitcherTile';
+  tile.className='small-setting-tile';
+  tile.innerHTML='<span>🌐</span><b>Иваз кардани забон</b><i>›</i>';
+  tile.onclick=function(){openLanguageSettings();};
+  const tiles=document.querySelector('#settingsModal .settings-tiles');
+  if(tiles && !document.getElementById('languageSwitcherTile')) tiles.appendChild(tile);
+
+  const dict={
+    tg:{
+      settings:'⚙️ Танзимот', language:'Иваз кардани забон', close:'Бастан',
+      logo:'Тағйири логотип', top:'Тағйири фони боло', topback:'Тағйири фони пуштии боло',
+      bottom:'Тағйири фони поён', back:'Тағйири фони қафо', name:'Тағйири ном', building:'Тағйир ва иловаи бино',
+      rooms:'Ҳуҷраҳо', buildings:'Биноҳо', payments:'Пардохтҳо', reports:'Ҳисобот'
+    },
+    ru:{
+      settings:'⚙️ Настройки', language:'Смена языка', close:'Закрыть',
+      logo:'Изменить логотип', top:'Изменить верхний фон', topback:'Изменить фон верхней части',
+      bottom:'Изменить нижний фон', back:'Изменить задний фон', name:'Изменить название', building:'Изменить и добавить здание',
+      rooms:'Квартиры', buildings:'Здания', payments:'Платежи', reports:'Отчёты'
+    },
+    en:{
+      settings:'⚙️ Settings', language:'Change language', close:'Close',
+      logo:'Change logo', top:'Change top background', topback:'Change upper background',
+      bottom:'Change bottom background', back:'Change back background', name:'Change name', building:'Edit and add building',
+      rooms:'Apartments', buildings:'Buildings', payments:'Payments', reports:'Reports'
+    }
+  };
+
+  window.openLanguageSettings=function(){
+    const m=document.getElementById('languageModal');
+    if(m){m.classList.add('show'); document.body.classList.add('modal-locked');}
+    const cur=localStorage.getItem('appLanguage')||'tg';
+    document.querySelectorAll('#languageModal .lang-option').forEach(b=>b.classList.toggle('active',b.dataset.lang===cur));
+  };
+  window.closeLanguageSettings=function(){
+    const m=document.getElementById('languageModal');
+    if(m)m.classList.remove('show');
+    if(!document.querySelector('.modal.show')) document.body.classList.remove('modal-locked');
+  };
+
+  function setText(el,text){if(el)el.textContent=text;}
+  window.setAppLanguage=function(lang){
+    if(!dict[lang]) return;
+    localStorage.setItem('appLanguage',lang);
+    const d=dict[lang];
+    const sh=document.querySelector('#settingsModal .modal-head h2'); setText(sh,d.settings);
+    const tile=document.getElementById('languageSwitcherTile'); if(tile) { const b=tile.querySelector('b'); if(b)b.textContent=d.language; }
+    document.querySelectorAll('#settingsModal .small-setting-tile').forEach(t=>{
+      const b=t.querySelector('b'); if(!b) return;
+      const s=b.textContent.trim();
+      if(/Тағйири логотип|Изменить логотип|Change logo/.test(s)) b.textContent=d.logo;
+      else if(/Тағйири фони боло|Изменить верхний фон|Change top background/.test(s)) b.textContent=d.top;
+      else if(/Тағйири фони пуштии боло|Изменить фон верхней части|Change upper background/.test(s)) b.textContent=d.topback;
+      else if(/Тағйири фони поён|Изменить нижний фон|Change bottom background/.test(s)) b.textContent=d.bottom;
+      else if(/Тағйири фони қафо|Изменить задний фон|Change back background/.test(s)) b.textContent=d.back;
+      else if(/Тағйири ном|Изменить название|Change name/.test(s)) b.textContent=d.name;
+      else if(/Тағйир ва иловаи бино|Изменить и добавить здание|Edit and add building/.test(s)) b.textContent=d.building;
+    });
+    const cancel=document.querySelector('#settingsModal .cancel'); setText(cancel,d.close);
+    document.querySelectorAll('.bottom button').forEach(btn=>{
+      const text=btn.textContent;
+      if(text.includes('Биноҳо')||text.includes('Здания')||text.includes('Buildings')) btn.querySelector('b') ? btn.querySelector('b').textContent=d.buildings : null;
+      if(text.includes('Хуҷраҳо')||text.includes('Квартиры')||text.includes('Apartments')) btn.querySelector('b') ? btn.querySelector('b').textContent=d.rooms : null;
+      if(text.includes('Пардохтҳо')||text.includes('Платежи')||text.includes('Payments')) btn.querySelector('b') ? btn.querySelector('b').textContent=d.payments : null;
+      if(text.includes('Ҳисобот')||text.includes('Отчёты')||text.includes('Reports')) btn.querySelector('b') ? btn.querySelector('b').textContent=d.reports : null;
+    });
+    document.querySelectorAll('#languageModal .lang-option').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+    closeLanguageSettings();
+  };
+
+  window.addEventListener('load',function(){
+    const saved=localStorage.getItem('appLanguage');
+    if(saved && dict[saved]) setAppLanguage(saved);
+  });
+})();
+</script>
+
+<!-- ===== ИЛОВА: Тарҷумаи пурраи интерфейс ===== -->
+<script id="full-language-translation-addition">
+(function(){
+  const UI={
+    tg:{
+      'Танзими Бино':'Танзими Бино','ТАНЗИМИ БИНО':'ТАНЗИМИ БИНО','Беҳтар, осон, барои шумо':'Беҳтар, осон, барои шумо','📅 Сана:':'📅 Сана:',
+      'Меню':'Меню','⚙️ Танзимот':'⚙️ Танзимот','Биноҳо':'Биноҳо','Ҳуҷраҳо':'Ҳуҷраҳо','Хуҷраҳо':'Ҳуҷраҳо','Хҷҳо':'Ҳуҷраҳо','Хҷ':'Ҳуҷра','Пардохтҳо':'Пардохтҳо','Ҳисобот':'Ҳисобот',
+      'Биноҳои ман':'Биноҳои ман','🏷️ Тағйири логотип':'🏷️ Тағйири логотип','Номи логотип':'Номи логотип','Фони логотип':'Фони логотип','Расми логотип':'Расми логотип','💾 Сабт кардан':'💾 Сабт кардан',
+      'Тағйири логотип':'Тағйири логотип','Тағйири фони боло':'Тағйири фони боло','Тағйири фони пуштии боло':'Тағйири фони пуштии боло','Тағйири фони поён':'Тағйири фони поён','Тағйири фони қафо':'Тағйири фони қафо','Тағйири ном':'Тағйири ном','Тағйир ва иловаи бино':'Тағйир ва иловаи бино','Бастан':'Бастан',
+      '🎨 Тағйири фони боло':'🎨 Тағйири фони боло','🌌 Тағйири фони пуштии боло':'🌌 Тағйири фони пуштии боло','🖼️ Тағйири фони поён':'🖼️ Тағйири фони поён','🌄 Тағйири фони қафо':'🌄 Тағйири фони қафо','Кабуд':'Кабуд','Сабз':'Сабз','Бунафш':'Бунафш','Тиллоӣ':'Тиллоӣ','Сафед':'Сафед','Кабуди равшан':'Кабуди равшан','Сабзи равшан':'Сабзи равшан','Бунафши равшан':'Бунафши равшан','🖼️ Картинка интихоб кардан':'🖼️ Картинка интихоб кардан',
+      'Илова кардани бино':'Илова кардани бино','Номи бино *':'Номи бино *','Рақами бино *':'Рақами бино *','Суроға *':'Суроға *','Шумораи ҳуҷраҳо *':'Шумораи ҳуҷраҳо *','✓ Сабт кардан':'✓ Сабт кардан','Бекор кардан':'Бекор кардан',
+      '🏢 Маълумоти бино':'🏢 Маълумоти бино','🏢 Номи бино':'🏢 Номи бино','🔢 Рақами бино':'🔢 Рақами бино','📍 Суроға':'📍 Суроға','🚪 Ҳуҷраҳо / квартираҳо':'🚪 Ҳуҷраҳо / квартираҳо','🏬 Ошёнаҳо':'🏬 Ошёнаҳо','📅 Соли ҳисоб':'📅 Соли ҳисоб','👥 Квартираҳо':'👥 Квартираҳо','💰 Маблағи умумӣ':'💰 Маблағи умумӣ','📆 Маблағи моҳона':'📆 Маблағи моҳона','✅ Супоридашуда':'✅ Супоридашуда','⚠️ Қарзи боқимонда':'⚠️ Қарзи боқимонда',
+      '✏️ Тағйири ном':'✏️ Тағйири ном','Ном ва матни зери номро тағйир диҳед.':'Ном ва матни зери номро тағйир диҳед.','Номи барнома':'Номи барнома','Матни зери ном':'Матни зери ном',
+      '🚪 Хҷҳо':'🚪 Ҳуҷраҳо','🚪 Хҷҳо / Квартираҳо':'🚪 Ҳуҷраҳо / Квартираҳо','Соли ҳисоб: 2026–2027':'Соли ҳисоб: 2026–2027','👤 Маълумоти квартира':'👤 Маълумоти квартира','🆔 Код':'🆔 Код','🚪 Рақами квартира':'🚪 Рақами квартира','👤 Ном':'👤 Ном','🏢 Ошёна':'🏢 Ошёна','📞 Телефон':'📞 Телефон','📅 Маблағи моҳона':'📅 Маблағи моҳона','📊 Ҳолат':'📊 Ҳолат',
+      '✏️ Тағйири ҳуҷра':'✏️ Тағйири ҳуҷра','Номи истиқоматкунанда':'Номи истиқоматкунанда','Телефон':'Телефон','Ошёна':'Ошёна','Маблағи умумӣ':'Маблағи умумӣ','Маблағи моҳона':'Маблағи моҳона','Супоридашуда':'Супоридашуда','Қарз':'Қарз','Ҳолат':'Ҳолат','🚪 Маълумоти ҳуҷра':'🚪 Маълумоти ҳуҷра','🔢 Рақами ҳуҷра':'🔢 Рақами ҳуҷра','👤 Номи истиқоматкунанда':'👤 Номи истиқоматкунанда','📅 Моҳона':'📅 Моҳона','⚠️ Қарз':'⚠️ Қарз','Бозгашт':'Бозгашт',
+      '🌐 Забон':'🌐 Забон','Иваз кардани забон':'Иваз кардани забон','Тоҷикӣ':'Тоҷикӣ','Русский':'Русский','English':'English',
+      'Биноҳои мавҷуда':'Биноҳои мавҷуда','Ҳоло бино нест':'Ҳоло бино нест','Удалит':'Удалит','Ин биноро удалит мекунед?':'Ин биноро удалит мекунед?','📅 Сол ва моҳ':'📅 Сол ва моҳ','Моҳ':'Моҳ','Сентябр':'Сентябр','Октябр':'Октябр','Ноябр':'Ноябр','Декабр':'Декабр','Январ':'Январ','Феврал':'Феврал','Март':'Март','Апрел':'Апрел','Май':'Май','Июн':'Июн','Июл':'Июл','Август':'Август','ЯК':'ЯК','ДУ':'ДУ','СЕ':'СЕ','ЧА':'ЧА','ПА':'ПА','ША':'ША','ЯШ':'ЯШ','Холӣ':'Холӣ','ҚИСМАН':'ҚИСМАН','НАСУПОРИД':'НАСУПОРИД','сомонӣ':'сомонӣ'
+    },
+    ru:{
+      'Танзими Бино':'Управление зданием','ТАНЗИМИ БИНО':'УПРАВЛЕНИЕ ЗДАНИЕМ','Беҳтар, осон, барои шумо':'Лучше, проще, для вас','📅 Сана:':'📅 Дата:',
+      'Меню':'Меню','⚙️ Танзимот':'⚙️ Настройки','Биноҳо':'Здания','Ҳуҷраҳо':'Квартиры','Хуҷраҳо':'Квартиры','Хҷҳо':'Квартиры','Хҷ':'Кв.','Пардохтҳо':'Платежи','Ҳисобот':'Отчёты',
+      'Биноҳои ман':'Мои здания','🏷️ Тағйири логотип':'🏷️ Изменить логотип','Номи логотип':'Название логотипа','Фони логотип':'Фон логотипа','Расми логотип':'Изображение логотипа','💾 Сабт кардан':'💾 Сохранить',
+      'Тағйири логотип':'Изменить логотип','Тағйири фони боло':'Изменить верхний фон','Тағйири фони пуштии боло':'Изменить фон верхней части','Тағйири фони поён':'Изменить нижний фон','Тағйири фони қафо':'Изменить задний фон','Тағйири ном':'Изменить название','Тағйир ва иловаи бино':'Изменить и добавить здание','Бастан':'Закрыть',
+      '🎨 Тағйири фони боло':'🎨 Изменить верхний фон','🌌 Тағйири фони пуштии боло':'🌌 Изменить фон верхней части','🖼️ Тағйири фони поён':'🖼️ Изменить нижний фон','🌄 Тағйири фони қафо':'🌄 Изменить задний фон','Кабуд':'Синий','Сабз':'Зелёный','Бунафш':'Фиолетовый','Тиллоӣ':'Золотой','Сафед':'Белый','Кабуди равшан':'Светло-синий','Сабзи равшан':'Светло-зелёный','Бунафши равшан':'Светло-фиолетовый','🖼️ Картинка интихоб кардан':'🖼️ Выбрать изображение',
+      'Илова кардани бино':'Добавить здание','Номи бино *':'Название здания *','Рақами бино *':'Номер здания *','Суроға *':'Адрес *','Шумораи ҳуҷраҳо *':'Количество квартир *','✓ Сабт кардан':'✓ Сохранить','Бекор кардан':'Отмена',
+      '🏢 Маълумоти бино':'🏢 Информация о здании','🏢 Номи бино':'🏢 Название здания','🔢 Рақами бино':'🔢 Номер здания','📍 Суроға':'📍 Адрес','🚪 Ҳуҷраҳо / квартираҳо':'🚪 Квартиры','🏬 Ошёнаҳо':'🏬 Этажи','📅 Соли ҳисоб':'📅 Расчётный год','👥 Квартираҳо':'👥 Квартиры','💰 Маблағи умумӣ':'💰 Общая сумма','📆 Маблағи моҳона':'📆 Ежемесячная сумма','✅ Супоридашуда':'✅ Оплачено','⚠️ Қарзи боқимонда':'⚠️ Остаток долга',
+      '✏️ Тағйири ном':'✏️ Изменить название','Ном ва матни зери номро тағйир диҳед.':'Измените название и текст под ним.','Номи барнома':'Название приложения','Матни зери ном':'Текст под названием',
+      '🚪 Хҷҳо':'🚪 Квартиры','🚪 Хҷҳо / Квартираҳо':'🚪 Квартиры','Соли ҳисоб: 2026–2027':'Расчётный год: 2026–2027','👤 Маълумоти квартира':'👤 Информация о квартире','🆔 Код':'🆔 Код','🚪 Рақами квартира':'🚪 Номер квартиры','👤 Ном':'👤 Имя','🏢 Ошёна':'🏢 Этаж','📞 Телефон':'📞 Телефон','📅 Маблағи моҳона':'📅 Ежемесячная сумма','📊 Ҳолат':'📊 Статус',
+      '✏️ Тағйири ҳуҷра':'✏️ Изменить квартиру','Номи истиқоматкунанда':'Имя жильца','Телефон':'Телефон','Ошёна':'Этаж','Маблағи умумӣ':'Общая сумма','Маблағи моҳона':'Ежемесячная сумма','Супоридашуда':'Оплачено','Қарз':'Долг','Ҳолат':'Статус','🚪 Маълумоти ҳуҷра':'🚪 Информация о квартире','🔢 Рақами ҳуҷра':'🔢 Номер квартиры','👤 Номи истиқоматкунанда':'👤 Имя жильца','📅 Моҳона':'📅 Ежемесячно','⚠️ Қарз':'⚠️ Долг','Бозгашт':'Назад',
+      '🌐 Забон':'🌐 Язык','Иваз кардани забон':'Смена языка','Тоҷикӣ':'Таджикский','Биноҳои мавҷуда':'Существующие здания','Ҳоло бино нест':'Зданий пока нет','Удалит':'Удалить','Ин биноро удалит мекунед?':'Удалить это здание?','📅 Сол ва моҳ':'📅 Год и месяц','Моҳ':'Месяц','Сентябр':'Сентябрь','Октябр':'Октябрь','Ноябр':'Ноябрь','Декабр':'Декабрь','Январ':'Январь','Феврал':'Февраль','Март':'Март','Апрел':'Апрель','Май':'Май','Июн':'Июнь','Июл':'Июль','Август':'Август','ЯК':'ПН','ДУ':'ВТ','СЕ':'СР','ЧА':'ЧТ','ПА':'ПТ','ША':'СБ','ЯШ':'ВС','Холӣ':'Свободно','ҚИСМАН':'Частично','НАСУПОРИД':'Не оплачено','сомонӣ':'сомони'
+    },
+    en:{
+      'Танзими Бино':'Building Management','ТАНЗИМИ БИНО':'BUILDING MANAGEMENT','Беҳтар, осон, барои шумо':'Better, easier, for you','📅 Сана:':'📅 Date:',
+      'Меню':'Menu','⚙️ Танзимот':'⚙️ Settings','Биноҳо':'Buildings','Ҳуҷраҳо':'Apartments','Хуҷраҳо':'Apartments','Хҷҳо':'Apartments','Хҷ':'Apt.','Пардохтҳо':'Payments','Ҳисобот':'Reports',
+      'Биноҳои ман':'My buildings','🏷️ Тағйири логотип':'🏷️ Change logo','Номи логотип':'Logo name','Фони логотип':'Logo background','Расми логотип':'Logo image','💾 Сабт кардан':'💾 Save',
+      'Тағйири логотип':'Change logo','Тағйири фони боло':'Change top background','Тағйири фони пуштии боло':'Change upper background','Тағйири фони поён':'Change bottom background','Тағйири фони қафо':'Change back background','Тағйири ном':'Change name','Тағйир ва иловаи бино':'Edit and add building','Бастан':'Close',
+      '🎨 Тағйири фони боло':'🎨 Change top background','🌌 Тағйири фони пуштии боло':'🌌 Change upper background','🖼️ Тағйири фони поён':'🖼️ Change bottom background','🌄 Тағйири фони қафо':'🌄 Change back background','Кабуд':'Blue','Сабз':'Green','Бунафш':'Purple','Тиллоӣ':'Gold','Сафед':'White','Кабуди равшан':'Light blue','Сабзи равшан':'Light green','Бунафши равшан':'Light purple','🖼️ Картинка интихоб кардан':'🖼️ Choose image',
+      'Илова кардани бино':'Add building','Номи бино *':'Building name *','Рақами бино *':'Building number *','Суроға *':'Address *','Шумораи ҳуҷраҳо *':'Number of apartments *','✓ Сабт кардан':'✓ Save','Бекор кардан':'Cancel',
+      '🏢 Маълумоти бино':'🏢 Building information','🏢 Номи бино':'🏢 Building name','🔢 Рақами бино':'🔢 Building number','📍 Суроға':'📍 Address','🚪 Ҳуҷраҳо / квартираҳо':'🚪 Apartments','🏬 Ошёнаҳо':'🏬 Floors','📅 Соли ҳисоб':'📅 Calculation year','👥 Квартираҳо':'👥 Apartments','💰 Маблағи умумӣ':'💰 Total amount','📆 Маблағи моҳона':'📆 Monthly amount','✅ Супоридашуда':'✅ Paid','⚠️ Қарзи боқимонда':'⚠️ Remaining debt',
+      '✏️ Тағйири ном':'✏️ Change name','Ном ва матни зери номро тағйир диҳед.':'Change the name and subtitle.','Номи барнома':'App name','Матни зери ном':'Subtitle',
+      '🚪 Хҷҳо':'🚪 Apartments','🚪 Хҷҳо / Квартираҳо':'🚪 Apartments','Соли ҳисоб: 2026–2027':'Calculation year: 2026–2027','👤 Маълумоти квартира':'👤 Apartment information','🆔 Код':'🆔 Code','🚪 Рақами квартира':'🚪 Apartment number','👤 Ном':'👤 Name','🏢 Ошёна':'🏢 Floor','📞 Телефон':'📞 Phone','📅 Маблағи моҳона':'📅 Monthly amount','📊 Ҳолат':'📊 Status',
+      '✏️ Тағйири ҳуҷра':'✏️ Edit apartment','Номи истиқоматкунанда':'Resident name','Телефон':'Phone','Ошёна':'Floor','Маблағи умумӣ':'Total amount','Маблағи моҳона':'Monthly amount','Супоридашуда':'Paid','Қарз':'Debt','Ҳолат':'Status','🚪 Маълумоти ҳуҷра':'🚪 Apartment information','🔢 Рақами ҳуҷра':'🔢 Apartment number','👤 Номи истиқоматкунанда':'👤 Resident name','📅 Моҳона':'📅 Monthly','⚠️ Қарз':'⚠️ Debt','Бозгашт':'Back',
+      '🌐 Забон':'🌐 Language','Иваз кардани забон':'Change language','Тоҷикӣ':'Tajik','Биноҳои мавҷуда':'Existing buildings','Ҳоло бино нест':'No buildings yet','Удалит':'Delete','Ин биноро удалит мекунед?':'Delete this building?','📅 Сол ва моҳ':'📅 Year and month','Моҳ':'Month','Сентябр':'September','Октябр':'October','Ноябр':'November','Декабр':'December','Январ':'January','Феврал':'February','Март':'March','Апрел':'April','Май':'May','Июн':'June','Июл':'July','Август':'August','ЯК':'MON','ДУ':'TUE','СЕ':'WED','ЧА':'THU','ПА':'FRI','ША':'SAT','ЯШ':'SUN','Холӣ':'Empty','ҚИСМАН':'Partial','НАСУПОРИД':'Not paid','сомонӣ':'somoni'
+    }
+  };
+
+  let activeLang=localStorage.getItem('appLanguage')||'tg';
+  const sourceMap={};
+  Object.keys(UI).forEach(L=>Object.keys(UI[L]).forEach(k=>{ if(!sourceMap[k])sourceMap[k]=k; }));
+
+  function translateNode(root,lang){
+    const d=UI[lang]||UI.tg;
+    const from=UI[activeLang]||UI.tg;
+    const walker=document.createTreeWalker(root||document.body,NodeFilter.SHOW_TEXT,{acceptNode(n){
+      const p=n.parentElement; if(!p || ['SCRIPT','STYLE','NOSCRIPT'].includes(p.tagName)) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[]; let n; while(n=walker.nextNode()) nodes.push(n);
+    nodes.forEach(n=>{
+      const raw=n.nodeValue, key=raw.trim(); if(!key)return;
+      let target=null;
+      // Prefer text in the previously active language so switching is reversible.
+      for(const k of Object.keys(from)){ if(k===key){ target=d[k]; break; } }
+      if(target==null){ for(const L of Object.keys(UI)){ const map=UI[L]; if(Object.prototype.hasOwnProperty.call(map,key)){ target=d[key]!==undefined?d[key]:key; break; } } }
+      if(target!=null && target!==key) n.nodeValue=raw.replace(key,target);
+      else {
+        let m=key.match(/^(.+?)\s+—\s+(\d+)\s+(ҳуҷра|квартира|квартиры|apartments)$/i);
+        if(m){ const label=lang==='tg'?'ҳуҷра':(lang==='ru'?'квартир':'apartments'); const out=m[1]+' — '+m[2]+' '+label; if(out!==key)n.nodeValue=raw.replace(key,out); return; }
+        m=key.match(/^(?:Хҷ(?:и| №)|Ҳуҷраи №|Квартира №|Apartment #)\s*(\d+)$/i);
+        if(m){ const out=lang==='tg'?'Ҳуҷраи №'+m[1]:(lang==='ru'?'Квартира №'+m[1]:'Apartment #'+m[1]); if(out!==key)n.nodeValue=raw.replace(key,out); return; }
+        if(/^Соли ҳисоб:\s*2026–2027$/.test(key)){ const out=lang==='tg'?'Соли ҳисоб: 2026–2027':(lang==='ru'?'Расчётный год: 2026–2027':'Calculation year: 2026–2027'); if(out!==key)n.nodeValue=raw.replace(key,out); }
+      }
+    });
+    document.querySelectorAll('input[placeholder],textarea[placeholder]').forEach(el=>{ const p=el.getAttribute('placeholder'); if(p && from[p] && d[p] && d[p]!==p) el.setAttribute('placeholder',d[p]); });
+  }
+
+  window.setAppLanguage=function(lang){
+    if(!UI[lang])lang='tg';
+    const prev=activeLang; activeLang=prev;
+    translateNode(document.body,lang);
+    activeLang=lang;
+    localStorage.setItem('appLanguage',lang);
+    document.documentElement.lang=lang==='tg'?'tg':lang;
+    document.querySelectorAll('#languageModal .lang-option').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+  };
+
+  function run(){ const lang=localStorage.getItem('appLanguage')||'tg'; activeLang=lang; translateNode(document.body,lang); document.documentElement.lang=lang==='tg'?'tg':lang; }
+  window.addEventListener('load',()=>setTimeout(run,50));
+  const obs=new MutationObserver(()=>{ const lang=localStorage.getItem('appLanguage')||'tg'; translateNode(document.body,lang); });
+  obs.observe(document.body,{childList:true,subtree:true});
+})();
+</script>
+
+
+<!-- ИЛОВА: Сол танҳо барои маълумоти молиявӣ -->
+<style id="year-payment-only-style">
+  #buildingInfoModal .year-payment-note{
+    margin-top:10px;padding:10px 12px;border-radius:12px;
+    background:#eef6ff;color:#31506f;font-size:12px;line-height:1.35;
+  }
+  #roomPersonalModal .room-year-panel{
+    margin-top:14px;padding:12px;border:1px solid #e4eaf2;
+    border-radius:16px;background:#f8fafc;
+  }
+  #roomPersonalModal .room-year-panel select{
+    width:100%;padding:11px;border:1px solid #d8e0ea;
+    border-radius:12px;background:#fff;font-size:15px;margin-top:6px;
+  }
+</style>
+
+<script id="year-payment-only-js">
+(function(){
+  const BASE_YEAR = '2026–2027';
+  const YEARS = [];
+  for(let y=2000;y<=2100;y++) YEARS.push(y+'–'+(y+1));
+
+  function money(v){
+    return Number(v||0).toLocaleString('ru-RU')+' сомонӣ';
+  }
+
+  function getBaseRoom(apt){
+    const a=String(apt);
+    if(typeof excelApartments20262027!=='undefined'){
+      const r=excelApartments20262027.find(x=>String(x.apt)===a);
+      if(r) return r;
+    }
+    if(typeof roomPersonalData!=='undefined'){
+      const r=roomPersonalData.find(x=>String(x.apt)===a);
+      if(r) return r;
+    }
+    return null;
+  }
+
+  function paymentsKey(year){
+    return 'tanzimiBinoPayments_'+year;
+  }
+
+  function getPayments(year){
+    try{return JSON.parse(localStorage.getItem(paymentsKey(year))||'{}')||{}}
+    catch(e){return {}}
+  }
+
+  function setPayment(year,apt,paid){
+    const p=getPayments(year);
+    p[String(apt)]=Number(paid)||0;
+    localStorage.setItem(paymentsKey(year),JSON.stringify(p));
+  }
+
+  // 2026–2027 = маълумоти воқеии Excel.
+  // Солҳои дигар: номи шахс, код, ошёна, телефон, маблағи умумӣ ва моҳона
+  // ҳамон мемонанд; танҳо супоридашуда/қарз аз ҳамон сол гирифта мешавад.
+  function financialFor(r,year){
+    const basePaid=Number(r.paid)||0;
+    if(year===BASE_YEAR){
+      return {
+        paid:basePaid,
+        debt:Math.max(0,Number(r.total)||0-basePaid),
+        status:r.status||((basePaid>0)?'ҚИСМАН':'НАСУПОРИД')
+      };
+    }
+    const p=getPayments(year);
+    const paid=Object.prototype.hasOwnProperty.call(p,String(r.apt))
+      ? Number(p[String(r.apt)])||0 : 0;
+    const total=Number(r.total)||0;
+    return {
+      paid:paid,
+      debt:Math.max(0,total-paid),
+      status:paid>=total && total>0 ? 'ПУРРА СУПОРИД' : (paid>0 ? 'ҚИСМАН' : 'НАСУПОРИД')
+    };
+  }
+
+  function selectedYear(){
+    return localStorage.getItem('tanzimiBinoSelectedYear')||BASE_YEAR;
+  }
+
+  function makeYearSelect(id,current){
+    let s=document.getElementById(id);
+    if(!s)return null;
+    if(!s.options.length) YEARS.forEach(y=>s.add(new Option(y,y)));
+    s.value=YEARS.includes(current)?current:BASE_YEAR;
+    return s;
+  }
+
+  function applyBuildingYear(year){
+    localStorage.setItem('tanzimiBinoSelectedYear',year);
+    const b=(window.buildings||[]).find(x=>String(x.number)==='01')||(window.buildings||[])[0];
+    if(!b)return;
+
+    const data=(typeof excelApartments20262027!=='undefined')?excelApartments20262027:[];
+    let paid=0,total=0;
+    data.forEach(r=>{
+      total+=Number(r.total)||0;
+      paid+=financialFor(r,year).paid;
+    });
+
+    const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+    set('biYear',year);
+    set('biApartments',data.length||b.apartments||b.rooms||72);
+    set('biTotal',money(total||b.total||43200));
+    set('biMonthly',money(data.reduce((s,r)=>s+(Number(r.monthly)||0),0)||b.monthly||3600));
+    set('biPaid',money(paid));
+    set('biDebt',money(Math.max(0,(total||b.total||43200)-paid)));
+
+    const note=document.querySelector('#buildingInfoModal .year-payment-note');
+    if(note) note.textContent = year===BASE_YEAR
+      ? 'Маълумоти молиявӣ аз соли 2026–2027 гирифта шудааст.'
+      : 'Дар ин сол маълумоти бино ҳамон аст; танҳо маблағи супоридашуда, қарз ва ҳолат барои ҳамин сол алоҳида ҳисоб мешавад.';
+  }
+
+  function applyRoomYear(apt,year){
+    const r=getBaseRoom(apt);
+    if(!r)return;
+    const f=financialFor(r,year);
+    const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+    set('rpApt',r.apt);
+    set('rpCode',r.code);
+    set('rpName',r.name||'Холӣ');
+    set('rpFloor',r.floor);
+    set('rpPhone',r.phone||'—');
+    set('rpTotal',money(r.total));
+    set('rpMonthly',money(r.monthly));
+    set('rpPaid',money(f.paid));
+    set('rpDebt',money(f.debt));
+    set('rpStatus',f.status||'—');
+    const s=document.getElementById('rpYearSelect');
+    if(s)s.value=year;
+  }
+
+  // Панели соли бино: маблағҳо иваз мешаванд, маълумоти ғайримолиявӣ не.
+  const oldOpenBuildingInfo=window.openBuildingInfo;
+  window.openBuildingInfo=function(number){
+    if(typeof oldOpenBuildingInfo==='function') oldOpenBuildingInfo(number);
+    const m=document.getElementById('buildingInfoModal');
+    if(!m)return;
+
+    let p=m.querySelector('.year-payment-panel');
+    if(!p){
+      p=document.createElement('div');
+      p.className='year-payment-panel year-month-panel';
+      p.innerHTML='<b>📅 Соли ҳисоб</b><select id="yearPaymentSelect"></select><div class="year-payment-note"></div>';
+      const grid=m.querySelector('.info-grid');
+      if(grid)grid.after(p);
+    }
+
+    const s=makeYearSelect('yearPaymentSelect',selectedYear());
+    if(s){
+      s.onchange=function(){
+        applyBuildingYear(this.value);
+      };
+    }
+    applyBuildingYear(s?s.value:selectedYear());
+  };
+
+  // Панели соли ҳар як ҳуҷра.
+  const oldOpenRoomPersonal=window.openRoomPersonal;
+  window.openRoomPersonal=function(apt){
+    if(typeof oldOpenRoomPersonal==='function') oldOpenRoomPersonal(apt);
+    const m=document.getElementById('roomPersonalModal');
+    if(!m)return;
+
+    let p=m.querySelector('.room-year-panel');
+    if(!p){
+      p=document.createElement('div');
+      p.className='room-year-panel';
+      p.innerHTML='<b>📅 Соли ҳисоб</b><select id="rpYearSelect"></select>';
+      const grid=m.querySelector('.personal-grid');
+      if(grid)grid.after(p);
+    }
+
+    const s=makeYearSelect('rpYearSelect',selectedYear());
+    if(s){
+      s.onchange=function(){
+        localStorage.setItem('tanzimiBinoSelectedYear',this.value);
+        applyRoomYear(apt,this.value);
+      };
+      applyRoomYear(apt,s.value);
+    }
+  };
+
+  // Ҳангоми пахши қаламча ҳамон соли интихобшуда нигоҳ дошта мешавад.
+  const oldOpenRoomEdit=window.openRoomEdit;
+  window.openRoomEdit=function(apt){
+    if(typeof oldOpenRoomEdit==='function') oldOpenRoomEdit(apt);
+    const r=getBaseRoom(apt);
+    if(!r)return;
+    const year=selectedYear();
+    const f=financialFor(r,year);
+    const e=id=>document.getElementById(id);
+    if(e('reTotal'))e('reTotal').value=r.total;
+    if(e('reMonthly'))e('reMonthly').value=r.monthly;
+    if(e('rePaid'))e('rePaid').value=f.paid;
+    if(e('reDebt'))e('reDebt').value=f.debt;
+    if(e('reStatus'))e('reStatus').value=f.status;
+  };
+
+  // Сабти қаламча: барои 2026–2027 маълумоти мавҷуда нигоҳ дошта мешавад;
+  // барои солҳои дигар танҳо маблағи супоридашуда ҷудогона нигоҳ дошта мешавад.
+  const oldSaveRoomEdit=window.saveRoomEdit;
+  window.saveRoomEdit=function(){
+    const apt=window.currentEditRoomNo;
+    const year=selectedYear();
+    const r=getBaseRoom(apt);
+    if(!r)return;
+
+    if(year!==BASE_YEAR){
+      const paid=Number(document.getElementById('rePaid')?.value)||0;
+      setPayment(year,apt,paid);
+      const f=financialFor(r,year);
+      r.paid=f.paid; r.debt=f.debt; r.status=f.status;
+      if(typeof closeRoomEdit==='function')closeRoomEdit();
+      if(typeof openRoomPersonal==='function')openRoomPersonal(apt);
+      return;
+    }
+
+    if(typeof oldSaveRoomEdit==='function')oldSaveRoomEdit();
+  };
+
+  // Рӯйхати 72 ҳуҷра: маълумоти ном/ошёна ва ғайра барои ҳама солҳо якхел мемонад.
+  const oldShowList=window.openRoomsInsideBuilding;
+  window.openRoomsInsideBuilding=function(){
+    if(typeof oldShowList==='function')oldShowList();
+    // Ягон маълумоти ҳуҷра аз сабаби интихоб кардани сол иваз намешавад.
+    // Танҳо маълумоти молиявӣ дар дохили карточкаи шахсӣ аз соли интихобшуда гирифта мешавад.
+  };
+
+  // Аввалин кушодан: 2026–2027.
+  if(!localStorage.getItem('tanzimiBinoSelectedYear')){
+    localStorage.setItem('tanzimiBinoSelectedYear',BASE_YEAR);
+  }
+})();
+</script>
+
+<style id="building-info-scroll-fix">
+/* Танҳо ҳаракати дохилии саҳифаи маълумоти бино — дигар қисмҳо дастнорасида. */
+#buildingInfoModal.show .sheet{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior:contain!important;
+  touch-action:pan-y!important;
+}
+#buildingInfoModal.show{
+  overflow:hidden!important;
+  touch-action:none!important;
+}
+</style>
+<script id="building-info-scroll-js">
+(function(){
+  function fix(){
+    var m=document.getElementById('buildingInfoModal');
+    if(!m)return;
+    var sh=m.querySelector('.sheet');
+    if(sh){sh.style.overflowY='auto';sh.style.overflowX='hidden';sh.style.webkitOverflowScrolling='touch';}
+  }
+  document.addEventListener('DOMContentLoaded',fix);
+  new MutationObserver(fix).observe(document.documentElement,{subtree:true,attributes:true,attributeFilter:['class']});
+})();
+</script>
+
+<style id="building-info-touch-scroll-final">
+/* Ҳаракати воқеии саҳифаи Маълумоти бино бо ангушт */
+#buildingInfoModal.show .sheet{
+  height:100vh!important;
+  max-height:100vh!important;
+  min-height:0!important;
+  overflow-y:scroll!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  overscroll-behavior-y:contain!important;
+  box-sizing:border-box!important;
+}
+#buildingInfoModal.show{
+  overflow:hidden!important;
+  touch-action:none!important;
+}
+</style>
+<script id="building-info-touch-scroll-final-js">
+(function(){
+  function enable(){
+    var m=document.getElementById('buildingInfoModal');
+    if(!m)return;
+    var sh=m.querySelector('.sheet');
+    if(!sh)return;
+    sh.style.overflowY='scroll';
+    sh.style.overflowX='hidden';
+    sh.style.height='100vh';
+    sh.style.maxHeight='100vh';
+    sh.style.minHeight='0';
+    sh.style.webkitOverflowScrolling='touch';
+    sh.style.touchAction='pan-y';
+  }
+  document.addEventListener('DOMContentLoaded',enable);
+  document.addEventListener('click',function(e){
+    if(e.target.closest && (e.target.closest('[onclick*="openBuildingInfo"]') || e.target.closest('#buildingInfoModal'))){
+      setTimeout(enable,50);
+    }
+  },true);
+  new MutationObserver(enable).observe(document.documentElement,{subtree:true,attributes:true,attributeFilter:['class']});
+})();
+</script>
+
+<style id="secondary-pages-scroll-addition">
+/* Танҳо саҳифаҳои иловагӣ: бо ангушт боло/поён ҳаракат мекунанд. Саҳифаи асосӣ дастнорас мемонад. */
+.modal .sheet,
+.modal .settings-sheet{
+  max-height:92vh!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-y:contain!important;
+  touch-action:pan-y!important;
+  box-sizing:border-box!important;
+}
+/* Қабатҳои дохилии маълумоти зиёд ҳам ҳаракатпазир бошанд */
+#buildingInfoModal .sheet,
+#roomsModal .sheet,
+#aptListModal .sheet,
+#aptInfoModal .sheet,
+#roomPersonalModal .sheet,
+#roomEditModal .sheet,
+#settingsModal .settings-sheet,
+#logoModal .sheet,
+#backgroundModal .sheet,
+#topBackBackgroundModal .sheet,
+#bottomBackgroundModal .sheet,
+#backBackgroundModal .sheet,
+#nameModal .sheet,
+#languageModal .sheet{
+  max-height:92vh!important;
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+}
+</style>
+
+<!-- ADDITIVE: Payments activation only. Existing structure/functions are preserved. -->
+<style id="payments-active-addition">
+#paymentsModal .sheet{max-height:92vh!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;}
+.pay-box{display:grid;gap:10px;margin-top:10px}.pay-box label{font-weight:700;font-size:14px}.pay-box select,.pay-box input{width:100%;padding:13px;border:1px solid #d5deea;border-radius:12px;font-size:16px;background:#fff}.pay-save{width:100%;border:0;border-radius:13px;padding:14px;background:#18ad69;color:#fff;font-size:16px;font-weight:700}.pay-list{margin-top:16px;display:grid;gap:8px}.pay-row{background:#f4f7fb;border-radius:13px;padding:11px 12px;display:flex;justify-content:space-between;gap:10px}.pay-row b{display:block}.pay-muted{font-size:12px;color:#718096}.pay-balance{font-weight:700;color:#1769d1}
+</style>
+<script id="payments-active-addition-js">
+(function(){
+  function moneyPay(v){return Number(v||0).toLocaleString('ru-RU')+' сомонӣ';}
+  function getRoomsPay(){
+    if(typeof excelApartments20262027!=='undefined' && Array.isArray(excelApartments20262027)) return excelApartments20262027;
+    if(typeof roomPersonalData!=='undefined' && Array.isArray(roomPersonalData)) return roomPersonalData;
+    return [];
+  }
+  function yearPay(){return localStorage.getItem('tanzimiBinoSelectedYear')||'2026–2027';}
+  function keyPay(y){return 'tanzimiBinoPayments_'+y;}
+  function getPay(y){try{return JSON.parse(localStorage.getItem(keyPay(y))||'{}')||{};}catch(e){return {};}}
+  function openPaymentsPage(){
+    var m=document.getElementById('paymentsModal');
+    if(!m){
+      m=document.createElement('div'); m.id='paymentsModal'; m.className='modal';
+      m.innerHTML='<div class="sheet" onclick="event.stopPropagation()"><div class="modal-head"><h2>💰 Пардохтҳо</h2><button class="modal-close-x" id="paymentsClose">×</button></div><div class="pay-box"><label>📅 Соли ҳисоб</label><select id="payYear"></select><label>🚪 Ҳуҷра / квартира</label><select id="payRoom"></select><div id="payRoomInfo" class="pay-muted"></div><label>💵 Маблағи супоридашуда</label><input id="payAmount" type="number" min="0" step="0.01" placeholder="Маблағ"><button class="pay-save" id="paySave">✓ Сабти пардохт</button></div><div class="pay-list" id="payList"></div></div>';
+      document.body.appendChild(m);
+      m.addEventListener('click',function(e){if(e.target===m)closePaymentsPage();});
+      document.getElementById('paymentsClose').onclick=closePaymentsPage;
+      document.getElementById('payYear').onchange=refreshPaymentsPage;
+      document.getElementById('payRoom').onchange=fillPayRoom;
+      document.getElementById('paySave').onclick=savePaymentPage;
+    }
+    populatePayYears(); populatePayRooms(); refreshPaymentsPage();
+    m.classList.add('show');
+    document.body.classList.add('modal-locked');
+  }
+  function closePaymentsPage(){var m=document.getElementById('paymentsModal');if(m)m.classList.remove('show');if(!document.querySelector('.modal.show'))document.body.classList.remove('modal-locked');}
+  function populatePayYears(){var s=document.getElementById('payYear');if(!s)return;var old=yearPay();s.innerHTML='';for(var y=2000;y<=2100;y++){var v=y+'–'+(y+1);var o=document.createElement('option');o.value=v;o.textContent=v;s.appendChild(o);}s.value=old;}
+  function populatePayRooms(){var s=document.getElementById('payRoom');if(!s)return;var rooms=getRoomsPay();s.innerHTML='';rooms.forEach(function(r){var o=document.createElement('option');o.value=r.apt;o.textContent='№ '+r.apt+' — '+(r.name||'Холӣ');s.appendChild(o);});}
+  function currentRoomPay(){var s=document.getElementById('payRoom');var rooms=getRoomsPay();return rooms.find(function(r){return String(r.apt)===String(s&&s.value);})||rooms[0]||null;}
+  function fillPayRoom(){
+    var r=currentRoomPay(), y=document.getElementById('payYear')?.value||yearPay(); if(!r)return;
+    var p=getPay(y), paid=(y==='2026–2027')?Number(r.paid||0):(Object.prototype.hasOwnProperty.call(p,String(r.apt))?Number(p[String(r.apt)])||0:0);
+    document.getElementById('payAmount').value=paid||'';
+    document.getElementById('payRoomInfo').textContent=(r.name||'Холӣ')+' • Ошёна '+(r.floor||'—')+' • Моҳона '+moneyPay(r.monthly)+' • Қарз '+moneyPay(Math.max(0,Number(r.total||0)-paid));
+  }
+  function refreshPaymentsPage(){
+    var y=document.getElementById('payYear')?.value||yearPay();localStorage.setItem('tanzimiBinoSelectedYear',y);populatePayRooms();fillPayRoom();
+    var list=document.getElementById('payList');if(!list)return;var rooms=getRoomsPay(), p=getPay(y);list.innerHTML='<b>📋 Пардохтҳои сабтшуда</b>';
+    rooms.forEach(function(r){var paid=y==='2026–2027'?Number(r.paid||0):(Object.prototype.hasOwnProperty.call(p,String(r.apt))?Number(p[String(r.apt)])||0:0);if(paid>0){var row=document.createElement('div');row.className='pay-row';row.innerHTML='<div><b>№ '+r.apt+' — '+(r.name||'Холӣ')+'</b><span class="pay-muted">Супоридашуда</span></div><div class="pay-balance">'+moneyPay(paid)+'</div>';list.appendChild(row);}});
+  }
+  function savePaymentPage(){
+    var y=document.getElementById('payYear')?.value||yearPay(), r=currentRoomPay(), amount=Number(document.getElementById('payAmount')?.value)||0;if(!r)return;
+    if(y==='2026–2027'){
+      r.paid=amount; r.debt=Math.max(0,Number(r.total||0)-amount); r.status=amount>=Number(r.total||0)&&Number(r.total||0)>0?'ПУРРА СУПОРИД':(amount>0?'ҚИСМАН':'НАСУПОРИД');
+      if(typeof roomPersonalData!=='undefined'&&Array.isArray(roomPersonalData)){var rr=roomPersonalData.find(function(x){return String(x.apt)===String(r.apt);});if(rr){rr.paid=r.paid;rr.debt=r.debt;rr.status=r.status;}}
+    }else{var p=getPay(y);p[String(r.apt)]=amount;localStorage.setItem(keyPay(y),JSON.stringify(p));}
+    localStorage.setItem('tanzimiBinoSelectedYear',y);refreshPaymentsPage();
+    if(typeof renderBuildings==='function')renderBuildings();
+  }
+  window.openPaymentsPage=openPaymentsPage; window.closePaymentsPage=closePaymentsPage;
+  document.addEventListener('DOMContentLoaded',function(){
+    var btns=document.querySelectorAll('.bottom button');
+    btns.forEach(function(btn){if(btn.textContent.indexOf('Пардохтҳо')!==-1){btn.onclick=function(e){e.preventDefault();openPaymentsPage();};}});
+  });
+})();
+</script>
+
+<style id="payments-open-top-addition">#paymentsModal .sheet,#paymentModal .sheet,#paymentsPage{scroll-behavior:smooth!important}</style>
+<script id="payments-open-top-addition-js">(function(){function r(){['paymentsModal','paymentModal','paymentsPage'].forEach(function(id){var e=document.getElementById(id);if(!e)return;var s=e.querySelector('.sheet')||e;s.scrollTop=0;try{s.querySelectorAll('.payments-list,.payment-list,.content-scroll').forEach(function(x){x.scrollTop=0})}catch(_){} })}document.addEventListener('click',function(e){var t=e.target,h=t&&t.closest?t.closest('.bottom button,.menu button'):null;if(h&&/Пардохтҳо|Платежи|Payments/.test(h.textContent||'')){setTimeout(r,30);setTimeout(r,180)}},true);document.addEventListener('DOMContentLoaded',r)})();</script>
+
+<!-- ADDITIVE FINAL FIX: payment page covers the full viewport and never lets the main header/logo/menu overlap it. -->
+<style id="payments-fullscreen-top-final-fix">
+#paymentsModal{
+  z-index:100000!important;
+  align-items:stretch!important;
+  justify-content:center!important;
+  padding:0!important;
+  background:#f4f7fb!important;
+}
+#paymentsModal .sheet{
+  width:100%!important;
+  max-width:430px!important;
+  height:100vh!important;
+  max-height:100vh!important;
+  min-height:100vh!important;
+  margin:0!important;
+  border-radius:0!important;
+  padding:calc(18px + env(safe-area-inset-top)) 18px calc(28px + env(safe-area-inset-bottom))!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch!important;
+  box-sizing:border-box!important;
+  position:relative!important;
+  z-index:100001!important;
+}
+#paymentsModal .modal-head{
+  position:relative!important;
+  z-index:2!important;
+  margin-bottom:16px!important;
+}
+</style>
+<script id="payments-fullscreen-top-final-fix-js">
+(function(){
+  function topPayment(){
+    var m=document.getElementById('paymentsModal');
+    if(!m)return;
+    var s=m.querySelector('.sheet')||m;
+    try{s.scrollTop=0;}catch(e){}
+    try{window.scrollTo(0,0);}catch(e){}
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target&&e.target.closest?e.target.closest('.bottom button'):null;
+    if(b && /Пардохтҳо|Платежи|Payments/.test(b.textContent||'')){
+      setTimeout(topPayment,20);
+      setTimeout(topPayment,150);
+    }
+  },true);
+})();
+</script>
