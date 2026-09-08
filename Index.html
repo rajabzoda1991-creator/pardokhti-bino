@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Танзими Бино</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f7fb;color:#14213d}
+.app{max-width:430px;margin:auto;min-height:100vh;background:#f4f7fb}
+.header{background:#1769d1;color:white;padding:28px 20px 24px;border-radius:0 0 26px 26px}
+.header h1{margin:0;font-size:27px}.header p{margin:7px 0 0;opacity:.9}.header-date{font-size:12px;margin-top:8px;opacity:.85}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hamburger{width:46px;height:46px;border:1px solid rgba(255,255,255,.38);border-radius:15px;background:rgba(255,255,255,.16);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 6px 18px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.28);color:white;font-size:25px;cursor:pointer;transition:transform .15s ease,background .15s ease}.hamburger:active{transform:scale(.94);background:rgba(255,255,255,.24)}
+.side-menu{position:fixed;z-index:20;top:0;right:-310px;width:290px;height:100vh;background:white;padding:22px 16px;box-shadow:-5px 0 25px #0003;transition:right .25s ease}
+.side-menu.open{right:0}
+.menu-head{display:flex;justify-content:space-between;align-items:center;font-size:21px;margin-bottom:20px}
+.menu-head button{border:0;background:#edf1f6;border-radius:10px;width:38px;height:38px;font-size:18px}
+.side-menu>button:not(.menu-head button){display:block;width:100%;text-align:left;border:0;background:#f3f6fa;margin:8px 0;padding:15px;border-radius:13px;font-size:16px;color:#1d3557}
+.overlay{display:none;position:fixed;z-index:19;inset:0;background:#0006;touch-action:none}
+.overlay.show{display:block}
+.menu{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px 14px 4px}
+.menu button{border:0;background:white;border-radius:15px;padding:12px 4px;font-size:12px;color:#35506f}
+.menu button.active{background:#e1efff;color:#1769d1;font-weight:700}
+.icon{display:block;font-size:24px;margin-bottom:4px}
+.content{padding:12px 18px 90px}.title{display:flex;justify-content:space-between;align-items:center}.title h2{font-size:24px;margin:12px 0}.count{color:#7d8da5}
+.search{background:#e8eef6;border:0;border-radius:14px;width:100%;padding:14px 16px;font-size:15px;margin-bottom:14px}
+.card{background:white;border-radius:18px;padding:13px;margin:10px 0;display:flex;align-items:center;gap:12px;box-shadow:0 2px 10px #0000000b}
+.pic{width:58px;height:58px;border-radius:13px;background:#dcecff;display:flex;align-items:center;justify-content:center;font-size:29px}
+.info{flex:1}.info h3{margin:0 0 4px;font-size:17px}.info p{margin:2px 0;color:#718096;font-size:13px}.arrow{font-size:25px;color:#718096}
+.add{width:100%;border:0;border-radius:15px;background:#18ad69;color:white;font-size:17px;font-weight:700;padding:16px;margin-top:12px}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(430px,100%);background:white;border-top:1px solid #e5eaf0;display:grid;grid-template-columns:repeat(4,1fr);padding:8px 5px calc(8px + env(safe-area-inset-bottom))}
+.bottom button{border:0;background:none;color:#8492a6;font-size:11px}.bottom button.active{color:#1769d1;font-weight:700}.bottom span{display:block;font-size:22px;margin-bottom:2px}
+.modal{display:none;position:fixed;inset:0;background:#0007;align-items:flex-end;justify-content:center;overscroll-behavior:contain;touch-action:none}.modal.show{display:flex}.modal .settings-sheet{transform:translateY(100%);transition:transform .25s ease}.modal.show .settings-sheet{transform:translateY(0)}
+body.modal-locked{overflow:hidden!important;position:fixed!important;width:100%!important;touch-action:none!important}.sheet{background:white;width:min(430px,100%);border-radius:25px 25px 0 0;padding:22px 20px 30px}.sheet h2{margin-top:0}.settings-sheet{background:white;width:min(430px,100%);border-radius:25px 25px 0 0;padding:0 0 28px;overflow:hidden}.settings-blue{background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNTAwIj4KPGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeDI9IjEiIHkxPSIwIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iIzIwM2I2MyIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzExMWQzMSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0idXJsKCNnKSIvPgo8Y2lyY2xlIGN4PSI3MzAiIGN5PSIxMDUiIHI9IjYyIiBmaWxsPSIjZmZmZmZmMjIiLz4KPHBhdGggZD0iTTAgNDEwIEwxODAgMjcwIEwzMDAgMzUwIEw0NTUgMTgwIEw2MjAgMzMwIEw3NjAgMjM1IEw5MDAgMzUwIEw5MDAgNTAwIEwwIDUwMFoiIGZpbGw9IiMwYjE0MjQiLz4KPGcgZmlsbD0iI2Y0Yzg2YiI+CjxyZWN0IHg9IjE2NSIgeT0iMzAwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjE0MCIgcng9IjMiLz48cmVjdCB4PSIzMTUiIHk9IjI1MCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxOTAiIHJ4PSIzIi8+PHJlY3QgeD0iNDk1IiB5PSIzMTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iMTMwIiByeD0iMyIvPjxyZWN0IHg9IjY0NSIgeT0iMjc1IiB3aWR0aD0iMTA1IiBoZWlnaHQ9IjE2NSIgcng9IjMiLz4KPC9nPgo8ZyBmaWxsPSIjMjAzYjYzIj4KPHJlY3QgeD0iMTg1IiB5PSIzMjAiIHdpZHRoPSIyMiIgaGVpZ2h0PSIzMCIvPjxyZWN0IHg9IjIzMCIgeT0iMzIwIiB3aWR0aD0iMjIiIGhlaWdodD0iMzAiLz48cmVjdCB4PSIzMzUiIHk9IjI3NSIgd2lkdGg9IjI1IiBoZWlnaHQ9IjM0Ii8+PHJlY3QgeD0iMzgwIiB5PSIyNzUiIHdpZHRoPSIyNSIgaGVpZ2h0PSIzNCIvPjxyZWN0IHg9IjQyNSIgeT0iMjc1IiB3aWR0aD0iMjUiIGhlaWdodD0iMzQiLz4KPHJlY3QgeD0iMzM1IiB5PSIzMzAiIHdpZHRoPSIyNSIgaGVpZ2h0PSIzNCIvPjxyZWN0IHg9IjM4MCIgeT0iMzMwIiB3aWR0aD0iMjUiIGhlaWdodD0iMzQiLz48cmVjdCB4PSI0MjUiIHk9IjMzMCIgd2lkdGg9IjI1IiBoZWlnaHQ9IjM0Ii8+CjxyZWN0IHg9IjUxNSIgeT0iMzMwIiB3aWR0aD0iMjIiIGhlaWdodD0iMzAiLz48cmVjdCB4PSI1NjAiIHk9IjMzMCIgd2lkdGg9IjIyIiBoZWlnaHQ9IjMwIi8+PHJlY3QgeD0iNjY1IiB5PSIzMDAiIHdpZHRoPSIyMiIgaGVpZ2h0PSIzMiIvPjxyZWN0IHg9IjcxMCIgeT0iMzAwIiB3aWR0aD0iMjIiIGhlaWdodD0iMzIiLz4KPC9nPjwvc3ZnPg==');background-size:cover;background-position:center;color:#f4c86b;padding:25px 20px 22px;text-align:center;position:relative}.settings-body{padding:18px 20px}.setting-section{margin-top:12px}.setting-label{font-weight:700;margin-bottom:10px}.app-name-input{width:100%;padding:13px;border:1px solid #d5deea;border-radius:12px;font-size:16px}.background-options{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.bg-choice{border:0;border-radius:12px;padding:13px;color:white;font-weight:700;text-shadow:0 1px 3px #0006}.picture-btn{display:block;text-align:center;background:#edf1f6;color:#253b59;padding:14px;border-radius:12px;margin-top:10px;font-weight:700;cursor:pointer}.picture-btn input{display:none}.settings-close{float:right;border:0;background:#ffffff22;color:white;border-radius:9px;width:34px;height:34px;font-size:18px}.settings-tiles{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .small-setting-tile{
+  width:170px;height:72px;border:1px solid #dfe6ef;background:#fff;
+  border-radius:18px;display:flex;align-items:center;justify-content:flex-start;
+  gap:13px;padding:0 16px;color:#253b59;box-shadow:0 4px 14px #0000000d;
+  cursor:pointer;transition:transform .15s ease
+}
+.small-setting-tile:active{transform:scale(.97)}
+.small-setting-tile span{
+  width:48px;height:48px;border-radius:50%;background:#e8f1ff;
+  display:flex;align-items:center;justify-content:center;font-size:24px;flex:none
+}
+.small-setting-tile b{font-size:14px;font-weight:700}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.modal-head h2{margin:0}
+.modal-close-x{width:38px;height:38px;border:0;border-radius:50%;background:#edf1f6;color:#263b59;font-size:24px;line-height:38px;cursor:pointer;flex:none}
+.modal-close-x:active{transform:scale(.95)}
+.name-sheet{padding:22px 20px 28px}
+.name-subtitle{color:#718096;font-size:13px;margin:0 0 14px}
+.name-sheet .field{margin:12px 0}
+.field{margin:12px 0}.field label{display:block;font-weight:600;margin-bottom:7px}.field input{width:100%;padding:14px;border:1px solid #d5deea;border-radius:12px;font-size:16px}.save{background:#18ad69;color:white;border:0;width:100%;padding:15px;border-radius:13px;font-size:16px;font-weight:700;margin-top:8px}.cancel{background:#edf1f6;color:#3c4a5d;border:0;width:100%;padding:13px;border-radius:13px;font-size:15px;margin-top:8px}
+
+/* Bottom mirror reflection */
+.bottom{background:linear-gradient(to bottom,#1769d1 0%,#2f80d6 45%,#1769d1 100%) !important;border-top:1px solid rgba(255,255,255,.35) !important;box-shadow:0 -8px 22px rgba(23,105,209,.28);}
+.bottom button{color:rgba(255,255,255,.88) !important}.bottom button.active{color:#fff !important}
+
+/* Илова: инъикоси кабуди боло дар қисми поён */
+.bottom{overflow:hidden;background:linear-gradient(to bottom,rgba(23,105,209,.96),rgba(23,105,209,.78));border-top:1px solid rgba(255,255,255,.35);box-shadow:0 -10px 30px rgba(23,105,209,.18)}
+.bottom:before{content:"";position:absolute;left:0;right:0;top:0;height:100%;background:linear-gradient(to bottom,rgba(255,255,255,.18),rgba(255,255,255,0));pointer-events:none}
+.bottom button{position:relative;color:white}
+.bottom button.active{color:white}
+
+/* Илова: кабуди боло то қисми хеле боло меравад, бе тағйири тарҳи дохилӣ */
+.header{margin-top:0;}
+</style>
+
+<style>
+/* Илова: услуби кабуди боло монанди iPhone — то боло ва бо кунҷҳои даврашакл */
+.header{
+  margin-top:0!important;
+  border-radius:32px 32px 46px 46px!important;
+  padding-top:34px!important;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(23,105,209,.18);
+}
+</style>
+
+<style>
+/* Илова: фонти менюи боло шишагин */
+.hamburger{background:rgba(255,255,255,.16)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.38)!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.35),0 6px 18px rgba(0,60,150,.18)!important;}
+</style>
+
+<style>
+/* Илова: кунҷҳои болоии панели кабуди поён даврашакл */
+.bottom{border-radius:28px 28px 0 0 !important;}
+</style>
+<style>
+/* additive: bottom glass blue follows selected header background */
+.bottom{background:var(--app-bottom-bg,#1769d1)!important;color:white!important;border-top:0!important;border-radius:26px 26px 0 0!important;overflow:hidden;}
+.bottom button{color:#ffffffcc!important}.bottom button.active{color:white!important}
+</style>
+<!-- Илова: иконка барои экрани телефон, силуэти хона -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%231769d1'/%3E%3Cpath d='M45 82 L90 42 L135 82 V138 H105 V105 H75 V138 H45 Z' fill='white'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%231769d1'/%3E%3Cpath d='M15 30 L32 15 L49 30 V51 H37 V37 H27 V51 H15 Z' fill='white'/%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-title" content="Танзими Бино">
+
+<!-- PWA: насб ба экрани телефон -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1769d1">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script>
+if('serviceWorker' in navigator){ window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{})); }
+</script>
+
+<style id="add-rounded-windows">
+/* ADDITIVE: rounded corners for all opened panels/windows */
+.side-menu{border-radius:32px 0 0 32px;overflow:hidden;}
+.modal .sheet,.modal .settings-sheet{border-radius:32px 32px 0 0;overflow:hidden;}
+</style>
+
+<!-- ADDITIVE: iPhone-style full blue top area and matching bottom panel -->
+<style>
+html,body{background:#1769d1!important;}
+body{margin:0!important;}
+.app{background:#f4f7fb!important;overflow:hidden;}
+.header{
+  position:relative!important;
+  width:100%!important;
+  min-height:360px!important;
+  margin:0!important;
+  padding:calc(22px + env(safe-area-inset-top)) 20px 48px!important;
+  border-radius:0 0 54px 54px!important;
+  background:#1769d1!important;
+  box-shadow:0 14px 34px rgba(23,105,209,.28)!important;
+}
+.header:before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,0) 38%,rgba(255,255,255,.06) 100%);}
+.header .topbar{position:relative;z-index:1;}
+.menu{padding-top:18px!important;}
+.bottom{
+  min-height:116px!important;
+  padding:16px 8px calc(16px + env(safe-area-inset-bottom))!important;
+  border-radius:34px 34px 0 0!important;
+  background:linear-gradient(to bottom,#1769d1,#2878d8)!important;
+  box-shadow:0 -10px 30px rgba(23,105,209,.24)!important;
+}
+</style>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+</head>
+<body>
+<div class="app">
+<header class="header">
+<div class="topbar">
+  <div><h1>🏢 ТАНЗИМИ БИНО</h1><p>Беҳтар, осон, барои шумо</p><div class="header-date">📅 Сана: <span id="mainDate"></span></div></div>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Меню">☰</button>
+</div>
+</header>
+
+<div class="side-menu" id="sideMenu">
+  <div class="menu-head">
+    <strong>Меню</strong>
+    <button onclick="toggleMenu()">✕</button>
+  </div>
+  <button onclick="toggleMenu()">🏢 &nbsp; Биноҳо</button>
+  <button onclick="alert('Ин қисмро дар Қадами 2 месозем.')">🚪 &nbsp; Хуҷраҳо</button>
+  <button onclick="alert('Ин қисмро баъдтар месозем.')">💰 &nbsp; Пардохтҳо</button>
+  <button onclick="alert('Ин қисмро баъдтар месозем.')">📊 &nbsp; Ҳисобот</button>
+  <button onclick="openSettings()">⚙️ &nbsp; Танзимот</button>
+</div>
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+<nav class="menu">
+<button class="active"><span class="icon">🏢</span>Биноҳо</button>
+<button><span class="icon">🚪</span>Хуҷраҳо</button>
+<button><span class="icon">💰</span>Пардохтҳо</button>
+<button><span class="icon">📊</span>Ҳисобот</button>
+</nav>
+<main class="content">
+<div class="title"><h2>Биноҳои ман</h2><span class="count" id="count">1</span></div>
+<input class="search" id="search" placeholder="🔍  Ҷустуҷӯи бино...">
+<div id="list"></div>
+</main>
+<div class="bottom">
+<button class="active"><span>🏢</span>Биноҳо</button>
+<button><span>🚪</span>Хуҷраҳо</button>
+<button><span>💰</span>Пардохтҳо</button>
+<button><span>📊</span>Ҳисобот</button>
+</div>
+</div>
+
+<div class="modal" id="settingsModal" onclick="if(event.target===this) closeSettings()">
+<div class="sheet" onclick="event.stopPropagation()">
+  <div class="modal-head"><h2>⚙️ Танзимот</h2><button class="modal-close-x" onclick="closeSettings()">×</button></div>
+  <div class="settings-tiles">
+      <button class="small-setting-tile" onclick="openBackgroundSettings()">
+        <span>🎨</span><b>Тағйири фон</b>
+      </button>
+      <button class="small-setting-tile" onclick="openNameSettings()">
+        <span>✏️</span><b>Тағйири ном</b>
+      </button>
+      <button class="small-setting-tile" onclick="openBuildingFromSettings()">
+        <span>🏢</span><b>Иловаи бино</b>
+      </button>
+    </div>
+  <button class="cancel" onclick="closeSettings()">Бастан</button>
+</div>
+</div>
+
+<div class="modal" id="backgroundModal" onclick="if(event.target===this) closeBackgroundSettings()">
+<div class="sheet" onclick="event.stopPropagation()">
+  <div class="modal-head"><h2>🎨 Тағйири фон</h2><button class="modal-close-x" onclick="closeBackgroundSettings()">×</button></div>
+  <div class="background-options">
+    <button class="bg-choice" style="background:#1769d1" onclick="setAppBg('#1769d1')">Кабуд</button>
+    <button class="bg-choice" style="background:#168a63" onclick="setAppBg('#168a63')">Сабз</button>
+    <button class="bg-choice" style="background:#6b4bb3" onclick="setAppBg('#6b4bb3')">Бунафш</button>
+    <button class="bg-choice" style="background:#b56b22" onclick="setAppBg('#b56b22')">Тиллоӣ</button>
+  </div>
+  <label class="picture-btn">🖼️ Картинка интихоб кардан
+    <input type="file" accept="image/*" onchange="setAppPicture(event)">
+  </label>
+  <button class="cancel" onclick="closeBackgroundSettings()">Бастан</button>
+</div>
+</div>
+
+<div class="modal" id="modal" onclick="if(event.target===this) closeModal()">
+<div class="sheet" onclick="event.stopPropagation()">
+<div class="modal-head"><h2>Илова кардани бино</h2><button class="modal-close-x" onclick="closeModal()">×</button></div>
+<div class="field"><label>Номи бино *</label><input id="name" placeholder="Масалан: Бинои марказӣ"></div>
+<div class="field"><label>Рақами бино *</label><input id="number" placeholder="Масалан: 01"></div>
+<div class="field"><label>Суроға *</label><input id="address" placeholder="Масалан: Душанбе, кӯчаи Сомонӣ 12"></div>
+<div class="field"><label>Шумораи ҳуҷраҳо *</label><input id="rooms" type="number" placeholder="Масалан: 24"></div>
+<button class="save" onclick="saveBuilding()">✓ Сабт кардан</button>
+<button class="cancel" onclick="closeModal()">Бекор кардан</button>
+</div>
+</div>
+
+<script>
+let buildings=[
+{name:"Бинои марказӣ",number:"01",address:"Душанбе, кӯчаи Сомонӣ 12",rooms:24}
+];
+
+let pageStack=[];
+
+function render(){
+ const q=(document.getElementById('search')?.value||'').toLowerCase();
+ const data=buildings.filter(b=>(b.name+" "+b.number+" "+b.address).toLowerCase().includes(q));
+ const count=document.getElementById('count');
+ const list=document.getElementById('list');
+ if(count)count.textContent=buildings.length;
+ if(list)list.innerHTML=data.map(b=>`
+ <div class="card"><div class="pic">🏢</div><div class="info">
+ <h3>${b.name}</h3><p>${b.address}</p><p>🏠 ${b.rooms} ҳуҷра</p>
+ </div><div class="arrow">›</div></div>`).join('');
+}
+
+function lockBackground(){ document.body.classList.add('modal-locked'); }
+
+function unlockBackground(){
+ const ids=['settingsModal','backgroundModal','modal','nameModal'];
+ const anyOpen=ids.some(id=>document.getElementById(id)?.classList.contains('show'));
+ const menuOpen=document.getElementById('sideMenu')?.classList.contains('open');
+ if(!anyOpen && !menuOpen)document.body.classList.remove('modal-locked');
+}
+
+function hideAllModals(){
+ ['settingsModal','backgroundModal','modal','nameModal'].forEach(id=>{
+   const e=document.getElementById(id); if(e)e.classList.remove('show');
+ });
+}
+
+function openModalById(id){
+ hideAllModals();
+ const e=document.getElementById(id);
+ if(e){e.classList.add('show');lockBackground();}
+}
+
+function openSettings(){
+ const menu=document.getElementById('sideMenu'), overlay=document.getElementById('overlay');
+ menu?.classList.remove('open'); overlay?.classList.remove('show');
+ pageStack=[];
+ openModalById('settingsModal');
+}
+
+function closeSettings(){
+ hideAllModals();
+ pageStack=[];
+ unlockBackground();
+}
+
+function openBackgroundSettings(){
+ pageStack.push('settingsModal');
+ openModalById('backgroundModal');
+}
+
+function closeBackgroundSettings(){
+ const previous=pageStack.pop()||'settingsModal';
+ openModalById(previous);
+}
+
+function openNameSettings(){
+ const n=document.getElementById('appNameInput');
+ const s=document.getElementById('appSubtitleInput');
+ if(n)n.value=localStorage.getItem('appName')||'ТАНЗИМИ БИНО';
+ if(s)s.value=localStorage.getItem('appSubtitle')||'Беҳтар, осон, барои шумо';
+ pageStack.push('settingsModal');
+ openModalById('nameModal');
+}
+
+function closeNameSettings(){
+ const previous=pageStack.pop()||'settingsModal';
+ openModalById(previous);
+}
+
+function saveNameSettings(){
+ const n=(document.getElementById('appNameInput')?.value||'').trim()||'ТАНЗИМИ БИНО';
+ const s=(document.getElementById('appSubtitleInput')?.value||'').trim()||'Беҳтар, осон, барои шумо';
+ localStorage.setItem('appName',n);
+ localStorage.setItem('appSubtitle',s);
+ applySavedSettings();
+ closeNameSettings();
+}
+
+function applySavedSettings(){
+ const n=localStorage.getItem('appName')||'ТАНЗИМИ БИНО';
+ const s=localStorage.getItem('appSubtitle')||'Беҳтар, осон, барои шумо';
+ const title=document.querySelector('.header h1');
+ const subtitle=document.querySelector('.header p');
+ if(title)title.textContent='🏢 '+n;
+ if(subtitle)subtitle.textContent=s;
+}
+
+function restoreAppName(){ applySavedSettings(); }
+function restoreAppSubtitle(){ applySavedSettings(); }
+function restoreTitleColor(){}
+
+function openBuildingFromSettings(){
+ pageStack.push('settingsModal');
+ openModalById('modal');
+}
+
+function openModal(){
+ pageStack=[];
+ openModalById('modal');
+}
+
+function closeModal(){
+ const previous=pageStack.pop();
+ if(previous){
+  hideAllModals();
+  openModalById(previous);
+  return;
+ }
+ hideAllModals();
+ unlockBackground();
+}
+
+function saveBuilding(){
+ const name=document.getElementById('name').value.trim();
+ const number=document.getElementById('number').value.trim();
+ const address=document.getElementById('address').value.trim();
+ const rooms=document.getElementById('rooms').value;
+ if(!name||!number||!address||!rooms){alert("Ҳамаи майдонҳоро пур кунед.");return}
+ buildings.push({name,number,address,rooms});
+ ["name","number","address","rooms"].forEach(id=>document.getElementById(id).value="");
+ closeModal();render();
+}
+
+function toggleMenu(){
+ const m=document.getElementById('sideMenu'), o=document.getElementById('overlay');
+ const opening=!m.classList.contains('open');
+ m.classList.toggle('open');o.classList.toggle('show');
+ if(opening)lockBackground();else unlockBackground();
+}
+
+function updateDates(){
+ const d=new Date();
+ const s=String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();
+ const a=document.getElementById('mainDate'), b=document.getElementById('settingsDate');
+ if(a)a.textContent=s;if(b)b.textContent=s;
+}
+
+function restoreAppBackground(){
+ const img=localStorage.getItem('appBgImage'), color=localStorage.getItem('appBg');
+ const h=document.querySelector('.header');
+ if(!h)return;
+ if(img){h.style.backgroundImage=`url("${img}")`;h.style.backgroundSize='cover';h.style.backgroundPosition='center';}
+ else if(color){h.style.backgroundImage='none';h.style.backgroundColor=color;}
+  if(color){const bottom=document.querySelector('.bottom'); if(bottom)bottom.style.background=color;}
+}
+
+function setAppBg(color){
+ const h=document.querySelector('.header');
+ if(h){h.style.backgroundImage='none';h.style.backgroundColor=color;}
+ localStorage.setItem('appBg',color);
+ localStorage.removeItem('appBgImage');
+}
+
+function setAppPicture(event){
+ const file=event.target.files[0];if(!file)return;
+ const reader=new FileReader();
+ reader.onload=function(e){
+  const h=document.querySelector('.header');
+  h.style.backgroundImage=`url("${e.target.result}")`;
+  h.style.backgroundSize='cover';h.style.backgroundPosition='center';
+  localStorage.setItem('appBgImage',e.target.result);
+  localStorage.removeItem('appBg');
+ };
+ reader.readAsDataURL(file);
+}
+
+document.getElementById('search')?.addEventListener('input',render);
+restoreAppBackground();
+restoreAppName();
+updateDates();
+setInterval(updateDates,60000);
+render();
+</script>
+
+
+
+<div class="modal" id="nameModal" onclick="if(event.target===this) closeNameSettings()">
+  <div class="sheet name-sheet" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <h2>✏️ Тағйири ном</h2>
+      <button class="modal-close-x" onclick="closeNameSettings()">×</button>
+    </div>
+    <p class="name-subtitle">Ном ва матни зери номро тағйир диҳед.</p>
+    <div class="field"><label>Номи барнома</label>
+      <input id="appNameInput" type="text" placeholder="ТАНЗИМИ БИНО"></div>
+    <div class="field"><label>Матни зери ном</label>
+      <input id="appSubtitleInput" type="text" placeholder="Беҳтар, осон, барои шумо"></div>
+    <button class="save" onclick="saveNameSettings()">✓ Сабт кардан</button>
+    <button class="cancel" onclick="closeNameSettings()">Бастан</button>
+  </div>
+</div>
+
+<script>
+// Илова: X дар равзанаи «Иловаи бино» танҳо як қадам қафо меравад.
+(function(){
+  const oldCloseModal = window.closeModal;
+  window.closeModal = function(){
+    if (document.getElementById('addBuildingModal')?.classList.contains('show')) {
+      document.getElementById('addBuildingModal').classList.remove('show');
+      if (typeof unlockBackground === 'function') unlockBackground();
+      return;
+    }
+    if (typeof oldCloseModal === 'function') oldCloseModal();
+  };
+})();
+</script>
+<script>
+(function(){
+ const oldBg=window.setAppBg;
+ window.setAppBg=function(color){
+   if(typeof oldBg==="function") oldBg(color);
+   document.documentElement.style.setProperty("--app-bottom-bg",color);
+   localStorage.setItem("appBottomBg",color);
+ };
+ const oldPic=window.setAppPicture;
+ window.setAppPicture=function(event){
+   if(typeof oldPic==="function") oldPic(event);
+   setTimeout(function(){
+     const img=localStorage.getItem("appBgImage");
+     if(img){document.documentElement.style.setProperty("--app-bottom-bg","url(\""+img+"\") center/cover no-repeat");}
+   },50);
+ };
+ const saved=localStorage.getItem("appBottomBg")||localStorage.getItem("appBg");
+ if(saved) document.documentElement.style.setProperty("--app-bottom-bg",saved);
+})();
+</script>
+<style>
+/* Илова: кабуди боло ва поён — калонтару васеътар, бо кунҷҳои мулоими iPhone */
+.header{
+  width:100%!important;
+  min-height:205px!important;
+  padding:38px 20px 30px!important;
+  border-radius:0 0 48px 48px!important;
+}
+.bottom{
+  width:min(430px,100%)!important;
+  min-height:108px!important;
+  padding:14px 8px calc(14px + env(safe-area-inset-bottom))!important;
+  border-radius:32px 32px 0 0!important;
+  box-shadow:0 -8px 28px rgba(23,105,209,.20)!important;
+}
+</style>
+</body>
+</html>
