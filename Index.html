@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Танзими Бино — v1</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Arial,sans-serif;background:#f5f6f8;color:#17181a}
+body{display:flex;justify-content:center}
+.app{width:100%;max-width:430px;min-height:100vh;background:#f5f6f8;position:relative;overflow:hidden}
+.header{padding:calc(env(safe-area-inset-top) + 22px) 22px 20px;background:white;border-bottom:1px solid #e5e5e7}
+.top{display:flex;align-items:center;gap:14px}
+.logo{width:58px;height:58px;border-radius:16px;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-size:27px;font-weight:800;box-shadow:0 5px 15px #0002}
+.title{font-size:25px;font-weight:750;letter-spacing:-.4px}
+.date{margin-top:7px;font-size:15px;color:#777}
+.content{padding:28px 20px calc(110px + env(safe-area-inset-bottom))}
+.welcome{font-size:18px;font-weight:650;margin-bottom:18px}
+.card{background:white;border-radius:22px;padding:22px;box-shadow:0 5px 20px #0000000d}
+.card h2{margin:0 0 8px;font-size:22px}
+.card p{margin:0;color:#777;line-height:1.45}
+.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:430px;padding:10px 10px calc(10px + env(safe-area-inset-bottom));background:#ffffffee;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid #ddd}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.nav button{border:0;background:transparent;border-radius:15px;padding:8px 2px 7px;color:#777;font:inherit;cursor:pointer}
+.nav button.active{background:#111;color:white}
+.icon{font-size:21px;line-height:24px}
+.label{font-size:11px;margin-top:3px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="top">
+      <div class="logo">🏢</div>
+      <div>
+        <div class="title">Дом</div>
+        <div class="date" id="date"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+    <div class="welcome">Танзими Бино</div>
+    <section class="card">
+      <h2>Хуш омадед</h2>
+      <p>Ин версияи аввалини барнома мебошад. Панели поёнӣ барои гузаштан ба бахшҳои асосӣ омода аст.</p>
+    </section>
+  </main>
+
+  <nav class="bottom">
+    <div class="nav">
+      <button onclick="select(this,'Бино')"><div class="icon">🏢</div><div class="label">Бино</div></button>
+      <button onclick="select(this,'Ҳуҷра')"><div class="icon">🚪</div><div class="label">Ҳуҷра</div></button>
+      <button class="active" onclick="select(this,'Танзим')"><div class="icon">⚙️</div><div class="label">Танзим</div></button>
+      <button onclick="select(this,'Пардохт')"><div class="icon">💳</div><div class="label">Пардохт</div></button>
+      <button onclick="select(this,'Ҳисобот')"><div class="icon">📊</div><div class="label">Ҳисобот</div></button>
+    </div>
+  </nav>
+</div>
+<script>
+const d=new Date();
+document.getElementById('date').textContent =
+  String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();
+function select(btn,name){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
