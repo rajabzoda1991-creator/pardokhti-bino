@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ru">
+<html lang="tg">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111827">
-<title>Танзими Бино — Вход</title>
+<title>Танзими Бино — Вуруд</title>
 <style>
 *{box-sizing:border-box}
 :root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#111827;background:#f3f4f6}
@@ -34,6 +34,9 @@ button.primary:disabled{opacity:.55;cursor:wait}
 .close{border:0;background:#f3f4f6;border-radius:10px;width:38px;height:38px;font-size:20px;cursor:pointer}
 .terms{display:flex;gap:8px;align-items:flex-start;margin:15px 0;font-size:13px;color:#4b5563}
 .terms input{width:17px;height:17px;flex:0 0 auto}
+.hint{font-size:12px;color:#6b7280;margin-top:5px;line-height:1.35}
+.strength{height:5px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-top:8px}
+.strength span{display:block;height:100%;width:0;transition:width .2s ease}
 .success{color:#047857}.error{color:#b91c1c}
 .hidden{display:none}
 </style>
@@ -42,76 +45,84 @@ button.primary:disabled{opacity:.55;cursor:wait}
 <main class="card">
   <div class="logo" aria-hidden="true">🏢</div>
   <h1>Танзими Бино</h1>
-  <p class="sub">Система управления домами</p>
+  <p class="sub">Системаи идоракунии биноҳо</p>
 
   <form id="loginForm" novalidate>
-    <label for="login">Логин или номер телефона</label>
-    <input id="login" name="login" autocomplete="username" placeholder="Введите логин или номер телефона">
+    <label for="login">Логин ё рақами телефон</label>
+    <input id="login" name="login" autocomplete="username" placeholder="Логин ё рақами телефонро ворид кунед">
 
-    <label for="password">Пароль</label>
+    <label for="password">Рамз</label>
     <div class="password">
-      <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Введите пароль">
-      <button class="eye" id="togglePassword" type="button" aria-label="Показать пароль">👁</button>
+      <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Рамзро ворид кунед">
+      <button class="eye" id="togglePassword" type="button" aria-label="Рамзро нишон додан">👁</button>
     </div>
 
-    <label for="role">Тип пользователя</label>
+    <label for="role">Навъи корбар</label>
     <select id="role" name="role">
-      <option value="admin">Администратор</option>
-      <option value="employee">Сотрудник</option>
-      <option value="resident">Жилец</option>
+      <option value="admin">Маъмур</option>
+      <option value="employee">Корманд</option>
+      <option value="resident">Сокини бино</option>
     </select>
 
     <div class="row">
-      <label class="check"><input type="checkbox" id="remember"> Запомнить меня</label>
-      <button class="link" type="button" id="forgot">Забыли пароль?</button>
+      <label class="check"><input type="checkbox" id="remember"> Маро дар хотир нигоҳ дор</label>
+      <button class="link" type="button" id="forgot">Рамзро фаромӯш кардед?</button>
     </div>
 
-    <button class="primary" id="submit" type="submit">Войти</button>
-    <button class="secondary" id="registerOpen" type="button">Регистрация</button>
+    <button class="primary" id="submit" type="submit">Вуруд</button>
+    <button class="secondary" id="registerOpen" type="button">Бақайдгирӣ</button>
     <div class="status" id="status" role="status" aria-live="polite"></div>
   </form>
 
   <div class="demo">
-    ДЕМО-ВЕРСИЯ · настоящие пароли здесь не сохраняются.
+    ПРОТОТИПИ МАҲАЛЛӢ · рамз дар шакли кушода нигоҳ дошта намешавад. Барои кори интернетӣ авторизатсияи серверӣ ва PostgreSQL пайваст карда мешавад.
   </div>
 </main>
 
 <div class="modal hidden" id="registerModal" aria-hidden="true">
   <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="registerTitle">
     <div class="modal-head">
-      <h2 id="registerTitle">Регистрация</h2>
-      <button class="close" id="registerClose" type="button" aria-label="Закрыть">×</button>
+      <h2 id="registerTitle">Бақайдгирӣ</h2>
+      <button class="close" id="registerClose" type="button" aria-label="Пӯшидан">×</button>
     </div>
-    <p class="sub" style="text-align:left;margin-bottom:10px">Создайте аккаунт сотрудника или жильца.</p>
+    <p class="sub" style="text-align:left;margin-bottom:10px">Ҳисоби корманд ё сокини биноро созед.</p>
 
     <form id="registerForm" novalidate>
-      <label for="regName">Имя и фамилия</label>
-      <input id="regName" placeholder="Введите имя и фамилию" autocomplete="name">
+      <label for="regName">Ном ва насаб</label>
+      <input id="regName" placeholder="Масалан: Иван Иванов" autocomplete="name" maxlength="80">
+      <div class="hint" id="regNameHint">Ном ва насаби ҳақиқии худро ворид кунед.</div>
 
-      <label for="regPhone">Номер телефона</label>
-      <input id="regPhone" type="tel" placeholder="+992 XX XXX XX XX" autocomplete="tel">
+      <label for="regPhone">Рақами телефон</label>
+      <input id="regPhone" type="tel" inputmode="tel" placeholder="+992 90 123 45 67" autocomplete="tel" maxlength="17">
+      <div class="hint" id="regPhoneHint">Рақам барои тасдиқи ҳисоб истифода мешавад.</div>
 
       <label for="regLogin">Логин</label>
-      <input id="regLogin" placeholder="Придумайте логин" autocomplete="username">
+      <input id="regLogin" placeholder="Аз 4 то 30 аломат" autocomplete="username" maxlength="30">
+      <div class="hint">Танҳо ҳарфҳои лотинӣ, рақамҳо, нуқта, тире ва аломати зерхат истифода мешаванд.</div>
 
-      <label for="regPassword">Пароль</label>
-      <input id="regPassword" type="password" placeholder="Не менее 8 символов" autocomplete="new-password">
+      <label for="regPassword">Рамз</label>
+      <div class="password">
+        <input id="regPassword" type="password" placeholder="Ҳадди ақал 8 аломат" autocomplete="new-password" maxlength="72">
+        <button class="eye" id="regTogglePassword" type="button" aria-label="Рамзро нишон додан">👁</button>
+      </div>
+      <div class="strength"><span id="strengthBar"></span></div>
+      <div class="hint" id="strengthText">Мустаҳкамии рамз: муайян нашудааст</div>
 
-      <label for="regPassword2">Повторите пароль</label>
-      <input id="regPassword2" type="password" placeholder="Повторите пароль" autocomplete="new-password">
+      <label for="regPassword2">Рамзро такрор кунед</label>
+      <input id="regPassword2" type="password" placeholder="Рамзро такрор кунед" autocomplete="new-password" maxlength="72">
 
-      <label for="regRole">Тип аккаунта</label>
+      <label for="regRole">Навъи ҳисоб</label>
       <select id="regRole">
-        <option value="employee">Сотрудник</option>
-        <option value="resident">Жилец</option>
+        <option value="employee">Корманд</option>
+        <option value="resident">Сокини бино</option>
       </select>
 
       <label class="terms">
         <input id="regTerms" type="checkbox">
-        <span>Я согласен с правилами использования системы.</span>
+        <span>Ман бо қоидаҳои истифодаи система ва коркарди маълумот розӣ ҳастам.</span>
       </label>
 
-      <button class="primary" id="registerSubmit" type="submit">Зарегистрироваться</button>
+      <button class="primary" id="registerSubmit" type="submit">Ҳисобро сохтан</button>
       <div class="status" id="registerStatus" role="status" aria-live="polite"></div>
     </form>
   </section>
@@ -126,27 +137,150 @@ const status = document.getElementById('status');
 
 function validateLogin(data){
   const errors = [];
-  if(!data.login.trim()) errors.push('Введите логин или номер телефона.');
-  if(!data.password) errors.push('Введите пароль.');
+  if(!data.login.trim()) errors.push('Логин ё рақами телефонро ворид кунед.');
+  if(!data.password) errors.push('Рамзро ворид кунед.');
   return {valid: errors.length === 0, errors};
 }
 
-function demoLogin(data){
-  // Только UI-прототип: реальные учетные данные не проверяются и не сохраняются.
-  return {ok:true, role:data.role};
+async function demoLogin(data){
+  const user = await findUserByLogin(data.login);
+  if(!user) return {ok:false};
+  const calculated = await hashPassword(data.password, user.passwordSalt);
+  if(!constantTimeEqual(calculated.hash, user.passwordHash)) return {ok:false};
+  return {ok:true, role:user.role, name:user.name};
 }
 
 toggle.addEventListener('click', () => {
   const visible = password.type === 'text';
   password.type = visible ? 'password' : 'text';
-  toggle.setAttribute('aria-label', visible ? 'Показать пароль' : 'Скрыть пароль');
+  toggle.setAttribute('aria-label', visible ? 'Рамзро нишон додан' : 'Рамзро пинҳон кардан');
 });
 
 const registerModal = document.getElementById('registerModal');
 const registerForm = document.getElementById('registerForm');
 const registerStatus = document.getElementById('registerStatus');
+const regPassword = document.getElementById('regPassword');
+const regTogglePassword = document.getElementById('regTogglePassword');
+const strengthBar = document.getElementById('strengthBar');
+const strengthText = document.getElementById('strengthText');
+
+
+const DB_NAME = 'tanzimi_bino_auth_v2';
+const DB_VERSION = 1;
+const STORE_NAME = 'users';
+
+function openAuthDB(){
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if(!db.objectStoreNames.contains(STORE_NAME)){
+        const store = db.createObjectStore(STORE_NAME, {keyPath:'id'});
+        store.createIndex('login', 'login', {unique:true});
+        store.createIndex('phone', 'phone', {unique:true});
+      }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+function txStore(mode){
+  return openAuthDB().then(db => [db, db.transaction(STORE_NAME, mode).objectStore(STORE_NAME)]);
+}
+function getAllUsers(){
+  return txStore('readonly').then(([db, store]) => new Promise((resolve, reject) => {
+    const req = store.getAll();
+    req.onsuccess = () => { db.close(); resolve(req.result || []); };
+    req.onerror = () => { db.close(); reject(req.error); };
+  }));
+}
+function addUser(user){
+  return txStore('readwrite').then(([db, store]) => new Promise((resolve, reject) => {
+    const req = store.add(user);
+    req.onsuccess = () => { db.close(); resolve(); };
+    req.onerror = () => { db.close(); reject(req.error); };
+  }));
+}
+async function findUserByLogin(login){
+  const users = await getAllUsers();
+  return users.find(u => u.login.toLowerCase() === login.trim().toLowerCase()) || null;
+}
+function bytesToBase64(bytes){
+  let s = '';
+  bytes.forEach(b => s += String.fromCharCode(b));
+  return btoa(s);
+}
+function base64ToBytes(value){
+  const s = atob(value);
+  return Uint8Array.from(s, c => c.charCodeAt(0));
+}
+async function hashPassword(password, saltB64){
+  const salt = saltB64 ? base64ToBytes(saltB64) : crypto.getRandomValues(new Uint8Array(16));
+  const material = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
+  const bits = await crypto.subtle.deriveBits(
+    {name:'PBKDF2', salt, iterations:210000, hash:'SHA-256'}, material, 256
+  );
+  return {salt: bytesToBase64(salt), hash: bytesToBase64(new Uint8Array(bits))};
+}
+function constantTimeEqual(a,b){
+  if(a.length !== b.length) return false;
+  let diff = 0;
+  for(let i=0;i<a.length;i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+function normalizePhone(phone){
+  return phone.replace(/[^\d+]/g, '');
+}
+function validPhone(phone){
+  return /^\+992\d{9}$/.test(normalizePhone(phone));
+}
+function validLogin(login){
+  return /^[A-Za-z0-9._-]{4,30}$/.test(login);
+}
+function passwordScore(pass){
+  let score = 0;
+  if(pass.length >= 8) score++;
+  if(/[A-ZА-Я]/.test(pass)) score++;
+  if(/[a-zа-я]/.test(pass)) score++;
+  if(/\d/.test(pass)) score++;
+  if(/[^A-Za-zА-Яа-я0-9]/.test(pass)) score++;
+  return score;
+}
+function registrationErrors(data, users){
+  const errors = [];
+  if(data.name.split(/\s+/).filter(Boolean).length < 2) errors.push('Ном ва насабро ворид кунед.');
+  if(!validPhone(data.phone)) errors.push('Рақами дурустро дар шакли +992XXXXXXXXX ворид кунед.');
+  if(!validLogin(data.login)) errors.push('Логин: 4–30 аломат, танҳо ҳарфҳои лотинӣ, рақамҳо, нуқта, тире ё _.');
+  if(data.password.length < 8) errors.push('Рамз должен содержать минимум 8 символов.');
+  if(passwordScore(data.password) < 3) errors.push('Рамзро мустаҳкамтар кунед: ҳарфҳои калон/хурд, рақам ё аломати махсус илова кунед.');
+  if(data.password !== data.password2) errors.push('Рамзҳо мувофиқат намекунанд.');
+  if(!data.terms) errors.push('Қоидаҳоро қабул кардан зарур аст.');
+  if(users.some(u => u.login.toLowerCase() === data.login.toLowerCase())) errors.push('Ин логин аллакай ба қайд гирифта шудааст.');
+  if(users.some(u => u.phone === normalizePhone(data.phone))) errors.push('Ин рақами телефон аллакай ба қайд гирифта шудааст.');
+  return errors;
+}
+
+function updatePasswordStrength(){
+  const score = passwordScore(regPassword.value);
+  const widths = ['0%','20%','40%','60%','80%','100%'];
+  strengthBar.style.width = widths[score];
+  strengthText.textContent = regPassword.value
+    ? `Надёжность пароля: ${['очень слабый','слабый','средний','хороший','сильный','очень сильный'][score]}`
+    : 'Мустаҳкамии рамз: муайян нашудааст';
+}
+regPassword.addEventListener('input', updatePasswordStrength);
+
+regTogglePassword.addEventListener('click', () => {
+  const visible = regPassword.type === 'text';
+  regPassword.type = visible ? 'password' : 'text';
+  regTogglePassword.setAttribute('aria-label', visible ? 'Рамзро нишон додан' : 'Рамзро пинҳон кардан');
+});
 
 document.getElementById('registerOpen').addEventListener('click', () => {
+  registerForm.reset();
+  registerStatus.textContent = '';
+  registerStatus.className = 'status';
+  updatePasswordStrength();
   registerModal.classList.remove('hidden');
   registerModal.setAttribute('aria-hidden', 'false');
   document.getElementById('regName').focus();
@@ -158,33 +292,62 @@ document.getElementById('registerClose').addEventListener('click', () => {
 registerModal.addEventListener('click', (e) => {
   if(e.target === registerModal) document.getElementById('registerClose').click();
 });
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape' && !registerModal.classList.contains('hidden')){
+    document.getElementById('registerClose').click();
+  }
+});
 
-registerForm.addEventListener('submit', (e) => {
+document.getElementById('regPhone').addEventListener('input', (e) => {
+  let digits = e.target.value.replace(/\D/g, '');
+  if(digits.startsWith('992')) digits = digits.slice(3);
+  digits = digits.slice(0, 9);
+  e.target.value = digits ? `+992 ${digits.slice(0,2)} ${digits.slice(2,5)} ${digits.slice(5,7)} ${digits.slice(7,9)}`.trim() : '';
+});
+
+registerForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const name = document.getElementById('regName').value.trim();
-  const phone = document.getElementById('regPhone').value.trim();
-  const login = document.getElementById('regLogin').value.trim();
-  const pass = document.getElementById('regPassword').value;
-  const pass2 = document.getElementById('regPassword2').value;
-  const terms = document.getElementById('regTerms').checked;
+  const data = {
+    name: document.getElementById('regName').value.trim(),
+    phone: document.getElementById('regPhone').value,
+    login: document.getElementById('regLogin').value.trim(),
+    password: regPassword.value,
+    password2: document.getElementById('regPassword2').value,
+    role: document.getElementById('regRole').value,
+    terms: document.getElementById('regTerms').checked
+  };
 
-  const errors = [];
-  if(!name) errors.push('Введите имя и фамилию.');
-  if(!phone) errors.push('Введите номер телефона.');
-  if(!login) errors.push('Введите логин.');
-  if(pass.length < 8) errors.push('Пароль должен содержать минимум 8 символов.');
-  if(pass !== pass2) errors.push('Пароли не совпадают.');
-  if(!terms) errors.push('Необходимо принять правила.');
-
+  const users = await getAllUsers();
+  const errors = registrationErrors(data, users);
   if(errors.length){
     registerStatus.className = 'status error';
     registerStatus.textContent = errors[0];
     return;
   }
 
-  registerStatus.className = 'status success';
-  registerStatus.textContent = 'Заявка на регистрацию создана. Подтверждение номера подключим к серверу.';
-  registerForm.reset();
+  try{
+    const passwordData = await hashPassword(data.password);
+    await addUser({
+      id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+      name: data.name,
+      phone: normalizePhone(data.phone),
+      login: data.login,
+      role: data.role,
+      passwordSalt: passwordData.salt,
+      passwordHash: passwordData.hash,
+      createdAt: new Date().toISOString()
+    });
+
+    registerStatus.className = 'status success';
+    registerStatus.textContent = 'Бақайдгирӣ выполнена. Теперь можно войти.';
+    document.getElementById('login').value = data.login;
+    document.getElementById('password').value = '';
+    registerForm.reset();
+    updatePasswordStrength();
+  }catch(err){
+    registerStatus.className = 'status error';
+    registerStatus.textContent = 'Не удалось создать аккаунт. Возможно, логин уже занят.';
+  }
 });
 
 document.getElementById('forgot').addEventListener('click', () => {
@@ -211,13 +374,18 @@ form.addEventListener('submit', (event) => {
   submit.textContent = 'Вход...';
 
   setTimeout(() => {
-    const result = demoLogin(data);
-    const roleNames = {admin:'Администратор', employee:'Сотрудник', resident:'Жилец'};
-    status.className = 'status success';
-    status.textContent = `Демо-вход выполнен: ${roleNames[result.role]}.`;
+    const result = await demoLogin(data);
+    const roleNames = {admin:'Маъмур', employee:'Корманд', resident:'Сокини бино'};
+    if(!result.ok){
+      status.className = 'status error';
+      status.textContent = 'Неверный логин или пароль.';
+    } else {
+      status.className = 'status success';
+      status.textContent = `Вход выполнен: ${result.name} · ${roleNames[result.role]}.`;
+      password.value = '';
+    }
     submit.disabled = false;
-    submit.textContent = 'Войти';
-    password.value = '';
+    submit.textContent = 'Вуруд';
   }, 450);
 });
 </script>
