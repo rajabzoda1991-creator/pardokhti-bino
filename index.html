@@ -1,0 +1,1383 @@
+<!doctype html>
+<html lang="tg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ОСОН</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(145deg,#f4f8ff,#eef2ff);color:#172033;min-height:100vh}
+.wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{width:min(430px,100%);background:#fff;border-radius:28px;padding:30px 24px;box-shadow:0 18px 60px #17203318}
+.logo{width:76px;height:76px;margin:0 auto 14px;border-radius:22px;background:#2457e6;color:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;box-shadow:0 10px 25px #2457e635}
+h1{text-align:center;margin:0;font-size:32px} .sub{text-align:center;color:#697386;margin:7px 0 25px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:#f1f4f9;padding:4px;border-radius:13px;margin-bottom:20px}
+.tabs button{border:0;background:transparent;padding:11px;border-radius:10px;font-weight:700;color:#697386;cursor:pointer}
+.tabs button.active{background:#fff;color:#2457e6;box-shadow:0 2px 8px #17203312}
+label{display:block;font-size:14px;font-weight:700;margin:12px 0 7px}
+input{width:100%;padding:14px;border:1px solid #dce2ec;border-radius:12px;font-size:16px;outline:none}
+input:focus{border-color:#2457e6;box-shadow:0 0 0 3px #2457e615}
+.primary{width:100%;border:0;border-radius:13px;padding:15px;margin-top:20px;background:#2457e6;color:white;font-size:16px;font-weight:800;cursor:pointer}
+.primary:active{transform:scale(.99)}
+.msg{text-align:center;margin-top:15px;font-size:14px;min-height:20px}
+.hidden{display:none}.home{text-align:center}.home h2{margin-top:8px}.home p{color:#697386}
+.logout{background:#eef2f7;color:#172033;margin-top:15px}
+</style>
+
+<style>
+#buildingsPage{display:none;position:fixed;inset:0;background:#f5f7fb;z-index:30;overflow:auto}
+.b-head{background:#2457e6;color:#fff;padding:20px 18px;border-radius:0 0 24px 24px;display:flex;align-items:center;gap:12px}
+.b-back{border:0;background:#ffffff22;color:#fff;width:42px;height:42px;border-radius:12px;font-size:22px}
+.b-head h2{margin:0;font-size:22px}.b-content{max-width:600px;margin:auto;padding:18px}
+.b-add{width:100%;border:0;border-radius:14px;padding:15px;background:#2457e6;color:#fff;font-weight:800;font-size:16px;margin-bottom:14px}
+.b-search{width:100%;padding:14px;border:1px solid #dce2ec;border-radius:13px;font-size:16px;background:#fff;margin-bottom:14px}
+.b-list{display:grid;gap:11px}.b-item{background:#fff;border-radius:17px;padding:16px;box-shadow:0 5px 18px #17203310}
+.b-item-top{display:flex;justify-content:space-between;gap:10px}.b-name{font-size:17px;font-weight:800}.b-meta{font-size:13px;color:#778195;margin-top:5px}
+.b-actions{display:flex;gap:8px;margin-top:13px}.b-actions button{border:0;border-radius:10px;padding:9px 12px;font-weight:700}
+.b-edit{background:#edf3ff;color:#2457e6}.b-del{background:#fff0f0;color:#d32f2f}
+.b-empty{text-align:center;color:#778195;padding:35px 10px}
+.modal{display:none;position:fixed;inset:0;background:#17203366;z-index:50;align-items:flex-end;justify-content:center}
+.modal-box{background:#fff;width:min(600px,100%);border-radius:24px 24px 0 0;padding:22px}
+.modal-box h3{margin:0 0 15px}.modal-box input{width:100%;padding:14px;border:1px solid #dce2ec;border-radius:12px;font-size:16px;margin-bottom:10px}
+.modal-actions{display:flex;gap:10px}.modal-actions button{flex:1;padding:14px;border:0;border-radius:12px;font-weight:800}.save{background:#2457e6;color:#fff}.cancel{background:#edf0f5;color:#172033}
+</style>
+
+<style id="oson-rooms-css">
+#roomsPage{display:none;padding:18px 14px 100px}
+.rooms-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.rooms-back{border:0;background:#f1f3f5;border-radius:12px;padding:10px 13px;font-size:16px}
+.rooms-title{font-size:22px;font-weight:800}
+.rooms-select,.rooms-search,.rooms-input{width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid #dfe3e8;border-radius:13px;background:#fff;font-size:16px;outline:none}
+.rooms-select:focus,.rooms-search:focus,.rooms-input:focus{border-color:#111}
+.rooms-actions{display:grid;grid-template-columns:1fr auto;gap:10px;margin:12px 0}
+.rooms-add{border:0;background:#111;color:#fff;border-radius:13px;padding:13px 16px;font-weight:700;font-size:15px}
+.room-card{background:#fff;border:1px solid #e7e9ed;border-radius:16px;padding:14px;margin-top:10px;box-shadow:0 3px 12px rgba(0,0,0,.04)}
+.room-head{display:flex;justify-content:space-between;gap:10px}
+.room-num{font-weight:800;font-size:18px}
+.room-resident{margin-top:5px;font-weight:650}
+.room-meta{color:#69717d;font-size:14px;margin-top:7px;line-height:1.5}
+.room-buttons{display:flex;gap:8px;margin-top:12px}
+.room-edit,.room-delete{flex:1;border:0;border-radius:11px;padding:10px;font-weight:700}
+.room-edit{background:#f0f2f4}.room-delete{background:#ffe8e8;color:#c62828}
+.rooms-empty{text-align:center;color:#7b8490;padding:28px 10px}
+#roomModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:999;align-items:flex-end;justify-content:center}
+.room-modal-box{width:min(560px,100%);background:#fff;border-radius:22px 22px 0 0;padding:18px;box-sizing:border-box}
+.room-modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.room-modal-title{font-size:20px;font-weight:800}
+.room-close{border:0;background:#f1f3f5;border-radius:10px;width:38px;height:38px;font-size:22px}
+.room-form{display:grid;gap:10px}
+.room-save{border:0;background:#111;color:#fff;border-radius:13px;padding:14px;font-size:16px;font-weight:800}
+.room-hint{font-size:13px;color:#737b86}
+@media(min-width:700px){#roomsPage{max-width:720px;margin:auto}.room-modal-box{margin-bottom:30px;border-radius:22px}}
+</style>
+
+<style id="oson-login-screen-cleanup">
+body.oson-logged-in .wrap{display:none}
+</style>
+
+<style id="oson-payments-css">
+#paymentsPage{display:none;padding:18px 14px 100px}
+.pay-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.pay-back{border:0;background:#f1f3f5;border-radius:12px;padding:10px 13px;font-size:16px}
+.pay-title{font-size:22px;font-weight:800}
+.pay-filters{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.pay-select,.pay-search,.pay-input{width:100%;box-sizing:border-box;padding:13px 14px;border:1px solid #dfe3e8;border-radius:13px;background:#fff;font-size:16px;outline:none}
+.pay-full{grid-column:1/-1}
+.pay-add{width:100%;border:0;background:#16a34a;color:#fff;border-radius:13px;padding:14px;font-size:16px;font-weight:800;margin-bottom:12px}
+.pay-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.pay-stat{background:#fff;border:1px solid #e7e9ed;border-radius:15px;padding:13px}
+.pay-stat small{display:block;color:#747d89;margin-bottom:5px}.pay-stat b{font-size:18px}
+.pay-card{background:#fff;border:1px solid #e7e9ed;border-radius:16px;padding:14px;margin-top:10px;box-shadow:0 3px 12px rgba(0,0,0,.04)}
+.pay-head{display:flex;justify-content:space-between;gap:10px}
+.pay-room{font-size:17px;font-weight:800}.pay-status{background:#dcfce7;color:#15803d;border-radius:20px;padding:5px 9px;font-size:12px;font-weight:800;white-space:nowrap}
+.pay-meta{color:#69717d;font-size:14px;line-height:1.55;margin-top:8px}
+.pay-amount{font-size:21px;font-weight:850;margin-top:8px}
+.pay-buttons{display:flex;gap:8px;margin-top:12px}.pay-edit,.pay-delete{flex:1;border:0;border-radius:11px;padding:10px;font-weight:700}
+.pay-edit{background:#f0f2f4}.pay-delete{background:#ffe8e8;color:#c62828}
+.pay-empty{text-align:center;color:#7b8490;padding:28px 10px}
+#paymentModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:1000;align-items:flex-end;justify-content:center}
+.pay-modal-box{width:min(560px,100%);background:#fff;border-radius:22px 22px 0 0;padding:18px;box-sizing:border-box}
+.pay-modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.pay-modal-title{font-size:20px;font-weight:800}.pay-close{border:0;background:#f1f3f5;border-radius:10px;width:38px;height:38px;font-size:22px}
+.pay-form{display:grid;gap:10px}.pay-save{border:0;background:#16a34a;color:#fff;border-radius:13px;padding:14px;font-size:16px;font-weight:800}
+.pay-hint{font-size:13px;color:#737b86}
+@media(min-width:700px){#paymentsPage{max-width:720px;margin:auto}.pay-modal-box{margin-bottom:30px;border-radius:22px}}
+</style>
+
+
+<style id="oson-receipt-photo-css">
+.pay-photo-wrap{display:grid;gap:9px}
+.pay-photo-label{display:block;border:1px dashed #bfc7d2;border-radius:13px;padding:14px;text-align:center;background:#fafbfc;font-weight:700;cursor:pointer}
+.pay-photo-label input{display:none}
+.pay-photo-preview{display:none;position:relative;border-radius:14px;overflow:hidden;border:1px solid #e2e6eb;background:#f7f7f7}
+.pay-photo-preview img{display:block;width:100%;max-height:220px;object-fit:contain}
+.pay-photo-remove{position:absolute;right:8px;top:8px;border:0;background:#dc2626;color:#fff;border-radius:9px;padding:7px 10px;font-weight:800}
+.pay-receipt-photo{margin-top:10px;border:0;background:#eef5ff;color:#1769e0;border-radius:11px;padding:10px 12px;font-weight:750}
+</style>
+
+
+<style id="oson-faceid-css">
+#faceIdBtn{width:100%;margin-top:10px;border:0;border-radius:13px;padding:14px 16px;background:#111;color:#fff;font-size:16px;font-weight:800;cursor:pointer}
+#faceIdBtn:active{transform:scale(.99)}
+.faceid-note{font-size:12px;color:#737b86;text-align:center;margin-top:8px;line-height:1.45}
+</style>
+
+
+<style id="oson-reports-css">
+.oson-report-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.oson-report-card{background:#fff;border:1px solid #e7eaf0;border-radius:16px;padding:14px;box-shadow:0 4px 14px rgba(20,30,50,.05)}
+.oson-report-card b{font-size:20px}
+.oson-report-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+.oson-report-table th,.oson-report-table td{padding:9px 7px;border-bottom:1px solid #edf0f4;text-align:right}
+.oson-report-table th{font-weight:700;background:#f7f8fa}
+.oson-report-filters{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.oson-report-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.oson-report-actions button{flex:1;min-width:120px}
+.oson-empty{text-align:center;padding:22px;color:#8a93a3}
+@media(max-width:600px){.oson-report-grid{grid-template-columns:1fr}.oson-report-filters{grid-template-columns:1fr}}
+</style>
+
+<style id="oson-ipad-responsive">
+/* ===== ОСОН — iPad layout (additive only) ===== */
+@media screen and (min-width:768px) and (max-width:1366px){
+  html,body{width:100%!important;min-width:0!important;overflow-x:hidden!important}
+  .wrap{width:100%!important;max-width:none!important;padding:24px!important}
+  .card{width:min(1180px,100%)!important;max-width:1180px!important}
+  #osonReportsView{
+    width:100%!important;
+    max-width:1180px!important;
+    margin:0 auto!important;
+    padding:22px!important;
+    box-sizing:border-box!important;
+  }
+  #osonReportsView .card{
+    width:100%!important;
+    max-width:none!important;
+  }
+  #osonReportsView select,
+  #osonReportsView button{
+    min-height:48px!important;
+    font-size:16px!important;
+  }
+  #osonReportsView table{
+    width:100%!important;
+    min-width:900px!important;
+    font-size:15px!important;
+  }
+  #osonReportsView th,#osonReportsView td{
+    padding:10px 9px!important;
+    white-space:nowrap!important;
+  }
+  #osonReportsView .table-wrap,
+  #osonReportsView .report-table-wrap{
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+}
+@media screen and (min-width:1024px) and (max-width:1366px){
+  #osonReportsView{padding:28px!important}
+  #osonReportsView table{min-width:1000px!important}
+}
+</style>
+
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2457e6">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="180x180" href="icon-180.png">
+<script>if('serviceWorker' in navigator && location.protocol !== 'file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
+</head>
+<body>
+<div class="wrap"><main class="card">
+<div id="auth">
+<div class="logo">О</div><h1>ОСОН</h1><div class="sub">Дастрасӣ танҳо барои Администратор</div>
+
+<form id="login" onsubmit="login(event)">
+<label>Телефони администратор</label><input id="loginPhone" type="tel" placeholder="+992 90 000 00 00" autocomplete="username" required>
+<label>Пароли администратор</label><input id="loginPass" type="password" placeholder="Парол" autocomplete="current-password" required>
+<button type="submit" class="primary">Ворид шудан</button>
+</form>
+<button id="faceIdBtn" type="button" onclick="osonFaceIdLogin()"> Ворид шудан бо Face ID</button>
+<div class="faceid-note">Face ID тавассути Passkey-и худи iPhone тасдиқ мешавад.</div>
+
+
+<div class="msg">🔐 Регистрация барои корбарони оддӣ баста шудааст.</div>
+</div>
+
+<div id="home" class="home hidden">
+<div class="logo">О</div><h2>Хуш омадед ба ОСОН!</h2><p id="welcome"></p>
+<button type="button" class="primary logout" onclick="logout()">Баромадан</button>
+</div>
+</main></div>
+<script>
+const adminKey = "oson_admin";
+const $ = id => document.getElementById(id);
+
+function normalizePhone(value){
+  return String(value || "").replace(/[\s()-]/g, "").trim();
+}
+
+function login(event){
+  event.preventDefault();
+
+  const phone = normalizePhone($("loginPhone").value);
+  const pass = $("loginPass").value;
+  const msg = $("msg");
+
+  // First-use admin setup: the first successful admin credentials entered
+  // become the local administrator credentials.
+  let admin = null;
+  try { admin = JSON.parse(localStorage.getItem(adminKey) || "null"); } catch(e) {}
+
+  if(!admin){
+    if(!/^\+992\d{9}$/.test(phone) || pass.length < 6){
+      msg.style.color = "#d32f2f";
+      msg.textContent = "Рақами +992 ва пароли на камтар аз 6 аломат ворид кунед.";
+      return;
+    }
+    admin = {phone, pass, name:"Администратор"};
+    localStorage.setItem(adminKey, JSON.stringify(admin));
+  }
+
+  if(normalizePhone(admin.phone) !== phone || admin.pass !== pass){
+    msg.style.color = "#d32f2f";
+    msg.textContent = "Маълумоти администратор нодуруст аст.";
+    return;
+  }
+
+  $("auth").classList.add("hidden");
+  $("home").classList.add("hidden");
+  document.body.classList.add("oson-logged-in");
+      document.getElementById("adminDemo").style.display = "block";
+}
+
+function logout(){
+  $("home").classList.add("hidden");
+  $("auth").classList.remove("hidden");
+  $("loginPass").value = "";
+}
+</script>
+
+<!-- НАМУНАИ ДОХИЛИ АДМИНИСТРАТОР: танҳо пешнамоиш, коди асосӣ тағйир дода нашудааст -->
+<style>
+.admin-demo{display:none;position:fixed;inset:0;background:#f5f7fb;z-index:10;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.admin-demo .top{background:#2457e6;color:#fff;padding:22px 18px 18px;border-radius:0 0 24px 24px}
+.admin-demo .topline{display:flex;justify-content:space-between;align-items:center}
+.admin-demo .brand{font-size:24px;font-weight:800}.admin-demo .role{font-size:13px;opacity:.9}
+.admin-demo .content{padding:18px;max-width:600px;margin:auto}
+.admin-demo .welcome{font-size:22px;font-weight:800;margin:4px 0 18px}
+.admin-demo .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.admin-demo .tile{background:#fff;border:0;border-radius:18px;padding:20px 14px;text-align:left;box-shadow:0 6px 20px #17203310;cursor:pointer}
+.admin-demo .ico{font-size:28px}.admin-demo .name{font-weight:800;margin-top:9px}.admin-demo .hint{font-size:12px;color:#778195;margin-top:4px}
+.admin-demo .bottom{margin-top:14px;background:#fff;border-radius:18px;padding:14px;display:flex;justify-content:space-around;box-shadow:0 6px 20px #17203310}
+.admin-demo .bottom div{text-align:center;font-size:12px;color:#59657a}
+.admin-demo .logout2{margin-top:16px;width:100%;border:0;border-radius:14px;padding:14px;background:#fff;color:#d32f2f;font-weight:800}
+</style>
+<div class="admin-demo" id="adminDemo">
+  <div class="top"><div class="topline"><div class="brand">ОСОН</div><div>⚙️</div></div><div class="role">Администратор</div></div>
+  <div class="content">
+    <div class="welcome">Салом, Администратор 👋</div>
+    <div class="grid">
+      <button class="tile"><div class="ico">🏢</div><div class="name">Биноҳо</div><div class="hint">Идоракунии биноҳо</div></button>
+      <button class="tile"><div class="ico">🚪</div><div class="name">Ҳуҷраҳо</div><div class="hint">Ҳуҷра ва квартираҳо</div></button>
+      <button class="tile"><div class="ico">💰</div><div class="name">Пардохтҳо</div><div class="hint">Назорати пардохтҳо</div></button>
+      <button class="tile"><div class="ico">📊</div><div class="name">Ҳисоботҳо</div><div class="hint">Ҳисобот ва омор</div></button>
+      <button class="tile"><div class="ico">👥</div><div class="name">Корбарон</div><div class="hint">Иҷозатҳо ва дастрасӣ</div></button>
+      <button class="tile"><div class="ico">⚙️</div><div class="name">Танзимот</div><div class="hint">Танзимоти система</div></button>
+    </div>
+    <div class="bottom"><div>🏠<br>Асосӣ</div><div>🔔<br>Огоҳӣ</div><div>👤<br>Профил</div></div>
+    <button class="logout2" type="button">🚪 Баромадан</button>
+  </div>
+</div>
+<script>
+/* Пешнамоиш: пас аз воридшавӣ намоиш дода мешавад, аммо функсияи асосӣ дастнорас намешавад. */
+(function(){
+  const oldLogin = window.login;
+  window.login = function(e){
+    oldLogin(e);
+    setTimeout(function(){
+      if(!document.getElementById("auth").classList.contains("hidden")){
+        return;
+      }
+      document.getElementById("adminDemo").style.display="block";
+    },20);
+  };
+  document.querySelector(".logout2").onclick=function(){
+    document.getElementById("adminDemo").style.display="none";
+    document.body.classList.remove("oson-logged-in");
+    window.logout();
+  };
+})();
+</script>
+
+<div id="buildingsPage">
+  <div class="b-head"><button class="b-back" type="button" onclick="closeBuildings()">‹</button><h2>🏢 Биноҳо</h2></div>
+  <div class="b-content">
+    <button class="b-add" type="button" onclick="openBuildingModal()">＋ Илова кардани бино</button>
+    <input class="b-search" id="buildingSearch" placeholder="Ҷустуҷӯи бино..." oninput="renderBuildings()">
+    <div id="buildingList" class="b-list"></div>
+  </div>
+</div>
+
+<div class="modal" id="buildingModal">
+  <div class="modal-box">
+    <h3 id="buildingModalTitle">Илова кардани бино</h3>
+    <input id="buildingName" placeholder="Номи бино" maxlength="100">
+    <input id="buildingAddress" placeholder="Суроға" maxlength="200">
+    <input id="buildingRooms" type="number" min="0" placeholder="Шумораи ҳуҷраҳо">
+    <div class="modal-actions">
+      <button class="cancel" type="button" onclick="closeBuildingModal()">Бекор</button>
+      <button class="save" type="button" onclick="saveBuilding()">Сабт кардан</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const buildingsKey = "oson_buildings";
+let editingBuildingId = null;
+
+function getBuildings(){
+  try { return JSON.parse(localStorage.getItem(buildingsKey) || "[]"); }
+  catch(e){ return []; }
+}
+function saveBuildings(data){ localStorage.setItem(buildingsKey, JSON.stringify(data)); }
+
+function openBuildings(){
+  document.getElementById("adminDemo").style.display = "none";
+  document.getElementById("buildingsPage").style.display = "block";
+  renderBuildings();
+}
+function closeBuildings(){
+  document.getElementById("buildingsPage").style.display = "none";
+  document.getElementById("adminDemo").style.display = "block";
+}
+function openBuildingModal(id=null){
+  editingBuildingId = id;
+  const modal = document.getElementById("buildingModal");
+  const title = document.getElementById("buildingModalTitle");
+  const list = getBuildings();
+  const b = id ? list.find(x=>x.id===id) : null;
+  title.textContent = b ? "Таҳрири бино" : "Илова кардани бино";
+  document.getElementById("buildingName").value = b ? b.name : "";
+  document.getElementById("buildingAddress").value = b ? b.address : "";
+  document.getElementById("buildingRooms").value = b ? b.rooms : "";
+  modal.style.display = "flex";
+  setTimeout(()=>document.getElementById("buildingName").focus(),50);
+}
+function closeBuildingModal(){
+  document.getElementById("buildingModal").style.display = "none";
+  editingBuildingId = null;
+}
+function saveBuilding(){
+  const name = document.getElementById("buildingName").value.trim();
+  const address = document.getElementById("buildingAddress").value.trim();
+  const rooms = Math.max(0, Number(document.getElementById("buildingRooms").value || 0));
+  if(name.length < 2){ alert("Номи бино лозим аст."); return; }
+
+  const list = getBuildings();
+  if(editingBuildingId){
+    const b = list.find(x=>x.id===editingBuildingId);
+    if(b){ b.name=name; b.address=address; b.rooms=rooms; }
+  }else{
+    list.push({id:Date.now().toString(),name,address,rooms});
+  }
+  saveBuildings(list);
+  closeBuildingModal();
+  renderBuildings();
+}
+function deleteBuilding(id){
+  const list = getBuildings();
+  const b = list.find(x=>x.id===id);
+  if(!b) return;
+  if(confirm('Бинои "'+b.name+'" нест карда шавад?')){
+    saveBuildings(list.filter(x=>x.id!==id));
+    renderBuildings();
+  }
+}
+function renderBuildings(){
+  const root = document.getElementById("buildingList");
+  const q = document.getElementById("buildingSearch").value.trim().toLowerCase();
+  const list = getBuildings().filter(b => (b.name+" "+b.address).toLowerCase().includes(q));
+  if(!list.length){
+    root.innerHTML='<div class="b-empty">Ҳоло бино илова нашудааст.<br>«Илова кардани бино»-ро пахш кунед.</div>';
+    return;
+  }
+  root.innerHTML=list.map(b=>`
+    <div class="b-item">
+      <div class="b-item-top"><div><div class="b-name">🏢 ${escapeHtml(b.name)}</div>
+      <div class="b-meta">${escapeHtml(b.address || "Суроға нишон дода нашудааст")} · ${b.rooms} ҳуҷра</div></div></div>
+      <div class="b-actions">
+        <button class="b-edit" type="button" onclick="openBuildingModal('${b.id}')">✏️ Таҳрир</button>
+        <button class="b-del" type="button" onclick="deleteBuilding('${b.id}')">🗑️ Нест кардан</button>
+      </div>
+    </div>`).join("");
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+/* Connect only the Buildings tile in the new admin screen. */
+document.addEventListener("DOMContentLoaded", ()=>{
+  const tiles=document.querySelectorAll("#adminDemo .tile");
+  if(tiles[0]) tiles[0].onclick=openBuildings;
+});
+</script>
+
+<section id="roomsPage">
+  <div class="rooms-top">
+    <button class="rooms-back" type="button" onclick="closeRooms()">←</button>
+    <div class="rooms-title">🚪 Ҳуҷраҳо / Квартираҳо</div>
+  </div>
+
+  <select id="roomBuildingSelect" class="rooms-select" onchange="renderRooms()"></select>
+
+  <div class="rooms-actions">
+    <input id="roomSearch" class="rooms-search" type="search" placeholder="🔎 Ҷустуҷӯ..." oninput="renderRooms()">
+    <button class="rooms-add" type="button" onclick="openRoomModal()">＋ Илова</button>
+  </div>
+
+  <div id="roomsList"></div>
+</section>
+
+<div id="roomModal">
+  <div class="room-modal-box">
+    <div class="room-modal-head">
+      <div class="room-modal-title" id="roomModalTitle">Иловаи ҳуҷра</div>
+      <button class="room-close" type="button" onclick="closeRoomModal()">×</button>
+    </div>
+    <form class="room-form" onsubmit="saveRoom(event)">
+      <input id="roomId" type="hidden">
+      <input id="roomNumber" class="rooms-input" required placeholder="Рақами ҳуҷра / квартира">
+      <input id="roomResident" class="rooms-input" required placeholder="Номи истиқоматкунанда">
+      <input id="roomPhone" class="rooms-input" inputmode="tel" placeholder="Телефон (+992...)">
+      <input id="roomPeople" class="rooms-input" type="number" min="1" value="1" required placeholder="Шумораи истиқоматкунандагон">
+      <div class="room-hint">Ҳуҷра ба бинои интихобшуда пайваст мешавад.</div>
+      <button class="room-save" type="submit">💾 Сабт кардан</button>
+    </form>
+  </div>
+</div>
+
+
+<script id="oson-rooms-js">
+(function(){
+  const ROOMS_KEY = "oson_rooms";
+
+  function getRooms(){
+    try { return JSON.parse(localStorage.getItem(ROOMS_KEY) || "[]"); }
+    catch(e){ return []; }
+  }
+  function setRooms(items){ localStorage.setItem(ROOMS_KEY, JSON.stringify(items)); }
+
+  window.openRooms = function(){
+    const admin = document.getElementById("adminDemo");
+    const page = document.getElementById("roomsPage");
+    if(admin) admin.style.display = "none";
+    if(page) page.style.display = "block";
+    populateBuildingSelect();
+    renderRooms();
+  };
+
+  window.closeRooms = function(){
+    const page = document.getElementById("roomsPage");
+    const admin = document.getElementById("adminDemo");
+    if(page) page.style.display = "none";
+    if(admin) admin.style.display = "block";
+  };
+
+  function getBuildings(){
+    try { return JSON.parse(localStorage.getItem("oson_buildings") || "[]"); }
+    catch(e){ return []; }
+  }
+
+  window.populateBuildingSelect = function(){
+    const select = document.getElementById("roomBuildingSelect");
+    if(!select) return;
+    const buildings = getBuildings();
+    const old = select.value;
+    select.innerHTML = "";
+    if(!buildings.length){
+      const opt=document.createElement("option");
+      opt.value=""; opt.textContent="Аввал бино илова кунед";
+      select.appendChild(opt);
+      return;
+    }
+    buildings.forEach(b=>{
+      const opt=document.createElement("option");
+      opt.value=String(b.id);
+      opt.textContent=b.name;
+      select.appendChild(opt);
+    });
+    if(buildings.some(b=>String(b.id)===old)) select.value=old;
+  };
+
+  window.renderRooms = function(){
+    const list = document.getElementById("roomsList");
+    const select = document.getElementById("roomBuildingSelect");
+    const search = (document.getElementById("roomSearch")?.value || "").trim().toLowerCase();
+    if(!list || !select) return;
+
+    const buildingId = String(select.value || "");
+    const rooms = getRooms().filter(r=>String(r.buildingId)===buildingId);
+    const filtered = rooms.filter(r =>
+      String(r.number).toLowerCase().includes(search) ||
+      String(r.resident).toLowerCase().includes(search) ||
+      String(r.phone || "").toLowerCase().includes(search)
+    );
+
+    if(!buildingId){
+      list.innerHTML='<div class="rooms-empty">🏢 Барои оғоз аввал бино илова кунед.</div>';
+      return;
+    }
+    if(!filtered.length){
+      list.innerHTML='<div class="rooms-empty">Ҳуҷра ё квартира ёфт нашуд.<br>Барои илова кардан «＋ Илова»-ро пахш кунед.</div>';
+      return;
+    }
+
+    list.innerHTML = filtered.map(r=>`
+      <div class="room-card">
+        <div class="room-head">
+          <div>
+            <div class="room-num">🚪 Кв / Ҳуҷра № ${escapeRoom(r.number)}</div>
+            <div class="room-resident">👤 ${escapeRoom(r.resident)}</div>
+          </div>
+        </div>
+        <div class="room-meta">
+          ${r.phone ? "📞 "+escapeRoom(r.phone)+"<br>" : ""}
+          👥 Истиқоматкунандагон: ${escapeRoom(r.people)}
+        </div>
+        <div class="room-buttons">
+          <button class="room-edit" type="button" onclick="openRoomModal('${r.id}')">✏️ Тағйир</button>
+          <button class="room-delete" type="button" onclick="deleteRoom('${r.id}')">🗑 Нест кардан</button>
+        </div>
+      </div>
+    `).join("");
+  };
+
+  function escapeRoom(v){
+    return String(v ?? "").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+  }
+
+  window.openRoomModal = function(id){
+    const buildings=getBuildings();
+    if(!buildings.length){ alert("Аввал дар қисми «Биноҳо» бино илова кунед."); return; }
+
+    const modal=document.getElementById("roomModal");
+    const r=getRooms().find(x=>String(x.id)===String(id));
+    document.getElementById("roomModalTitle").textContent=r ? "Тағйири ҳуҷра" : "Иловаи ҳуҷра";
+    document.getElementById("roomId").value=r?.id || "";
+    document.getElementById("roomNumber").value=r?.number || "";
+    document.getElementById("roomResident").value=r?.resident || "";
+    document.getElementById("roomPhone").value=r?.phone || "";
+    document.getElementById("roomPeople").value=r?.people || 1;
+    modal.style.display="flex";
+  };
+
+  window.closeRoomModal = function(){
+    document.getElementById("roomModal").style.display="none";
+  };
+
+  window.saveRoom = function(e){
+    e.preventDefault();
+    const select=document.getElementById("roomBuildingSelect");
+    const buildingId=String(select.value || "");
+    if(!buildingId){ alert("Бино интихоб нашудааст."); return; }
+
+    const number=document.getElementById("roomNumber").value.trim();
+    const resident=document.getElementById("roomResident").value.trim();
+    const phone=document.getElementById("roomPhone").value.trim();
+    const people=Math.max(1, Number(document.getElementById("roomPeople").value || 1));
+    const id=document.getElementById("roomId").value;
+
+    if(!number || !resident){ alert("Рақами ҳуҷра ва номи истиқоматкунанда ҳатмист."); return; }
+
+    let rooms=getRooms();
+    const duplicate=rooms.some(r=>String(r.buildingId)===buildingId &&
+      String(r.number).toLowerCase()===number.toLowerCase() &&
+      String(r.id)!==String(id));
+    if(duplicate){ alert("Ин рақами ҳуҷра дар ин бино аллакай вуҷуд дорад."); return; }
+
+    const data={id:id || ("room_"+Date.now()),buildingId,number,resident,phone,people};
+    if(id){
+      rooms=rooms.map(r=>String(r.id)===String(id)?data:r);
+    }else{
+      rooms.push(data);
+    }
+    setRooms(rooms);
+    closeRoomModal();
+    renderRooms();
+  };
+
+  window.deleteRoom = function(id){
+    const r=getRooms().find(x=>String(x.id)===String(id));
+    if(!r) return;
+    if(!confirm("Ҳуҷраи № "+r.number+" нест карда шавад?")) return;
+    setRooms(getRooms().filter(x=>String(x.id)!==String(id)));
+    renderRooms();
+  };
+
+  document.addEventListener("DOMContentLoaded",()=>{
+    const tiles=document.querySelectorAll("#adminDemo .tile");
+    if(tiles[1]) tiles[1].onclick=window.openRooms;
+  });
+})();
+</script>
+
+
+
+<style id="oson-payment-dashboard-css">
+.pay-dashboard{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}.pay-dash-card{background:#fff;border:1px solid #e7ebf2;border-radius:16px;padding:14px;box-shadow:0 5px 18px #1720330b}.pay-dash-card small{display:block;color:#737b86;font-size:12px;margin-bottom:6px}.pay-dash-card b{font-size:22px}.pay-dash-paid b{color:#16a34a}.pay-dash-debt b{color:#dc2626}.pay-dashboard-note{font-size:12px;color:#737b86;margin:-3px 0 12px}.pay-search-result{font-size:12px;color:#737b86;margin:8px 2px}.pay-receipt-link{display:inline-block;margin-top:6px;color:#2457e6;font-weight:800}
+@media(min-width:520px){.pay-dashboard{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.pay-dashboard-actions{display:grid;grid-template-columns:1fr;gap:9px;margin:12px 0 14px}.pay-dashboard-actions button{border:0;border-radius:14px;padding:13px 14px;font-weight:800;font-size:14px;cursor:pointer}.pay-refresh{background:#eef3ff;color:#2457e6}.pay-pdf{background:#fff;border:1px solid #e1e6ef!important;color:#1f2937}@media(min-width:520px){.pay-dashboard-actions{grid-template-columns:repeat(4,1fr)}}
+</style>
+<style id="oson-reports-page-fix">
+#osonReportsView{display:none!important;position:relative;z-index:20;padding:18px 14px 110px;background:#f5f7fb;min-height:100vh;box-sizing:border-box}
+#osonReportsView.oson-report-active{display:block!important}
+#osonReportsView .card{max-width:760px;margin:0 auto}
+@media(max-width:600px){#osonReportsView{padding:12px 10px 100px}}
+</style>
+
+<section id="paymentsPage">
+  <div class="pay-top">
+    <button class="pay-back" type="button" onclick="closePayments()">←</button>
+    <div class="pay-title">💰 Пардохтҳо</div>
+  </div>
+
+  <div class="pay-filters">
+    <select id="payBuilding" class="pay-select" onchange="populatePayRooms()"></select>
+    <select id="payRoom" class="pay-select" onchange="renderPayments()"></select>
+    <select id="payYear" class="pay-select" onchange="renderPayments()"><option value="">Ҳамаи солҳо</option><option value="2000-2001">2000-2001</option><option value="2001-2002">2001-2002</option><option value="2002-2003">2002-2003</option><option value="2003-2004">2003-2004</option><option value="2004-2005">2004-2005</option><option value="2005-2006">2005-2006</option><option value="2006-2007">2006-2007</option><option value="2007-2008">2007-2008</option><option value="2008-2009">2008-2009</option><option value="2009-2010">2009-2010</option><option value="2010-2011">2010-2011</option><option value="2011-2012">2011-2012</option><option value="2012-2013">2012-2013</option><option value="2013-2014">2013-2014</option><option value="2014-2015">2014-2015</option><option value="2015-2016">2015-2016</option><option value="2016-2017">2016-2017</option><option value="2017-2018">2017-2018</option><option value="2018-2019">2018-2019</option><option value="2019-2020">2019-2020</option><option value="2020-2021">2020-2021</option><option value="2021-2022">2021-2022</option><option value="2022-2023">2022-2023</option><option value="2023-2024">2023-2024</option><option value="2024-2025">2024-2025</option><option value="2025-2026">2025-2026</option><option value="2026-2027">2026-2027</option><option value="2027-2028">2027-2028</option><option value="2028-2029">2028-2029</option><option value="2029-2030">2029-2030</option><option value="2030-2031">2030-2031</option><option value="2031-2032">2031-2032</option><option value="2032-2033">2032-2033</option><option value="2033-2034">2033-2034</option><option value="2034-2035">2034-2035</option><option value="2035-2036">2035-2036</option><option value="2036-2037">2036-2037</option><option value="2037-2038">2037-2038</option><option value="2038-2039">2038-2039</option><option value="2039-2040">2039-2040</option><option value="2040-2041">2040-2041</option><option value="2041-2042">2041-2042</option><option value="2042-2043">2042-2043</option><option value="2043-2044">2043-2044</option><option value="2044-2045">2044-2045</option><option value="2045-2046">2045-2046</option><option value="2046-2047">2046-2047</option><option value="2047-2048">2047-2048</option><option value="2048-2049">2048-2049</option><option value="2049-2050">2049-2050</option><option value="2050-2051">2050-2051</option><option value="2051-2052">2051-2052</option><option value="2052-2053">2052-2053</option><option value="2053-2054">2053-2054</option><option value="2054-2055">2054-2055</option><option value="2055-2056">2055-2056</option><option value="2056-2057">2056-2057</option><option value="2057-2058">2057-2058</option><option value="2058-2059">2058-2059</option><option value="2059-2060">2059-2060</option><option value="2060-2061">2060-2061</option><option value="2061-2062">2061-2062</option><option value="2062-2063">2062-2063</option><option value="2063-2064">2063-2064</option><option value="2064-2065">2064-2065</option><option value="2065-2066">2065-2066</option><option value="2066-2067">2066-2067</option><option value="2067-2068">2067-2068</option><option value="2068-2069">2068-2069</option><option value="2069-2070">2069-2070</option><option value="2070-2071">2070-2071</option><option value="2071-2072">2071-2072</option><option value="2072-2073">2072-2073</option><option value="2073-2074">2073-2074</option><option value="2074-2075">2074-2075</option><option value="2075-2076">2075-2076</option><option value="2076-2077">2076-2077</option><option value="2077-2078">2077-2078</option><option value="2078-2079">2078-2079</option><option value="2079-2080">2079-2080</option><option value="2080-2081">2080-2081</option><option value="2081-2082">2081-2082</option><option value="2082-2083">2082-2083</option><option value="2083-2084">2083-2084</option><option value="2084-2085">2084-2085</option><option value="2085-2086">2085-2086</option><option value="2086-2087">2086-2087</option><option value="2087-2088">2087-2088</option><option value="2088-2089">2088-2089</option><option value="2089-2090">2089-2090</option><option value="2090-2091">2090-2091</option><option value="2091-2092">2091-2092</option><option value="2092-2093">2092-2093</option><option value="2093-2094">2093-2094</option><option value="2094-2095">2094-2095</option><option value="2095-2096">2095-2096</option><option value="2096-2097">2096-2097</option><option value="2097-2098">2097-2098</option><option value="2098-2099">2098-2099</option><option value="2099-2100">2099-2100</option><option value="2100-2101">2100-2101</option></select>
+    <select id="payMonth" class="pay-select" onchange="renderPayments()"></select>
+    <input id="paySearch" class="pay-search pay-full" type="search" placeholder="🔎 Ҷустуҷӯ..." oninput="renderPayments()">
+  </div>
+
+  <button class="pay-add" type="button" onclick="openPaymentModal()">＋ Сабти пардохт</button>
+
+  <div class="pay-summary">
+    <div class="pay-stat"><small>Шумораи пардохтҳо</small><b id="payCount">0</b></div>
+    <div class="pay-stat"><small>Ҷамъ маблағ</small><b id="payTotal">0 сомонӣ</b></div>
+  </div>
+
+  <div class="pay-dashboard" aria-label="Хулосаи пардохтҳо">
+    <div class="pay-dash-card"><small>💰 Маблағи умумӣ</small><b id="payDashTotal">0 сомонӣ</b></div>
+    <div class="pay-dash-card pay-dash-paid"><small>✅ Пардохткунандагон</small><b id="payPayers">0</b></div>
+    <div class="pay-dash-card pay-dash-debt"><small>⏳ Пардохт накардаанд</small><b id="payDebtors">0</b></div>
+    <div class="pay-dash-card"><small>🧾 Пардохтҳо</small><b id="payDashCount">0</b></div>
+    <div class="pay-dash-card"><small>🏢 Биноҳо</small><b id="payDashBuildings">0</b></div>
+    <div class="pay-dash-card"><small>📅 Моҳи интихобшуда</small><b id="payDashMonth">—</b></div>
+  </div>
+  <div class="pay-dashboard-note" id="payDashboardNote">Омор барои бино, сол ва моҳи интихобшуда нишон дода мешавад.</div>
+  <div class="pay-dashboard-actions">
+    <button type="button" class="pay-refresh" id="osonPaymentRefresh">🔄 Навсозӣ</button>
+    <button type="button" class="pay-add" id="osonPaymentNew">＋ Пардохти нав</button>
+    <button type="button" class="pay-pdf" id="osonPaymentPdf">🧾 Содир кардан (PDF)</button>
+    <button type="button" class="pay-pdf" id="osonPaymentReports">📊 Ҳисоботҳо</button>
+  </div>
+
+  <div id="paymentsList"></div>
+</section>
+
+<div id="paymentModal">
+  <div class="pay-modal-box">
+    <div class="pay-modal-head">
+      <div class="pay-modal-title" id="payModalTitle">Сабти пардохт</div>
+      <button class="pay-close" type="button" onclick="closePaymentModal()">×</button>
+    </div>
+    <form class="pay-form" onsubmit="savePayment(event)">
+      <input id="payId" type="hidden">
+      <select id="payFormBuilding" class="pay-select" required onchange="populateFormPayRooms()"></select>
+      <select id="payFormRoom" class="pay-select" required></select>
+      <select id="payFormYear" class="pay-select" required></select>
+      <select id="payFormMonth" class="pay-select" required></select>
+      <input id="payAmount" class="pay-input" type="number" min="0" step="0.01" required placeholder="Маблағ (сомонӣ)">
+      <input id="payDate" class="pay-input" type="date" required>
+      <select id="payMethod" class="pay-select" required>
+        <option value="cash">💵 Нақд</option>
+        <option value="card">💳 Корт</option>
+        <option value="transfer">🏦 Интиқол</option>
+      </select>
+      <input id="payReceipt" class="pay-input" placeholder="№ чек / маълумоти пардохт (ихтиёрӣ)">
+      <div class="pay-photo-wrap">
+        <label class="pay-photo-label">
+          🖼️ Интихоби сурати чек аз Галерея ё Файлҳо
+          <input id="payReceiptPhoto" type="file" accept="image/*" onchange="previewReceiptPhoto(event)">
+        </label>
+        <div id="payPhotoPreview" class="pay-photo-preview">
+          <img id="payPhotoPreviewImg" alt="Пешнамоиши чек">
+          <button type="button" class="pay-photo-remove" onclick="removeReceiptPhoto(event)">× Нест кардан</button>
+        </div>
+      </div>
+
+      <div class="pay-hint">Ҳолати пардохт баъди сабт «Пардохт шуд» мешавад.</div>
+      <button class="pay-save" type="submit">🟢 Сабт кардан</button>
+    </form>
+  </div>
+</div>
+
+
+<script id="oson-payments-js">
+(function(){
+  const PAY_KEY="oson_payments";
+
+  function getPayments(){try{return JSON.parse(localStorage.getItem(PAY_KEY)||"[]")}catch(e){return[]}}
+  window.getPayments=getPayments;
+  function setPayments(x){localStorage.setItem(PAY_KEY,JSON.stringify(x))}
+  function buildings(){try{return JSON.parse(localStorage.getItem("oson_buildings")||"[]")}catch(e){return[]}}
+  function rooms(){try{return JSON.parse(localStorage.getItem("oson_rooms")||"[]")}catch(e){return[]}}
+  function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+  function money(v){return new Intl.NumberFormat("tg-TJ",{maximumFractionDigits:2}).format(Number(v)||0)+" сомонӣ"}
+
+  const months=[
+    ["09","Сентябр"],["10","Октябр"],["11","Ноябр"],["12","Декабр"],
+    ["01","Январ"],["02","Феврал"],["03","Март"],["04","Апрел"],
+    ["05","Май"],["06","Июн"],["07","Июл"],["08","Август"]
+  ];
+
+  function fillYears(id, selected){
+    const el=document.getElementById(id); if(!el)return;
+    el.innerHTML="";
+    const current=new Date().getFullYear();
+    for(let y=2000;y<=2100;y++){
+      const o=document.createElement("option"); o.value=y+"-"+(y+1); o.textContent=y+"-"+(y+1);
+      el.appendChild(o);
+    }
+    el.value=selected || current+"-"+(current+1);
+  }
+  function fillMonths(id, selected){
+    const el=document.getElementById(id); if(!el)return;
+    el.innerHTML=months.map(m=>`<option value="${m[0]}">${m[1]}</option>`).join("");
+    const now=new Date(), mm=String(now.getMonth()+1).padStart(2,"0");
+    el.value=selected||mm;
+  }
+
+  window.openPayments=function(){
+    document.getElementById("adminDemo").style.display="none";
+    document.getElementById("paymentsPage").style.display="block";
+    populatePayBuildings();
+    fillYears("payYear"); fillMonths("payMonth");
+    renderPayments();
+  };
+  window.closePayments=function(){
+    document.getElementById("paymentsPage").style.display="none";
+    document.getElementById("adminDemo").style.display="block";
+  };
+
+  function populatePayBuildings(selected){
+    const el=document.getElementById("payBuilding"); if(!el)return;
+    const bs=buildings(); el.innerHTML=bs.length?bs.map(b=>`<option value="${b.id}">${esc(b.name)}</option>`).join(""):'<option value="">Аввал бино илова кунед</option>';
+    if(selected && bs.some(b=>String(b.id)===String(selected))) el.value=selected;
+    populatePayRooms();
+  }
+  window.populatePayRooms=function(selected){
+    const bid=String(document.getElementById("payBuilding")?.value||"");
+    const el=document.getElementById("payRoom"); if(!el)return;
+    const rs=rooms().filter(r=>String(r.buildingId)===bid);
+    el.innerHTML=rs.length?'<option value="">Ҳамаи квартираҳо</option>'+rs.map(r=>`<option value="${r.id}">Кв ${esc(r.number)} — ${esc(r.resident)}</option>`).join(""):'<option value="">Квартира нест</option>';
+    if(selected)el.value=selected;
+    renderPayments();
+  };
+
+  window.renderPayments=function(){
+    const list=document.getElementById("paymentsList"); if(!list)return;
+    const bid=String(document.getElementById("payBuilding")?.value||"");
+    const rid=String(document.getElementById("payRoom")?.value||"");
+    const year=String(document.getElementById("payYear")?.value||"");
+    const month=String(document.getElementById("payMonth")?.value||"");
+    const q=(document.getElementById("paySearch")?.value||"").trim().toLowerCase();
+    const bs=buildings(), rs=rooms();
+    let ps=getPayments().filter(p=>String(p.buildingId)===bid);
+    if(rid)ps=ps.filter(p=>String(p.roomId)===rid);
+    if(year)ps=ps.filter(p=>p.year===year);
+    if(month)ps=ps.filter(p=>p.month===month);
+    ps=ps.filter(p=>{
+      const r=rs.find(x=>String(x.id)===String(p.roomId));
+      const text=((r?.number||"")+" "+(r?.resident||"")+" "+(r?.phone||"")+" "+(p.receipt||"")).toLowerCase();
+      return !q||text.includes(q);
+    }).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+
+    const total=ps.reduce((s,p)=>s+Number(p.amount||0),0);
+    document.getElementById("payCount").textContent=ps.length;
+    document.getElementById("payTotal").textContent=money(total);
+
+    if(!bid){list.innerHTML='<div class="pay-empty">🏢 Аввал бино илова кунед.</div>';return}
+    if(!ps.length){list.innerHTML='<div class="pay-empty">Пардохт ёфт нашуд.</div>';return}
+
+    list.innerHTML=ps.map(p=>{
+      const r=rs.find(x=>String(x.id)===String(p.roomId));
+      const b=bs.find(x=>String(x.id)===String(p.buildingId));
+      const method={cash:"💵 Нақд",card:"💳 Корт",transfer:"🏦 Интиқол"}[p.method]||p.method;
+      return `<div class="pay-card">
+        <div class="pay-head"><div class="pay-room">Кв ${esc(r?.number||"—")} — ${esc(r?.resident||"")}</div><span class="pay-status">Пардохт шуд</span></div>
+        <div class="pay-amount">${money(p.amount)}</div>
+        <div class="pay-meta">🏢 ${esc(b?.name||"")}<br>📅 ${esc(p.monthName||"")} ${esc(p.year||"")}<br>🗓 ${esc(p.date||"")}<br>${method}${p.receipt?"<br>🧾 Чек: "+esc(p.receipt):""}${p.receiptPhoto?`<br><button type="button" class="pay-receipt-photo" onclick="showReceiptPhoto('${p.id}')">📷 Дидани сурати чек</button>`:""}</div>
+        <div class="pay-buttons"><button class="pay-edit" onclick="openPaymentModal('${p.id}')">✏️ Тағйир</button><button class="pay-delete" onclick="deletePayment('${p.id}')">🗑 Нест кардан</button></div>
+      </div>`;
+    }).join("");
+  };
+
+  window.openPaymentModal=function(id){
+    const bs=buildings(); if(!bs.length){alert("Аввал бино илова кунед.");return}
+    const p=getPayments().find(x=>String(x.id)===String(id));
+    document.getElementById("payModalTitle").textContent=p?"Тағйири пардохт":"Сабти пардохт";
+    document.getElementById("payId").value=p?.id||"";
+    fillYears("payFormYear",p?.year); fillMonths("payFormMonth",p?.month);
+    const fb=document.getElementById("payFormBuilding");
+    fb.innerHTML=bs.map(b=>`<option value="${b.id}">${esc(b.name)}</option>`).join("");
+    fb.value=p?.buildingId||bs[0].id;
+    populateFormPayRooms(p?.roomId);
+    document.getElementById("payAmount").value=p?.amount||"";
+    document.getElementById("payDate").value=p?.date||new Date().toISOString().slice(0,10);
+    document.getElementById("payMethod").value=p?.method||"cash";
+    document.getElementById("payReceipt").value=p?.receipt||"";
+    setReceiptPhotoPreview(p?.receiptPhoto || "");
+    document.getElementById("paymentModal").style.display="flex";
+  };
+
+  window.populateFormPayRooms=function(selected){
+    const bid=String(document.getElementById("payFormBuilding")?.value||"");
+    const el=document.getElementById("payFormRoom"); if(!el)return;
+    const rs=rooms().filter(r=>String(r.buildingId)===bid);
+    el.innerHTML=rs.length?rs.map(r=>`<option value="${r.id}">Кв ${esc(r.number)} — ${esc(r.resident)}</option>`).join(""):'<option value="">Квартира нест</option>';
+    if(selected)el.value=selected;
+  };
+
+  window.closePaymentModal=function(){document.getElementById("paymentModal").style.display="none"};
+
+  window.savePayment=function(e){
+    e.preventDefault();
+    const bid=String(document.getElementById("payFormBuilding").value||"");
+    const rid=String(document.getElementById("payFormRoom").value||"");
+    if(!bid||!rid){alert("Бино ва квартираро интихоб кунед.");return}
+    const month=document.getElementById("payFormMonth").value;
+    const mn=(months.find(m=>m[0]===month)||["",""])[1];
+    const photoFile=document.getElementById("payReceiptPhoto")?.files?.[0] || null;
+    const existing=getPayments().find(p=>String(p.id)===String(document.getElementById("payId").value||""));
+    const data={
+      id:document.getElementById("payId").value||"pay_"+Date.now(),
+      buildingId:bid,roomId:rid,
+      year:document.getElementById("payFormYear").value,
+      month,monthName:mn,
+      amount:Number(document.getElementById("payAmount").value||0),
+      date:document.getElementById("payDate").value,
+      method:document.getElementById("payMethod").value,
+      receipt:document.getElementById("payReceipt").value.trim(),
+      receiptPhoto:existing?.receiptPhoto || "",
+      status:"paid"
+    };
+    if(data.amount<=0){alert("Маблағро дуруст ворид кунед.");return}
+
+    const finishSave=(photoData)=>{
+      if(photoData) data.receiptPhoto=photoData;
+      let ps=getPayments(), id=data.id;
+      if(ps.some(p=>String(p.id)===String(id)))ps=ps.map(p=>String(p.id)===String(id)?data:p);else ps.push(data);
+      setPayments(ps); closePaymentModal(); populatePayBuildings(bid);
+      document.getElementById("payRoom").value=rid; renderPayments();
+    };
+
+    if(photoFile){
+      const reader=new FileReader();
+      reader.onload=()=>finishSave(reader.result);
+      reader.onerror=()=>alert("Сурати чек хонда нашуд.");
+      reader.readAsDataURL(photoFile);
+      return;
+    }
+    finishSave(data.receiptPhoto);
+    return;
+    let ps=getPayments(), id=data.id;
+    if(ps.some(p=>String(p.id)===String(id)))ps=ps.map(p=>String(p.id)===String(id)?data:p);else ps.push(data);
+    setPayments(ps); closePaymentModal(); populatePayBuildings(bid);
+    document.getElementById("payRoom").value=rid; renderPayments();
+  };
+
+  window.deletePayment=function(id){
+    if(!confirm("Ин пардохт нест карда шавад?"))return;
+    setPayments(getPayments().filter(p=>String(p.id)!==String(id)));renderPayments();
+  };
+
+  document.addEventListener("DOMContentLoaded",()=>{
+    const tiles=document.querySelectorAll("#adminDemo .tile");
+    if(tiles[2])tiles[2].onclick=window.openPayments;
+    fillYears("payFormYear");fillMonths("payFormMonth");
+  });
+})();
+</script>
+
+
+<script id="oson-test-data-seed">
+(function(){
+  const TEST_BUILDING_NAME = "Рудаки 10/1";
+
+  function seedTestBuildingAndRooms(){
+    let bs = [];
+    try { bs = JSON.parse(localStorage.getItem("oson_buildings") || "[]"); } catch(e) { bs=[]; }
+
+    let building = bs.find(b => String(b.name).trim() === TEST_BUILDING_NAME);
+    if(!building){
+      building = {
+        id: "test_building_rudaki_10_1",
+        name: TEST_BUILDING_NAME,
+        address: "",
+        rooms: 72
+      };
+      bs.push(building);
+      localStorage.setItem("oson_buildings", JSON.stringify(bs));
+    } else {
+      building.rooms = 72;
+      localStorage.setItem("oson_buildings", JSON.stringify(bs));
+    }
+
+    let rs = [];
+    try { rs = JSON.parse(localStorage.getItem("oson_rooms") || "[]"); } catch(e) { rs=[]; }
+
+    const existing = rs.filter(r => String(r.buildingId) === String(building.id));
+    if(existing.length < 72){
+      const byNumber = new Set(existing.map(r => String(r.number)));
+      for(let i=1;i<=72;i++){
+        if(!byNumber.has(String(i))){
+          rs.push({
+            id: "test_room_rudaki_10_1_" + i,
+            buildingId: building.id,
+            number: String(i),
+            resident: "Истиқоматкунанда " + i,
+            phone: "",
+            people: 1
+          });
+        }
+      }
+      localStorage.setItem("oson_rooms", JSON.stringify(rs));
+    }
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", seedTestBuildingAndRooms);
+  }else{
+    seedTestBuildingAndRooms();
+  }
+})();
+</script>
+
+
+<div id="receiptPhotoViewer" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:2000;align-items:center;justify-content:center;padding:18px;box-sizing:border-box" onclick="closeReceiptPhoto()">
+  <img id="receiptPhotoViewerImg" style="max-width:100%;max-height:90%;object-fit:contain;border-radius:12px" alt="Сурати чек">
+</div>
+
+
+<script id="oson-receipt-photo-js">
+(function(){
+  window.previewReceiptPhoto=function(e){
+    const file=e.target.files?.[0];
+    if(!file)return;
+    if(!file.type.startsWith("image/")){alert("Лутфан сурати чекро интихоб кунед.");e.target.value="";return}
+    if(file.size>8*1024*1024){alert("Сурати чек бояд аз 8 МБ хурдтар бошад.");e.target.value="";return}
+    const reader=new FileReader();
+    reader.onload=()=>setReceiptPhotoPreview(reader.result);
+    reader.readAsDataURL(file);
+  };
+  window.setReceiptPhotoPreview=function(src){
+    const box=document.getElementById("payPhotoPreview"),img=document.getElementById("payPhotoPreviewImg");
+    if(!box||!img)return;
+    if(src){img.src=src;box.style.display="block"}else{img.removeAttribute("src");box.style.display="none"}
+  };
+  window.removeReceiptPhoto=function(e){
+    e.stopPropagation();
+    const input=document.getElementById("payReceiptPhoto");
+    if(input)input.value="";
+    setReceiptPhotoPreview("");
+  };
+  window.showReceiptPhoto=function(id){
+    const p=(typeof getPayments==="function"?getPayments():[]).find(x=>String(x.id)===String(id));
+    if(!p?.receiptPhoto)return;
+    const img=document.getElementById("receiptPhotoViewerImg");
+    img.src=p.receiptPhoto;
+    document.getElementById("receiptPhotoViewer").style.display="flex";
+  };
+  window.closeReceiptPhoto=function(){
+    document.getElementById("receiptPhotoViewer").style.display="none";
+  };
+})();
+</script>
+
+
+<script id="oson-faceid-js">
+(function(){
+  const FACE_KEY="oson_faceid_credential";
+
+  function b64url(buf){
+    let bytes=new Uint8Array(buf), s="";
+    for(let i=0;i<bytes.length;i++)s+=String.fromCharCode(bytes[i]);
+    return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+  }
+  function fromB64url(s){
+    s=s.replace(/-/g,"+").replace(/_/g,"/");
+    while(s.length%4)s+="=";
+    const bin=atob(s), bytes=new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+    return bytes.buffer;
+  }
+  function randomBytes(n){const a=new Uint8Array(n);crypto.getRandomValues(a);return a}
+  function supported(){
+    return !!(window.PublicKeyCredential && navigator.credentials && navigator.credentials.create && navigator.credentials.get);
+  }
+
+  window.osonFaceIdRegister=function(){
+    if(!supported()){alert("Ин дастгоҳ/браузер Passkey (Face ID)-ро дастгирӣ намекунад.");return}
+    const user=document.getElementById("loginPhone")?.value.trim() || "administrator";
+    const challenge=randomBytes(32);
+    const userId=randomBytes(16);
+    const options={
+      publicKey:{
+        challenge,
+        rp:{name:"OSON"},
+        user:{id:userId,name:user,displayName:"OSON Administrator"},
+        pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],
+        authenticatorSelection:{authenticatorAttachment:"platform",residentKey:"required",requireResidentKey:true,userVerification:"required"},
+        timeout:60000,
+        attestation:"none"
+      }
+    };
+    navigator.credentials.create(options).then(cred=>{
+      if(!cred){throw new Error("no credential")}
+      const raw=cred.rawId;
+      localStorage.setItem(FACE_KEY,JSON.stringify({
+        id:b64url(raw),
+        user,
+        createdAt:new Date().toISOString()
+      }));
+      alert("Face ID барои воридшавӣ сабт шуд. Акнун метавонед бо Face ID ворид шавед.");
+    }).catch(err=>{
+      if(err.name==="NotAllowedError")return;
+      alert("Сабти Face ID иҷро нашуд: "+(err.message||err.name));
+    });
+  };
+
+  window.osonFaceIdLogin=function(){
+    if(!supported()){alert("Ин браузер Face ID/Passkey-ро дастгирӣ намекунад.");return}
+    let saved=null;
+    try{saved=JSON.parse(localStorage.getItem(FACE_KEY)||"null")}catch(e){}
+    if(!saved){
+      const ok=confirm("Face ID ҳоло сабт нашудааст. Аввал онро сабт мекунед?");
+      if(ok)osonFaceIdRegister();
+      return;
+    }
+    navigator.credentials.get({
+      publicKey:{
+        challenge:randomBytes(32),
+        allowCredentials:[{type:"public-key",id:fromB64url(saved.id)}],
+        userVerification:"required",
+        timeout:60000
+      }
+    }).then(cred=>{
+      if(!cred)throw new Error("no assertion");
+      // For this HTML demo, the successful platform credential assertion is enough
+      // to unlock the existing local admin session. Production must verify it server-side.
+      document.getElementById("auth").classList.add("hidden");
+      const home=document.getElementById("home"); if(home)home.classList.add("hidden");
+      const demo=document.getElementById("adminDemo");
+      if(demo)demo.style.display="block";
+      document.body.classList.add("oson-logged-in");
+    }).catch(err=>{
+      if(err.name==="NotAllowedError")return;
+      alert("Face ID тасдиқ нашуд: "+(err.message||err.name));
+    });
+  };
+
+  // Add a small Face ID registration action next to profile/settings only if the admin page exists.
+  document.addEventListener("DOMContentLoaded",function(){
+    const demo=document.getElementById("adminDemo");
+    if(!demo || document.getElementById("osonFaceIdSetupBtn"))return;
+    const box=document.createElement("div");
+    box.id="osonFaceIdSetupBox";
+    box.style.cssText="margin:12px 0;padding:12px;border:1px solid #e7e9ed;border-radius:14px;background:#fff";
+    box.innerHTML='<button id="osonFaceIdSetupBtn" type="button" style="width:100%;border:0;border-radius:12px;padding:12px;background:#eef2f7;font-weight:800">🔐 Сабти Face ID / Passkey</button><div style="font-size:12px;color:#737b86;margin-top:7px;text-align:center">Барои воридшавии зуд дар iPhone.</div>';
+    const first=demo.firstElementChild;
+    if(first)first.insertAdjacentElement("afterend",box);else demo.prepend(box);
+    document.getElementById("osonFaceIdSetupBtn").onclick=osonFaceIdRegister;
+  });
+})();
+</script>
+
+
+<!-- ОСОН ҚАДАМИ 6 — ҲИСОБОТҲО -->
+<section id="osonReportsView" class="view" style="display:none;min-height:70vh">
+  <div class="card oson-report-new">
+    <div class="report-head">
+      <button class="secondary" type="button" onclick="osonCloseReports()">← Баргаштан</button>
+      <div class="report-title"><div class="report-logo">📊</div><div><h2>ҲИСОБОТИ ОСОН</h2><div>Ҳисоботи солонаи пардохтҳо</div></div></div>
+      <button class="primary" type="button" onclick="osonPrintReport()">📄 PDF</button>
+    </div>
+    <div class="report-filters">
+      <label>Сол<select id="osonRepYear"><option value="">Ҳамаи солҳо</option></select></label>
+      <label>Бино<select id="osonRepBuilding"><option value="">Ҳамаи биноҳо</option></select></label>
+      <label>Моҳ<select id="osonRepMonth"><option value="">Ҳамаи моҳҳо</option><option value="09">Сентябр</option><option value="10">Октябр</option><option value="11">Ноябр</option><option value="12">Декабр</option><option value="01">Январ</option><option value="02">Феврал</option><option value="03">Март</option><option value="04">Апрел</option><option value="05">Май</option><option value="06">Июн</option><option value="07">Июл</option><option value="08">Август</option></select></label>
+    </div>
+    <div class="report-summary">
+      <div><span>💰 Супорида</span><b id="osonRepTotal">0 сомонӣ</b></div>
+      <div><span>👥 Супоридагон</span><b id="osonRepPayers">0</b></div>
+      <div><span>❌ Қарздорон</span><b id="osonRepDebtors">0</b></div>
+      <div><span>🧾 Пардохтҳо</span><b id="osonRepCount">0</b></div>
+    </div>
+    <div id="osonReportBody" class="report-body"></div>
+  </div>
+</section>
+<style id="oson-report-new-css">
+.oson-report-new{max-width:1200px!important;margin:0 auto;padding:16px!important;background:#fff}
+.report-head{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;border-bottom:1px solid #e5e9f0;padding-bottom:14px}.report-title{display:flex;justify-content:center;align-items:center;gap:10px}.report-title h2{margin:0;font-size:21px}.report-title div:last-child{font-size:12px;color:#788398;margin-top:3px}.report-logo{font-size:28px}.report-filters{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.report-filters label{font-size:12px;color:#657084;font-weight:700}.report-filters select{display:block;width:100%;margin-top:5px;padding:11px;border:1px solid #dbe1ea;border-radius:10px;background:#fff;font-size:14px}.report-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.report-summary>div{border:1px solid #e4e9f1;border-radius:12px;padding:12px;background:#f8fafc}.report-summary span{display:block;font-size:12px;color:#6d7788}.report-summary b{display:block;margin-top:5px;font-size:17px}.report-body{margin-top:16px}.report-meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px;font-size:13px;color:#667085}.annual-wrap{overflow:auto;border:1px solid #dfe4ec;border-radius:10px}.annual-table{width:100%;min-width:1120px;border-collapse:collapse;font-size:11px}.annual-table th,.annual-table td{border:1px solid #dfe4ec;padding:6px 5px;text-align:center;white-space:nowrap}.annual-table th{background:#eef3f8;font-weight:800}.annual-table th:nth-child(3),.annual-table td:nth-child(3){text-align:left;min-width:150px}.paid{background:#e8f7ee!important;color:#147a42;font-weight:800}.debt{background:#fff0f0!important;color:#c62828;font-weight:800}.total-row td{background:#f5f7fa;font-weight:800}.month-cell{min-width:54px}.report-note{margin-top:9px;font-size:11px;color:#778195}.pdf-page{page-break-after:always}.pdf-page:last-child{page-break-after:auto}.pdf-head{margin-bottom:8px}.pdf-head h1{margin:0 0 3px;font-size:18px}.pdf-head p{margin:2px 0;font-size:10px;color:#555}.pdf-table{width:100%;border-collapse:collapse;font-size:8px}.pdf-table th,.pdf-table td{border:1px solid #888;padding:4px;text-align:center}.pdf-table th{background:#e9edf2}.pdf-table th:nth-child(3),.pdf-table td:nth-child(3){text-align:left}.pdf-footer{margin-top:5px;font-size:9px;text-align:right;color:#555}
+@media(max-width:700px){.report-head{grid-template-columns:1fr auto}.report-head>.secondary{grid-column:1/-1;justify-self:start}.report-title{justify-content:flex-start}.report-filters,.report-summary{grid-template-columns:1fr 1fr}.report-title h2{font-size:18px}}
+</style>
+<script id="oson-reports-js">
+(function(){
+const MONTHS=[['09','Сентябр'],['10','Октябр'],['11','Ноябр'],['12','Декабр'],['01','Январ'],['02','Феврал'],['03','Март'],['04','Апрел'],['05','Май'],['06','Июн'],['07','Июл'],['08','Август']];
+function arr(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}}
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function money(v){return (Number(v)||0).toLocaleString('ru-RU')+' сомонӣ'}
+function monthCode(v){return String(v??'').padStart(2,'0')}
+window.osonOpenReports=function(){['adminDemo','paymentsPage','buildingsPage','roomsPage'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none'});const v=document.getElementById('osonReportsView');if(v){v.classList.add('oson-report-active');v.style.setProperty('display','block','important')}osonRefreshReport();window.scrollTo({top:0,behavior:'smooth'})}
+window.osonCloseReports=function(){const v=document.getElementById('osonReportsView');if(v){v.classList.remove('oson-report-active');v.style.removeProperty('display')}const a=document.getElementById('adminDemo');if(a)a.style.display='block'}
+window.osonRefreshReport=function(){
+const ys=document.getElementById('osonRepYear'),bs=document.getElementById('osonRepBuilding'),ms=document.getElementById('osonRepMonth'),body=document.getElementById('osonReportBody');if(!ys||!bs||!ms||!body)return;
+const payments=arr('oson_payments'),buildings=arr('oson_buildings'),rooms=arr('oson_rooms');const oldY=ys.value,oldB=bs.value;
+const years=[...new Set(payments.map(p=>String(p?.year||'')).filter(Boolean))].sort((a,b)=>b.localeCompare(a));ys.innerHTML='<option value="">Ҳамаи солҳо</option>'+years.map(y=>`<option value="${esc(y)}">${esc(y)}</option>`).join('');if(years.includes(oldY))ys.value=oldY;
+bs.innerHTML='<option value="">Ҳамаи биноҳо</option>'+buildings.map(b=>`<option value="${esc(b.id)}">${esc(b.name)}</option>`).join('');if(buildings.some(b=>String(b.id)===oldB))bs.value=oldB;
+const y=ys.value,bid=bs.value,month=ms.value;const scope=rooms.filter(r=>!bid||String(r.buildingId)===String(bid));const ps=payments.filter(p=>(!y||String(p.year||'')===y)&&(!bid||String(p.buildingId)===String(bid)));
+const bmap=Object.fromEntries(buildings.map(b=>[b.id,b.name]));const byRoom={};ps.forEach(p=>{const id=String(p.roomId||'');if(!id)return;(byRoom[id]??={});const m=monthCode(p.month);byRoom[id][m]=(byRoom[id][m]||0)+(Number(p.amount)||0)});
+const filtered=month?ps.filter(p=>monthCode(p.month)===month):ps;const total=filtered.reduce((a,p)=>a+(Number(p.amount)||0),0);const payers=new Set(filtered.map(p=>String(p.roomId||p.resident||p.id))).size;const debtors=scope.filter(r=>{if(month){return !(byRoom[String(r.id)]||{})[month]}return MONTHS.some(([m])=>!(byRoom[String(r.id)]||{})[m])}).length;
+document.getElementById('osonRepTotal').textContent=money(total);document.getElementById('osonRepCount').textContent=filtered.length;document.getElementById('osonRepPayers').textContent=payers;document.getElementById('osonRepDebtors').textContent=debtors;
+let h='<div class="report-meta"><span>🏢 '+esc(bid?(bmap[bid]||''):'Ҳамаи биноҳо')+'</span><span>📅 '+esc(y||'Ҳамаи солҳо')+'</span></div><div class="annual-wrap"><table class="annual-table"><thead><tr><th>№</th><th>Кв.</th><th>Истиқоматкунанда</th>'+MONTHS.map(([,n])=>`<th class="month-cell">${n}</th>`).join('')+'<th>Супорида</th><th>Қарз</th></tr></thead><tbody>';
+let allPaid=0,allDebt=0;scope.forEach((r,i)=>{const rm=byRoom[String(r.id)]||{};let paid=0,debt=0;const cells=MONTHS.map(([m])=>{const a=rm[m]||0;if(a){paid+=a;return `<td class="paid">✓<br><small>${a}</small></td>`}debt+=1;return '<td class="debt">—</td>'}).join('');const debtAmt=debt*(Number(r.monthlyFee)||Number(r.fee)||0);allPaid+=paid;allDebt+=debtAmt;h+=`<tr><td>${i+1}</td><td>${esc(r.number)}</td><td>${esc(r.resident)}</td>${cells}<td>${money(paid)}</td><td>${money(debtAmt)}</td></tr>`});
+h+=`<tr class="total-row"><td colspan="3">ҲАМАГӢ</td>${MONTHS.map(([m])=>`<td>${scope.filter(r=>(byRoom[String(r.id)]||{})[m]).length}</td>`).join('')}<td>${money(allPaid)}</td><td>${money(allDebt)}</td></tr></tbody></table></div><div class="report-note">🟢 ✓ — супорида шудааст &nbsp;&nbsp; 🔴 — қарз. Агар тарифи моҳона дар квартира муайян нашуда бошад, маблағи қарз ҳамчун 0 нишон дода мешавад.</div>`;
+body.innerHTML=scope.length?h:'<div class="oson-empty">Маълумот барои ҳисобот ёфт нашуд.</div>';
+}
+window.osonPrintReport=function(){const ys=document.getElementById('osonRepYear'),bs=document.getElementById('osonRepBuilding');const y=ys?.value||'Ҳамаи солҳо',b=bs?.selectedOptions?.[0]?.textContent||'Ҳамаи биноҳо';const payments=arr('oson_payments'),rooms=arr('oson_rooms');const scope=rooms.filter(r=>!bs?.value||String(r.buildingId)===String(bs.value));const ps=payments.filter(p=>(!y||String(p.year||'')===y)&&(!bs?.value||String(p.buildingId)===String(bs.value)));const byRoom={};ps.forEach(p=>{const id=String(p.roomId||'');if(!id)return;(byRoom[id]??={});const m=monthCode(p.month);byRoom[id][m]=(byRoom[id][m]||0)+(Number(p.amount)||0)});const pages=[];for(let i=0;i<scope.length;i+=30)pages.push(scope.slice(i,i+30));if(!pages.length)pages.push([]);const w=window.open('','_blank');if(!w){alert('Браузер равзанаи PDF-ро баст.');return}let html='<html><head><meta charset="utf-8"><title>Ҳисоботи ОСОН</title><style>@page{size:A4 portrait;margin:8mm}body{font-family:Arial,sans-serif;color:#111;margin:0}.pdf-page{page-break-after:always}.pdf-page:last-child{page-break-after:auto}.pdf-head{text-align:center;margin-bottom:6px}.pdf-head h1{font-size:17px}.pdf-head p{font-size:9px;margin:2px}.pdf-table{width:100%;border-collapse:collapse;font-size:7px}.pdf-table th,.pdf-table td{border:1px solid #777;padding:3px;text-align:center}.pdf-table th{background:#e9edf2}.pdf-table th:nth-child(3),.pdf-table td:nth-child(3){text-align:left}.pdf-footer{text-align:right;font-size:8px;margin-top:4px}</style></head><body>';pages.forEach((chunk,pi)=>{html+=`<div class="pdf-page"><div class="pdf-head"><h1>ҲИСОБОТИ ОСОН</h1><p>Бино: ${esc(b)}</p><p>Сол: ${esc(y)}</p><p>Моҳҳо: Сентябр — Август</p></div><table class="pdf-table"><thead><tr><th>№</th><th>Кв.</th><th>Истиқоматкунанда</th>${MONTHS.map(([,n])=>`<th>${n.slice(0,3)}</th>`).join('')}<th>Супорида</th><th>Қарз</th></tr></thead><tbody>`;chunk.forEach((r,idx)=>{const rm=byRoom[String(r.id)]||{};let paid=0,debt=0;let cells=MONTHS.map(([m])=>{const a=rm[m]||0;if(a){paid+=a;return `<td>✓</td>`}debt++;return '<td>—</td>'}).join('');const debtAmt=debt*(Number(r.monthlyFee)||Number(r.fee)||0);html+=`<tr><td>${pi*30+idx+1}</td><td>${esc(r.number)}</td><td>${esc(r.resident)}</td>${cells}<td>${money(paid)}</td><td>${money(debtAmt)}</td></tr>`});html+='</tbody></table><div class="pdf-footer">Саҳифа '+(pi+1)+' аз '+pages.length+'</div></div>'});html+='</body></html>';w.document.write(html);w.document.close();w.focus();setTimeout(()=>w.print(),300)};
+document.addEventListener('change',e=>{if(['osonRepYear','osonRepMonth','osonRepBuilding'].includes(e.target.id))osonRefreshReport()});document.addEventListener('DOMContentLoaded',()=>{const tiles=document.querySelectorAll('#adminDemo .tile');if(tiles[3])tiles[3].onclick=window.osonOpenReports;const pr=document.getElementById('osonPaymentReports');if(pr)pr.onclick=window.osonOpenReports;const v=document.getElementById('osonReportsView');if(v){v.classList.remove('oson-report-active');v.style.setProperty('display','none','important')}})
+})();
+</script>
+
+<script id="oson-payment-dashboard-js">
+(function(){
+  function arr(key){try{return JSON.parse(localStorage.getItem(key)||"[]")}catch(e){return[]}}
+  function money(v){return new Intl.NumberFormat("tg-TJ",{maximumFractionDigits:2}).format(Number(v)||0)+" сомонӣ"}
+  window.renderPaymentDashboard=function(){
+    const bid=String(document.getElementById("payBuilding")?.value||"");
+    const rid=String(document.getElementById("payRoom")?.value||"");
+    const year=String(document.getElementById("payYear")?.value||"");
+    const month=String(document.getElementById("payMonth")?.value||"");
+    const q=(document.getElementById("paySearch")?.value||"").trim().toLowerCase();
+    const rooms=arr("oson_rooms"), buildings=arr("oson_buildings"), payments=arr("oson_payments");
+    let roomList=rooms.filter(r=>String(r.buildingId)===bid);
+    if(rid)roomList=roomList.filter(r=>String(r.id)===rid);
+    const searchRooms=roomList.filter(r=>{const text=((r.number||"")+" "+(r.resident||"")+" "+(r.phone||"")).toLowerCase();return !q||text.includes(q)});
+    const periodPayments=payments.filter(p=>String(p.buildingId)===bid && (!year||String(p.year)===year) && (!month||String(p.month).padStart(2,"0")===month));
+    const paidIds=new Set(periodPayments.map(p=>String(p.roomId)));
+    const visiblePaidIds=new Set(searchRooms.filter(r=>paidIds.has(String(r.id))).map(r=>String(r.id)));
+    const total=periodPayments.reduce((sum,p)=>sum+Number(p.amount||0),0);
+    const debtors=searchRooms.filter(r=>!paidIds.has(String(r.id)));
+    const set=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val};
+    set("payDashCount",periodPayments.length);set("payDashTotal",money(total));set("payPayers",visiblePaidIds.size);set("payDebtors",debtors.length);set("payDashBuildings",buildings.length);
+    const monthName=document.getElementById("payMonth")?.selectedOptions?.[0]?.textContent||"—";set("payDashMonth",monthName);
+    const b=buildings.find(x=>String(x.id)===bid);
+    set("payDashboardNote",b?`Омор: ${b.name} • ${monthName} ${year}${q?" • ҷустуҷӯ фаъол":""}`:"Аввал бино интихоб кунед.");
+  };
+  document.addEventListener("DOMContentLoaded",function(){
+    if(typeof window.renderPayments==="function"){const original=window.renderPayments;window.renderPayments=function(){original.apply(this,arguments);window.renderPaymentDashboard()};}
+    const refresh=document.getElementById("osonPaymentRefresh");
+    const newBtn=document.getElementById("osonPaymentNew");
+    const pdf=document.getElementById("osonPaymentPdf");
+    if(refresh)refresh.onclick=()=>window.renderPayments();
+    if(newBtn)newBtn.onclick=()=>window.openPaymentModal();
+    if(pdf)pdf.onclick=()=>window.osonPaymentDashboardPdf();
+    window.renderPaymentDashboard();
+  });
+  window.osonPaymentDashboardPdf=function(){
+    const body=document.getElementById("paymentsList")?.innerHTML||"<div>Пардохт ёфт нашуд.</div>";
+    const title="Ҳисоботи пардохтҳои ОСОН";const w=window.open("","_blank");
+    if(!w){alert("Браузер равзанаи PDF-ро баст.");return}
+    w.document.write(`<html><head><title>${title}</title><meta charset="utf-8"><style>body{font-family:Arial,sans-serif;padding:20px;color:#111}.pay-card{border:1px solid #ddd;border-radius:10px;padding:10px;margin:8px 0}.pay-buttons,.pay-receipt-photo{display:none}.pay-status{float:right}.pay-amount{font-size:18px;font-weight:800;margin:6px 0}</style></head><body><h1>${title}</h1>${body}</body></html>`);
+    w.document.close();w.focus();setTimeout(()=>w.print(),250);
+  };
+})();
+</script>
+
+
+<!-- ОСОН: Корбарон. Иловаи мустақил; коди база дастнорас мондааст. -->
+<style id="oson-users-css">#osonUsersView{display:none!important;}
+body.oson-logged-in #osonUsersView .wrap{display:block!important;}
+#osonUsersView .oson-users-page{min-height:100vh;background:#f4f7fb;color:#172033;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+#osonUsersView .wrap{max-width:1050px;margin:auto;padding:16px}
+#osonUsersView .top{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+#osonUsersView button{border:0;border-radius:12px;padding:11px 14px;font-weight:700}
+#osonUsersView .back,#osonUsersView .secondary{background:#e7edf5}
+#osonUsersView .primary{background:#16834b;color:white}
+#osonUsersView .danger{background:#d64545;color:white}
+#osonUsersView .warn{background:#b7791f;color:white}
+#osonUsersView .card{background:white;border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 4px 18px #0000000d}
+#osonUsersView .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+#osonUsersView label{font-size:13px;font-weight:700;display:block;margin-bottom:6px}
+#osonUsersView input,#osonUsersView select{width:100%;padding:12px;border:1px solid #d8e0ea;border-radius:11px;font-size:15px;background:#fff}
+#osonUsersView .actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+#osonUsersView .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+#osonUsersView .stat{background:#f1f5f9;border-radius:14px;padding:13px}
+#osonUsersView .stat b{display:block;font-size:22px;margin-top:3px}
+#osonUsersView .table-wrap{overflow:auto;border:1px solid #e2e8f0;border-radius:14px}
+#osonUsersView table{width:100%;border-collapse:collapse;min-width:850px}
+#osonUsersView th,#osonUsersView td{padding:10px;border-bottom:1px solid #e7edf3;text-align:left;font-size:13px;white-space:nowrap}
+#osonUsersView th{background:#f7f9fc}
+#osonUsersView .badge{padding:5px 9px;border-radius:999px;font-size:12px;font-weight:700}
+#osonUsersView .active{background:#dcf7e8;color:#08743e}
+#osonUsersView .blocked{background:#fde3e3;color:#b42323}
+#osonUsersView .msg{margin-top:10px;font-weight:700}
+@media(max-width:700px){#osonUsersView .grid,#osonUsersView .stats{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){#osonUsersView .grid,#osonUsersView .stats{grid-template-columns:1fr}#osonUsersView .wrap{padding:10px}}
+</style>
+<section id="osonUsersView">
+<div class="wrap">
+<div class="top"><button class="back" onclick="osonCloseUsers()">← Бозгашт</button><h1 style="margin:0;font-size:22px">👥 КОРБАРОН</h1></div>
+
+<section class="card">
+<h2 id="osonUserFormTitle" style="margin:0 0 14px">Иловаи корбар</h2>
+<div class="grid">
+<div><label>Ном ва насаб</label><input id="osonUserName" placeholder="Ном ва насаб"></div>
+<div><label>Телефон</label><input id="osonUserPhone" type="tel" placeholder="+992..."></div>
+<div><label>Нақш</label><select id="osonUserRole"><option>Оператор</option><option>Муҳосиб</option><option>Менеҷер</option><option>Администратор</option></select></div>
+<div><label>Парол</label><input id="osonUserPassword" type="password" placeholder="Парол"></div>
+</div>
+<div class="actions"><button class="primary" id="osonUserSave">💾 Сабт кардан</button><button class="secondary" id="osonUserCancel">Тоза кардан</button></div>
+<div id="osonUserMsg" class="msg"></div>
+</section>
+
+<section class="card"><div class="stats">
+<div class="stat">Ҳама корбарон<b id="osonUserCount">0</b></div>
+<div class="stat">Фаъол<b id="osonUserActiveCount">0</b></div>
+<div class="stat">Баста<b id="osonUserBlockedCount">0</b></div>
+</div></section>
+
+<section class="card"><label>🔎 Ҷустуҷӯ</label><input id="osonUserSearch" placeholder="Ном, телефон ё нақш..."></section>
+
+<section class="card"><div class="table-wrap"><table>
+<thead><tr><th>№</th><th>Ном</th><th>Телефон</th><th>Нақш</th><th>Ҳолат</th><th>Амал</th></tr></thead>
+<tbody id="osonUserBody"></tbody></table></div></section>
+</div>
+
+</section>
+<script id="oson-users-js">
+(function(){
+const KEY="oson_users";
+let editId=null;
+const $=id=>document.getElementById(id);
+const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||[]}catch(e){return[]}};
+const save=v=>localStorage.setItem(KEY,JSON.stringify(v));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+function render(){
+ const all=load(),q=$("osonUserSearch").value.trim().toLowerCase();
+ const list=all.filter(u=>[u.name,u.phone,u.role].join(" ").toLowerCase().includes(q));
+ $("osonUserCount").textContent=all.length;
+ $("osonUserActiveCount").textContent=all.filter(u=>u.active!==false).length;
+ $("osonUserBlockedCount").textContent=all.filter(u=>u.active===false).length;
+ $("osonUserBody").innerHTML=list.length?list.map((u,i)=>`<tr>
+<td>${i+1}</td><td>${esc(u.name)}</td><td>${esc(u.phone)}</td><td>${esc(u.role)}</td>
+<td><span class="badge ${u.active===false?"blocked":"active"}">${u.active===false?"Баста":"Фаъол"}</span></td>
+<td>
+<button class="secondary" data-edit="${esc(u.id)}">✏️</button>
+<button class="${u.active===false?"primary":"warn"}" data-toggle="${esc(u.id)}">${u.active===false?"🔓":"🔒"}</button>
+<button class="danger" data-del="${esc(u.id)}">🗑️</button>
+</td></tr>`).join(""):'<tr><td colspan="6" style="text-align:center;padding:25px">Корбар нест.</td></tr>';
+}
+function clearForm(){editId=null;$("osonUserFormTitle").textContent="Иловаи корбар";$("osonUserName").value="";$("osonUserPhone").value="";$("osonUserRole").value="Оператор";$("osonUserPassword").value="";$("osonUserMsg").textContent=""}
+$("osonUserSave").onclick=()=>{
+ const name=$("osonUserName").value.trim(),phone=$("osonUserPhone").value.trim(),role=$("osonUserRole").value,password=$("osonUserPassword").value;
+ if(!name||!phone){$("osonUserMsg").textContent="Ном ва телефонро пур кунед.";return}
+ let all=load();
+ if(all.some(u=>u.phone===phone&&u.id!==editId)){$("osonUserMsg").textContent="Ин рақами телефон аллакай ҳаст.";return}
+ if(editId){
+  const u=all.find(x=>x.id===editId);if(u){u.name=name;u.phone=phone;u.role=role;if(password)u.password=password}
+  $("osonUserMsg").textContent="Маълумот нав шуд.";
+ }else{
+  all.push({id:"user_"+Date.now(),name,phone,role,password,active:true,createdAt:new Date().toISOString()});
+  $("osonUserMsg").textContent="Корбар илова шуд.";
+ }
+ save(all);render();setTimeout(clearForm,500);
+};
+$("osonUserCancel").onclick=clearForm;
+$("osonUserSearch").oninput=render;
+$("osonUserBody").onclick=e=>{
+ const edit=e.target.closest("[data-edit]"),tog=e.target.closest("[data-toggle]"),del=e.target.closest("[data-del]");
+ let all=load();
+ if(edit){const u=all.find(x=>x.id===edit.dataset.edit);if(!u)return;editId=u.id;$("osonUserFormTitle").textContent="Таҳрири корбар";$("osonUserName").value=u.name||"";$("osonUserPhone").value=u.phone||"";$("osonUserRole").value=u.role||"Оператор";$("osonUserPassword").value="";window.scrollTo({top:0,behavior:"smooth"});}
+ if(tog){const u=all.find(x=>x.id===tog.dataset.toggle);if(u){u.active=u.active===false;save(all);render()}}
+ if(del&&confirm("Ин корбар нест карда шавад?")){save(all.filter(x=>x.id!==del.dataset.del));render()}
+};
+render();
+})();
+</script>
+<script id="oson-users-integration">
+(function(){
+  'use strict';
+  function hide(id){const e=document.getElementById(id);if(e)e.style.setProperty('display','none','important');}
+  function show(id){const e=document.getElementById(id);if(e)e.style.setProperty('display','block','important');}
+  window.osonOpenUsers=function(){
+    ['adminDemo','paymentsPage','buildingsPage','roomsPage','osonReportsView'].forEach(hide);
+    show('osonUsersView');
+    window.scrollTo(0,0);
+  };
+  window.osonCloseUsers=function(){
+    hide('osonUsersView');
+    show('adminDemo');
+    window.scrollTo(0,0);
+  };
+  function bind(){const tiles=document.querySelectorAll('#adminDemo .tile');if(tiles[4])tiles[4].onclick=window.osonOpenUsers;}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){bind();applyLogoEverywhere()});else{bind();applyLogoEverywhere()}
+})();
+</script>
+</body></html>
+
+<!-- OSON ADDITIVE: Settings > Logo management. Existing pages/code remain untouched. -->
+<style>
+#osonLogoSettingsView{display:none;position:fixed;inset:0;background:#f5f7fb;z-index:1200;overflow:auto}
+.oson-logo-wrap{max-width:600px;margin:0 auto;padding:18px}
+.oson-logo-head{display:flex;align-items:center;gap:10px;background:#2457e6;color:#fff;padding:16px;border-radius:0 0 22px 22px}
+.oson-logo-head button{border:0;background:#ffffff22;color:#fff;width:42px;height:42px;border-radius:12px;font-size:22px}
+.oson-logo-card{background:#fff;border-radius:20px;padding:18px;margin-top:16px;box-shadow:0 8px 30px #17203312}
+.oson-logo-preview{width:96px;height:96px;margin:8px auto 18px;border-radius:24px;overflow:hidden;background:#2457e6;color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800}
+.oson-logo-preview img{width:100%;height:100%;object-fit:cover;display:none}
+.oson-logo-card input[type=file]{width:100%;padding:12px;border:1px solid #dce2ec;border-radius:12px}
+.oson-logo-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.oson-logo-actions button{border:0;border-radius:12px;padding:13px;font-weight:800;cursor:pointer}
+.oson-logo-save{background:#2457e6;color:#fff}.oson-logo-remove{background:#eef2f7;color:#172033}
+#osonLogoStatus{text-align:center;min-height:20px;margin-top:12px;color:#2457e6;font-weight:700}
+</style>
+<section id="osonLogoSettingsView" aria-label="Тағйири логотип">
+  <div class="oson-logo-head"><button type="button" onclick="window.osonCloseLogoSettings()">‹</button><h2 style="margin:0">Логотип</h2></div>
+  <div class="oson-logo-wrap">
+    <div class="oson-logo-card">
+      <div id="osonLogoPreview" class="oson-logo-preview"><span id="osonLogoText">О</span><img id="osonLogoImg" alt="Логотип"></div>
+      <label for="osonLogoFile">Интихоби логотип</label>
+      <input id="osonLogoFile" type="file" accept="image/png,image/jpeg,image/webp">
+      <div class="oson-logo-actions">
+        <button class="oson-logo-save" type="button" id="osonLogoSave">Сабт кардан</button>
+        <button class="oson-logo-remove" type="button" id="osonLogoRemove">Барқарор кардани логотип</button>
+      </div>
+      <div id="osonLogoStatus"></div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+'use strict';
+var KEY='oson_settings_logo_v1';
+function $(id){return document.getElementById(id)}
+function hide(id){var e=$(id);if(e)e.style.display='none'}
+function show(id){var e=$(id);if(e)e.style.display='block'}
+function render(){var v=localStorage.getItem(KEY),img=$('osonLogoImg'),txt=$('osonLogoText');if(!img||!txt)return;if(v){img.src=v;img.style.display='block';txt.style.display='none'}else{img.removeAttribute('src');img.style.display='none';txt.style.display='block'}}
+function applyLogoEverywhere(){var v=localStorage.getItem(KEY);document.querySelectorAll('.logo').forEach(function(el){var old=el.querySelector('img.oson-global-logo');if(v){if(!old){old=document.createElement('img');old.className='oson-global-logo';old.alt='Логотип';old.style.cssText='width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block';el.textContent='';el.appendChild(old)}old.src=v}else if(old){el.removeChild(old);el.textContent='О'}})}
+window.osonOpenLogoSettings=function(){['adminDemo','paymentsPage','buildingsPage','roomsPage','osonReportsView','osonUsersView'].forEach(hide);hide('osonSettingsStep1View');hide('osonSettingsStep2View');show('osonLogoSettingsView');render();applyLogoEverywhere();window.scrollTo(0,0)};
+window.osonCloseLogoSettings=function(){hide('osonLogoSettingsView');show('adminDemo');window.scrollTo(0,0)};
+function bind(){
+ var tiles=document.querySelectorAll('#adminDemo .tile');
+ if(tiles[5])tiles[5].onclick=window.osonOpenLogoSettings;
+ var f=$('osonLogoFile'),save=$('osonLogoSave'),remove=$('osonLogoRemove'),status=$('osonLogoStatus');
+ if(f)f.addEventListener('change',function(){var file=f.files&&f.files[0];if(!file)return;if(file.size>2*1024*1024){status.textContent='Файл бояд то 2 МБ бошад';f.value='';return}var r=new FileReader();r.onload=function(){var img=$('osonLogoImg'),txt=$('osonLogoText');img.src=r.result;img.style.display='block';txt.style.display='none';status.textContent='Логотип омода аст — «Сабт кардан»-ро пахш кунед.'};r.readAsDataURL(file)});
+ if(save)save.onclick=function(){var file=f&&f.files&&f.files[0];if(!file){status.textContent='Аввал логотипро интихоб кунед';return}var r=new FileReader();r.onload=function(){try{localStorage.setItem(KEY,r.result);render();applyLogoEverywhere();status.textContent='Логотип сабт шуд.'}catch(e){status.textContent='Ҷой барои нигоҳдорӣ кофӣ нест'}};r.readAsDataURL(file)};
+ if(remove)remove.onclick=function(){localStorage.removeItem(KEY);if(f)f.value='';render();applyLogoEverywhere();status.textContent='Логотипи пешфарз барқарор шуд.'};
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){bind();applyLogoEverywhere()});else{bind();applyLogoEverywhere()}
+})();
+</script>
